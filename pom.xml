@@ -16,6 +16,10 @@
     </modules>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <springframework.version>4.2.0.RELEASE</springframework.version>
+        <springsecurity.version>4.0.1.RELEASE</springsecurity.version>
+        <hibernate.version>4.3.6.Final</hibernate.version>
         <mysql.version>5.1.35</mysql.version>
         <junit.version>4.8.2</junit.version>
         <hibernate.version>5.2.5.Final</hibernate.version>
