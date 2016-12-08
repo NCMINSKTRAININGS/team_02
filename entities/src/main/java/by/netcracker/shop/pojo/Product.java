@@ -46,6 +46,20 @@ public class Product {
             inverseJoinColumns = {@JoinColumn(name = "order_id")})
     private List<Integer> ordersId = new ArrayList<>();
 
+    public Product() {
+    }
+
+    public Product(Integer categoryId, Integer manufacturerId, String name, String description, Integer price, String keywords, Integer quantityInStock, List<Integer> ordersId) {
+        this.categoryId = categoryId;
+        this.manufacturerId = manufacturerId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.keywords = keywords;
+        this.quantityInStock = quantityInStock;
+        this.ordersId = ordersId;
+    }
+
     public Integer getId() {
         return id;
     }
