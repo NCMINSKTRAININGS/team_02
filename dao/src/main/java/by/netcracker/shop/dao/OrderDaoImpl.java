@@ -25,9 +25,9 @@ public class OrderDaoImpl extends AbstractDao<Long,Order> implements OrderDao{
         query.executeUpdate();
     }
 
-    @SuppressWarnings("unchecked")
+    @Override
     public List<Order> findAllOrders() {
-        Criteria criteria = createEntityCriteria();
+        Criteria criteria = getSession().createCriteria(Order.class);
         return (List<Order>) criteria.list();
     }
 }

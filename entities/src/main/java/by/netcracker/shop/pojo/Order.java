@@ -11,16 +11,19 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+   /// @ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "user_id")
+    @Column(name = "user_id")
     private Long userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "payment_id")
+   // @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    //@JoinColumn(name = "payment_id")
+    @Column(name = "payment_id")
     private Long paymentId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "delivery_id")
+    //@ManyToOne(optional = false)
+    //@JoinColumn(name = "delivery_id")
+    @Column(name = "delivery_id")
     private Long deliveryId;
 
     @Column(name="comment", nullable=false)
@@ -29,11 +32,11 @@ public class Order {
     @Column(name="price", nullable=false)
     private Integer price;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "order_product",
             joinColumns = {@JoinColumn(name = "order_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
-    private List<Long> productsId=new ArrayList<>();
+    private List<Product> productsId=new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -83,25 +86,25 @@ public class Order {
         this.price = price;
     }
 
-    public List<Long> getProductsId() {
+    public List<Product> getProductsId() {
         return productsId;
     }
 
-    public void setProductsId(List<Long> productsId) {
+    public void setProductsId(List<Product> productsId) {
         this.productsId = productsId;
     }
 
     public Order() {
     }
 
-    public Order(List<Long> productsId, Long userId, Long paymentId,
-                 Long deliveryId, String comment, Integer price) {
-        this.productsId = productsId;
+    public Order(Long userId, Long paymentId, Long deliveryId,
+                 String comment, Integer price, List<Product> productsId) {
         this.userId = userId;
         this.paymentId = paymentId;
         this.deliveryId = deliveryId;
         this.comment = comment;
         this.price = price;
+        this.productsId = productsId;
     }
 
     @Override
@@ -111,25 +114,27 @@ public class Order {
 
         Order order = (Order) o;
 
-        if (id != null ? !id.equals(order.id) : order.id != null) return false;
-        if (userId != null ? !userId.equals(order.userId) : order.userId != null) return false;
-        if (paymentId != null ? !paymentId.equals(order.paymentId) : order.paymentId != null) return false;
-        if (deliveryId != null ? !deliveryId.equals(order.deliveryId) : order.deliveryId != null) return false;
-        if (comment != null ? !comment.equals(order.comment) : order.comment != null) return false;
-        if (price != null ? !price.equals(order.price) : order.price != null) return false;
-        return productsId != null ? productsId.equals(order.productsId) : order.productsId == null;
+        if (getId() != null ? !getId().equals(order.getId()) : order.getId() != null) return false;
+        if (getUserId() != null ? !getUserId().equals(order.getUserId()) : order.getUserId() != null) return false;
+        if (getPaymentId() != null ? !getPaymentId().equals(order.getPaymentId()) : order.getPaymentId() != null)
+            return false;
+        if (getDeliveryId() != null ? !getDeliveryId().equals(order.getDeliveryId()) : order.getDeliveryId() != null)
+            return false;
+        if (getComment() != null ? !getComment().equals(order.getComment()) : order.getComment() != null) return false;
+        if (getPrice() != null ? !getPrice().equals(order.getPrice()) : order.getPrice() != null) return false;
+        return getProductsId() != null ? getProductsId().equals(order.getProductsId()) : order.getProductsId() == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
-        result = 31 * result + (paymentId != null ? paymentId.hashCode() : 0);
-        result = 31 * result + (deliveryId != null ? deliveryId.hashCode() : 0);
-        result = 31 * result + (comment != null ? comment.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
-        result = 31 * result + (productsId != null ? productsId.hashCode() : 0);
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getUserId() != null ? getUserId().hashCode() : 0);
+        result = 31 * result + (getPaymentId() != null ? getPaymentId().hashCode() : 0);
+        result = 31 * result + (getDeliveryId() != null ? getDeliveryId().hashCode() : 0);
+        result = 31 * result + (getComment() != null ? getComment().hashCode() : 0);
+        result = 31 * result + (getPrice() != null ? getPrice().hashCode() : 0);
+        result = 31 * result + (getProductsId() != null ? getProductsId().hashCode() : 0);
         return result;
     }
 

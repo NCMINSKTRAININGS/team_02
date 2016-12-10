@@ -1,5 +1,7 @@
 package by.netcracker.shop.dto;
 
+import by.netcracker.shop.pojo.Product;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -19,14 +21,14 @@ public class OrderDto {
     private Long deliveryId;
     private Long paymentId;
 
-    private List<Long> productsId=new ArrayList<>();
+    private List<Product> productsId=new ArrayList<>();
 
     public OrderDto() {
     }
 
     public OrderDto(Long id, String comment, Integer price,
                     Long userId, Long deliveryId, Long paymentId,
-                    List<Long> productsId) {
+                    List<Product> productsId) {
         this.id = id;
         this.comment = comment;
         this.price = price;
@@ -84,11 +86,11 @@ public class OrderDto {
         this.paymentId = paymentId;
     }
 
-    public List<Long> getProductsId() {
+    public List<Product> getProductsId() {
         return productsId;
     }
 
-    public void setProductsId(List<Long> productsId) {
+    public void setProductsId(List<Product> productsId) {
         this.productsId = productsId;
     }
 

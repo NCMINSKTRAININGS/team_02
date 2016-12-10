@@ -22,7 +22,6 @@
         <hibernate.version>4.3.6.Final</hibernate.version>
         <mysql.version>5.1.35</mysql.version>
         <junit.version>4.8.2</junit.version>
-        <hibernate.version>5.2.5.Final</hibernate.version>
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
         <maven-war-plugin.version>2.1.1</maven-war-plugin.version>
         <skipTests>true</skipTests>
