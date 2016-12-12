@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: j
-  Date: 8.12.16
-  Time: 17.35
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,15 +7,19 @@
 <body>
 <table>
     <thead>
-    <tr><th>1</th>
-        <th>2</th>
-        <th>3</th>
+    <tr><th>Order.Id</th>
+    <th>price</th>
+        <th>user.id</th>
+        <th>Products</th>
     </tr>
     </thead>
     <tbody>
     <c:forEach items="${orders}" var="order">
         <tr>
             <td>${order.id}</td>
+            <td>${order.price}</td>
+            <td>${order.userId}</td>
+            <td>${order.productsId}</td>
         </tr>
     </c:forEach>
     </tbody>

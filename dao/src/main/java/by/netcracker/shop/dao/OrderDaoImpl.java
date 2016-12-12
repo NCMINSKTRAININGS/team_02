@@ -1,7 +1,8 @@
 package by.netcracker.shop.dao;
 
 import by.netcracker.shop.pojo.Order;
-import org.hibernate.*;
+import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class OrderDaoImpl extends AbstractDao<Long,Order> implements OrderDao{
 
     @Override
     public List<Order> findAllOrders() {
-        Criteria criteria = getSession().createCriteria(Order.class);
+        Criteria criteria = createEntityCriteria();
         return (List<Order>) criteria.list();
     }
 }

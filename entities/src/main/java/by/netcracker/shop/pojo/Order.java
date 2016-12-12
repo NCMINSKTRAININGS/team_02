@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "\"order\"")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,12 +16,12 @@ public class Order {
     @Column(name = "user_id")
     private Long userId;
 
-   // @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    //@ManyToOne(optional = false,targetEntity = Payment.class)
     //@JoinColumn(name = "payment_id")
     @Column(name = "payment_id")
     private Long paymentId;
 
-    //@ManyToOne(optional = false)
+   // @ManyToOne(optional = false,targetEntity = Delivery.class)
     //@JoinColumn(name = "delivery_id")
     @Column(name = "delivery_id")
     private Long deliveryId;
@@ -32,7 +32,7 @@ public class Order {
     @Column(name="price", nullable=false)
     private Integer price;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL,targetEntity = Product.class)
     @JoinTable(name = "order_product",
             joinColumns = {@JoinColumn(name = "order_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
@@ -114,27 +114,25 @@ public class Order {
 
         Order order = (Order) o;
 
-        if (getId() != null ? !getId().equals(order.getId()) : order.getId() != null) return false;
-        if (getUserId() != null ? !getUserId().equals(order.getUserId()) : order.getUserId() != null) return false;
-        if (getPaymentId() != null ? !getPaymentId().equals(order.getPaymentId()) : order.getPaymentId() != null)
-            return false;
-        if (getDeliveryId() != null ? !getDeliveryId().equals(order.getDeliveryId()) : order.getDeliveryId() != null)
-            return false;
+        if (!getId().equals(order.getId())) return false;
+        if (!getUserId().equals(order.getUserId())) return false;
+        if (!getPaymentId().equals(order.getPaymentId())) return false;
+        if (!getDeliveryId().equals(order.getDeliveryId())) return false;
         if (getComment() != null ? !getComment().equals(order.getComment()) : order.getComment() != null) return false;
-        if (getPrice() != null ? !getPrice().equals(order.getPrice()) : order.getPrice() != null) return false;
-        return getProductsId() != null ? getProductsId().equals(order.getProductsId()) : order.getProductsId() == null;
+        if (!getPrice().equals(order.getPrice())) return false;
+        return getProductsId().equals(order.getProductsId());
 
     }
 
     @Override
     public int hashCode() {
-        int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getUserId() != null ? getUserId().hashCode() : 0);
-        result = 31 * result + (getPaymentId() != null ? getPaymentId().hashCode() : 0);
-        result = 31 * result + (getDeliveryId() != null ? getDeliveryId().hashCode() : 0);
+        int result = getId().hashCode();
+        result = 31 * result + getUserId().hashCode();
+        result = 31 * result + getPaymentId().hashCode();
+        result = 31 * result + getDeliveryId().hashCode();
         result = 31 * result + (getComment() != null ? getComment().hashCode() : 0);
-        result = 31 * result + (getPrice() != null ? getPrice().hashCode() : 0);
-        result = 31 * result + (getProductsId() != null ? getProductsId().hashCode() : 0);
+        result = 31 * result + getPrice().hashCode();
+        result = 31 * result + getProductsId().hashCode();
         return result;
     }
 
@@ -147,7 +145,7 @@ public class Order {
                 ", deliveryId=" + deliveryId +
                 ", comment='" + comment + '\'' +
                 ", price=" + price +
-                ", productsId=" + productsId +
+               // ", productsId=" + productsId +
                 '}';
     }
 }
