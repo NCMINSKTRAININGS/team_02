@@ -5,12 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-<table>
+<table style="border: 1px">
     <thead>
     <tr><th>Order.Id</th>
     <th>price</th>
         <th>user.id</th>
-        <th>Products</th>
+        <th>Product name</th>
+        <th>product price</th>
     </tr>
     </thead>
     <tbody>
@@ -19,8 +20,11 @@
             <td>${order.id}</td>
             <td>${order.price}</td>
             <td>${order.userId}</td>
+<c:forEach items="${order.productsId}" var="product">
+    <td>${product.name}</td>
+    <td>${product.price}</td>
+</c:forEach>
 
-            <td>${order.productsId}</td>
         </tr>
     </c:forEach>
     </tbody>
