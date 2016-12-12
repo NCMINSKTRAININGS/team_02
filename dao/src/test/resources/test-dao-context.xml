@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-4.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="by.netcracker.shop.dao"/>
+    <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="false"/>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+          p:url="jdbc:mysql://localhost:3306/shop"
+          p:driverClassName="com.mysql.jdbc.Driver"
+          p:username="root"
+          p:password="mysql"
+          p:initialSize="2"
+          p:maxTotal="3"
+    />
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+          p:dataSource-ref="dataSource"
+          p:namingStrategy-ref="namingStrategy">
+        <property name="packagesToScan">
+            <list>
+                <value>by.netcracker.shop.pojo</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="debug">true</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="connection.isolation">2</prop>
+                <prop key="hibernate.cglib.use_reflection_optimizer">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
+                <prop key="hibernate.cache.region.factory_class">
+                    org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+                </prop>
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="cache.use_query_cache">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="namingStrategy" class="by.netcracker.shop.utils.CustomNamingStrategy"/>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!--<bean id="operationDao" class="by.pvt.khudnitsky.payments.dao.impl.OperationDaoImpl">-->
+        <!--<constructor-arg ref="sessionFactory"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="accountDao" class="by.pvt.khudnitsky.payments.dao.impl.AccountDaoImpl">-->
+        <!--<constructor-arg ref="sessionFactory"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="currencyDao" class="by.pvt.khudnitsky.payments.dao.impl.CurrencyDaoImpl">-->
+        <!--<constructor-arg ref="sessionFactory"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="userDetailDao" class="by.pvt.khudnitsky.payments.dao.impl.UserDetailDaoImpl">-->
+        <!--<constructor-arg ref="sessionFactory"/>-->
+    <!--</bean>-->
+
+    <bean id="userDAO" class="by.netcracker.shop.dao.impl.UserDAOImpl">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <!--<bean id="accessLevelDao" class="by.pvt.khudnitsky.payments.dao.impl.AccessLevelDaoImpl">-->
+        <!--<constructor-arg ref="sessionFactory"/>-->
+    <!--</bean>-->
+
+</beans>
