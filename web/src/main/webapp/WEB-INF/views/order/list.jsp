@@ -19,6 +19,7 @@
             <td>${order.id}</td>
             <td>${order.price}</td>
             <td>${order.userId}</td>
+
             <td>${order.productsId}</td>
         </tr>
     </c:forEach>
