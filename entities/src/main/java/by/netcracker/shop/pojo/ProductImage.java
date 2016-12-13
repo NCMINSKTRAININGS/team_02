@@ -4,11 +4,6 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import java.sql.Blob;
 
-/**
- * Created by Nataly on 08.12.2016.
- * ${VERSION}
- */
-
 @Entity
 @Table(name = "product_image")
 public class ProductImage {
