@@ -1,10 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+
 <table style="border: 1px">
     <thead>
     <tr><th>Order.Id</th>
@@ -20,14 +17,12 @@
             <td>${order.id}</td>
             <td>${order.price}</td>
             <td>${order.userId}</td>
-<c:forEach items="${order.productsId}" var="product">
-    <td>${product.name}</td>
-    <td>${product.price}</td>
-</c:forEach>
-
+            <c:forEach items="${order.products}" var="product">
+                <td>${product.name}</td>
+                <td>${product.price}</td>
+            </c:forEach>
         </tr>
     </c:forEach>
     </tbody>
 </table>
-</body>
-</html>
+
