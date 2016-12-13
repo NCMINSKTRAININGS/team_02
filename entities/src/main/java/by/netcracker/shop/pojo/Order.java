@@ -1,11 +1,18 @@
 package by.netcracker.shop.pojo;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
+
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "\"order\"")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,15 +23,15 @@ public class Order {
     @Column(name = "user_id")
     private Long userId;
 
-    //@ManyToOne(optional = false,targetEntity = Payment.class)
-    //@JoinColumn(name = "payment_id")
-    @Column(name = "payment_id")
-    private Long paymentId;
+    @ManyToOne(optional = false,targetEntity = Payment.class)
+    @JoinColumn(name = "payment_id")
+    //@Column(name = "payment_id")
+    private Payment payment;
 
-   // @ManyToOne(optional = false,targetEntity = Delivery.class)
-    //@JoinColumn(name = "delivery_id")
-    @Column(name = "delivery_id")
-    private Long deliveryId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "delivery_id")
+    //@Column(name = "delivery_id")
+    private Delivery delivery;
 
     @Column(name="comment", nullable=false)
     private String comment;
@@ -36,7 +43,7 @@ public class Order {
     @JoinTable(name = "order_product",
             joinColumns = {@JoinColumn(name = "order_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
-    private List<Product> productsId=new ArrayList<>();
+    private List<Product> products=new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -54,21 +61,22 @@ public class Order {
         this.userId = userId;
     }
 
-    public Long getPaymentId() {
-        return paymentId;
+    public Payment getPayment() {
+        return payment;
     }
 
-    public void setPaymentId(Long paymentId) {
-        this.paymentId = paymentId;
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
-    public Long getDeliveryId() {
-        return deliveryId;
+    public Delivery getDelivery() {
+        return delivery;
     }
 
-    public void setDeliveryId(Long deliveryId) {
-        this.deliveryId = deliveryId;
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
     }
+
 
     public String getComment() {
         return comment;
@@ -86,25 +94,25 @@ public class Order {
         this.price = price;
     }
 
-    public List<Product> getProductsId() {
-        return productsId;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void setProductsId(List<Product> productsId) {
-        this.productsId = productsId;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public Order() {
     }
 
-    public Order(Long userId, Long paymentId, Long deliveryId,
-                 String comment, Integer price, List<Product> productsId) {
+    public Order(Long userId, Payment payment, Delivery delivery,
+                 String comment, Integer price, List<Product> products) {
         this.userId = userId;
-        this.paymentId = paymentId;
-        this.deliveryId = deliveryId;
+        this.payment = payment;
+        this.delivery = delivery;
         this.comment = comment;
         this.price = price;
-        this.productsId = productsId;
+        this.products = products;
     }
 
     @Override
@@ -114,25 +122,26 @@ public class Order {
 
         Order order = (Order) o;
 
-        if (!getId().equals(order.getId())) return false;
-        if (!getUserId().equals(order.getUserId())) return false;
-        if (!getPaymentId().equals(order.getPaymentId())) return false;
-        if (!getDeliveryId().equals(order.getDeliveryId())) return false;
+        if (getId() != null ? !getId().equals(order.getId()) : order.getId() != null) return false;
+        if (getUserId() != null ? !getUserId().equals(order.getUserId()) : order.getUserId() != null) return false;
+        if (getPayment() != null ? !getPayment().equals(order.getPayment()) : order.getPayment() != null) return false;
+        if (getDelivery() != null ? !getDelivery().equals(order.getDelivery()) : order.getDelivery() != null)
+            return false;
         if (getComment() != null ? !getComment().equals(order.getComment()) : order.getComment() != null) return false;
-        if (!getPrice().equals(order.getPrice())) return false;
-        return getProductsId().equals(order.getProductsId());
+        if (getPrice() != null ? !getPrice().equals(order.getPrice()) : order.getPrice() != null) return false;
+        return getProducts() != null ? getProducts().equals(order.getProducts()) : order.getProducts() == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = getId().hashCode();
-        result = 31 * result + getUserId().hashCode();
-        result = 31 * result + getPaymentId().hashCode();
-        result = 31 * result + getDeliveryId().hashCode();
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getUserId() != null ? getUserId().hashCode() : 0);
+        result = 31 * result + (getPayment() != null ? getPayment().hashCode() : 0);
+        result = 31 * result + (getDelivery() != null ? getDelivery().hashCode() : 0);
         result = 31 * result + (getComment() != null ? getComment().hashCode() : 0);
-        result = 31 * result + getPrice().hashCode();
-        result = 31 * result + getProductsId().hashCode();
+        result = 31 * result + (getPrice() != null ? getPrice().hashCode() : 0);
+        result = 31 * result + (getProducts() != null ? getProducts().hashCode() : 0);
         return result;
     }
 
@@ -141,11 +150,11 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", paymentId=" + paymentId +
-                ", deliveryId=" + deliveryId +
+                ", payment=" + payment +
+                ", delivery=" + delivery +
                 ", comment='" + comment + '\'' +
                 ", price=" + price +
-               // ", productsId=" + productsId +
+                ", products=" + products +
                 '}';
     }
 }

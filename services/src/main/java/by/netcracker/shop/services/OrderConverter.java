@@ -16,12 +16,12 @@ public class OrderConverter implements Converter<Order, OrderDto> {
         orderDto.setId(order.getId());
         orderDto.setUserId(order.getUserId());
         orderDto.setComment(order.getComment());
-        orderDto.setDeliveryId(order.getDeliveryId());
-        orderDto.setPaymentId(order.getPaymentId());
+        orderDto.setDelivery(order.getDelivery());
+        orderDto.setPayment(order.getPayment());
         orderDto.setPrice(order.getPrice());
 
-        if (order.getProductsId().iterator().hasNext()){
-             orderDto.setProductsId(order.getProductsId());
+        if (order.getProducts().iterator().hasNext()){
+             orderDto.setProducts(order.getProducts());
         }
         return orderDto;
     }
@@ -30,12 +30,12 @@ public class OrderConverter implements Converter<Order, OrderDto> {
     public Order converToLocal(OrderDto orderDto, Order order) {
         order.setUserId(orderDto.getUserId());
         order.setPrice(orderDto.getPrice());
-        order.setPaymentId(orderDto.getPaymentId());
-        order.setDeliveryId(orderDto.getDeliveryId());
+        order.setPayment(orderDto.getPayment());
+        order.setDelivery(orderDto.getDelivery());
         order.setComment(orderDto.getComment());
 
-        if (orderDto.getProductsId().iterator().hasNext()){
-            order.setProductsId(orderDto.getProductsId());
+        if (orderDto.getProducts().iterator().hasNext()){
+            order.setProducts(orderDto.getProducts());
         }
         return order;
     }
