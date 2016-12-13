@@ -1,9 +1,6 @@
 package by.netcracker.shop.pojo;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Nataly on 08.12.2016.
@@ -18,12 +15,14 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    //@ManyToOne(fetch = FetchType.LAZY)
+   // @JoinColumn(name = "category_id")
+    @Column(name = "category_id")
     private Integer categoryId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "manufacturer_id")
+   // @ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "manufacturer_id")
+    @Column(name = "manufacturer_id")
     private Integer manufacturerId;
 
     @Column(name = "name", nullable = false)
@@ -40,16 +39,21 @@ public class Product {
 
     @Column(name = "quantity_in_stock", nullable = false)
     private Integer quantityInStock;
-
+/*
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "order_product", joinColumns = {@JoinColumn(name = "product_id")},
             inverseJoinColumns = {@JoinColumn(name = "order_id")})
     private List<Integer> ordersId = new ArrayList<>();
+*/
+
+  //  @ManyToMany(mappedBy = "productsId")
+   // private List<Order> orders =new ArrayList<>();
 
     public Product() {
     }
 
-    public Product(Integer categoryId, Integer manufacturerId, String name, String description, Integer price, String keywords, Integer quantityInStock, List<Integer> ordersId) {
+    public Product(Integer categoryId, Integer manufacturerId, String name,
+                   String description, Integer price, String keywords, Integer quantityInStock) {
         this.categoryId = categoryId;
         this.manufacturerId = manufacturerId;
         this.name = name;
@@ -57,7 +61,7 @@ public class Product {
         this.price = price;
         this.keywords = keywords;
         this.quantityInStock = quantityInStock;
-        this.ordersId = ordersId;
+
     }
 
     public Integer getId() {
@@ -124,13 +128,6 @@ public class Product {
         this.quantityInStock = quantityInStock;
     }
 
-    public List<Integer> getOrdersId() {
-        return ordersId;
-    }
-
-    public void setOrdersId(List<Integer> ordersId) {
-        this.ordersId = ordersId;
-    }
 
     @Override
     public boolean equals(Object o) {
