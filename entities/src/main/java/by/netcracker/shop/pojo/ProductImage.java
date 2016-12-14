@@ -12,18 +12,19 @@ public class ProductImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "product_id")
-    private Integer productId;
+    private Product product;
 
+    @Lob
     @Column(name = "image", nullable = false)
     private Blob image;
 
     public ProductImage() {
     }
 
-    public ProductImage(Integer productId, Blob image) {
-        this.productId = productId;
+    public ProductImage(Product product, Blob image) {
+        this.product = product;
         this.image = image;
     }
 
@@ -35,14 +36,14 @@ public class ProductImage {
         ProductImage that = (ProductImage) o;
 
         if (!id.equals(that.id)) return false;
-        return productId.equals(that.productId);
+        return product.equals(that.product);
 
     }
 
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + productId.hashCode();
+        result = 31 * result + product.hashCode();
         return result;
     }
 
@@ -50,7 +51,7 @@ public class ProductImage {
     public String toString() {
         return "ProductImage{" +
                 "id=" + id +
-                ", productId=" + productId +
+                ", productId=" + product +
                 ", image=" + image +
                 '}';
     }
@@ -63,12 +64,12 @@ public class ProductImage {
         this.id = id;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Blob getImage() {
