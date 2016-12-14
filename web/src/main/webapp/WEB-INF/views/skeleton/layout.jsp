@@ -13,8 +13,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css" type="text/css"/>
 
     <script src="${pageContext.request.contextPath}/assets/js/bootstrap.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/jquery.js"></script>
+
 
 </head>
 <body>
