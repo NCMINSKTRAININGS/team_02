@@ -3,9 +3,6 @@ package by.netcracker.shop.pojo;
 import javax.persistence.*;
 import java.util.List;
 
-/**
- * Created by j on 9.12.16.
- */
 @Entity
 @Table(name = "delivery")
 public class Delivery {

@@ -2,10 +2,6 @@ package by.netcracker.shop.pojo;
 
 import javax.persistence.*;
 
-/**
- * Created by Nataly on 08.12.2016.
- * ${VERSION}
- */
 
 @Entity
 @Table(name = "product")
