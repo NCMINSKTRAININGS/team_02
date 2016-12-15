@@ -12,7 +12,7 @@ public class ProductImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    //@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Integer productId;
 

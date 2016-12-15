@@ -1,5 +1,7 @@
-package by.netcracker.shop.dao;
+package by.netcracker.shop.dao.impl;
 
+import by.netcracker.shop.dao.AbstractDao;
+import by.netcracker.shop.dao.OrderDao;
 import by.netcracker.shop.pojo.Order;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -8,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository("orderDao")
-public class OrderDaoImpl extends AbstractDao<Long,Order> implements OrderDao{
+public class OrderDaoImpl extends AbstractDao<Long,Order> implements OrderDao {
     @Override
     public void save(Order order) {
         persist(order);
