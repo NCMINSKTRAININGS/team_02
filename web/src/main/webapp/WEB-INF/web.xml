@@ -32,6 +32,7 @@
         <servlet-name>Controller</servlet-name>
         <servlet-class>by.netcracker.shop.controllers.IndexController</servlet-class>
     </servlet>
+
     <servlet-mapping>
         <servlet-name>Controller</servlet-name>
         <url-pattern>/controller</url-pattern>
