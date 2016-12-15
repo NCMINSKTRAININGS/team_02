@@ -9,7 +9,6 @@
 <body>
 <ul>
     <li><a href="<c:url value='/order/list' />">order/list</a></li>
-    <li><a href="<c:url value='/product/list' />">product/list</a></li>
     </ul>
 </body>
 </html>

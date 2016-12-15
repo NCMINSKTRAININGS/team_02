@@ -22,11 +22,12 @@ public class ProductImageDaoImpl extends AbstractDao<Integer, ProductImage> impl
 
     @Override
     public void save(ProductImage image) {
-        save(image);
+        persist(image);
     }
 
     @Override
     public void deleteById(int id) {
         String hql = "delete from product_image where id=:id";
+        getSession().createSQLQuery(hql).setParameter("id", id).executeUpdate();
     }
 }

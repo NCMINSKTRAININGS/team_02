@@ -1,7 +1,6 @@
 package by.netcracker.shop.pojo;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 import java.sql.Blob;
 
 @Entity
