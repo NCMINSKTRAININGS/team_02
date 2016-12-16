@@ -32,6 +32,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void update(Product product) {
+        Product p = dao.finById(product.getId());
+        if (p != null){
+            p.setCategoryId(product.getCategoryId());
+            p.setManufacturerId(product.getManufacturerId());
+            p.setName(product.getName());
+            p.setDescription(product.getDescription());
+            p.setPrice(product.getPrice());
+            p.setKeywords(product.getKeywords());
+            p.setQuantityInStock(product.getQuantityInStock());
+        }
+    }
+
+    @Override
     public void deleteById(int id) {
         dao.deleteById(id);
     }
