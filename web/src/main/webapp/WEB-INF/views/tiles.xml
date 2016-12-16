@@ -21,5 +21,9 @@
         <put-attribute name="body" value="/WEB-INF/views/product/list.jsp" />
     </definition>
 
+    <definition name="product/newproduct" extends="baseTemplate">
+        <put-attribute name="titleKey" value="label.product.new"/>
+        <put-attribute name="body" value="/WEB-INF/views/product/new.jsp" />
+    </definition>
 
 </tiles-definitions>
