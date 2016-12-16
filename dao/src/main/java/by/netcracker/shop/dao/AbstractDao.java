@@ -1,14 +1,13 @@
 package by.netcracker.shop.dao;
 
-import by.netcracker.shop.pojo.AbstractEntity;
 import by.netcracker.shop.exceptions.DAOException;
 import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 
-public abstract class AbstractDao<T extends AbstractEntity> implements DAO<T> {
-    private Class persistentClass;
+public abstract class AbstractDao<T> implements DAO<T> {
+    private Class<T> persistentClass;
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -23,7 +22,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements DAO<T> {
     }
 
     @Override
-    public Serializable insert(T entity) throws DAOException{
+    public Serializable insert(T entity) throws DAOException {
         Serializable id;
         try {
             Session session = getCurrentSession();
@@ -41,7 +40,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements DAO<T> {
         T entity;
         try {
             Session session = getCurrentSession();
-            entity = (T)session.get(persistentClass, id);
+            entity = session.get(persistentClass, id);
         }
         catch(HibernateException e){
             throw new DAOException();
