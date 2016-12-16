@@ -1,78 +1,44 @@
 package by.netcracker.shop.dao;
 
-import by.netcracker.shop.exceptions.DAOException;
-import org.hibernate.*;
+import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
 
-public abstract class AbstractDao<T> implements DAO<T> {
-    private Class<T> persistentClass;
+public abstract class AbstractDao< PK extends Serializable, T> {
+
+    private static Logger logger = Logger.getLogger(AbstractDao.class);
+
+    private final Class<T> persistentClass;
+
+    @SuppressWarnings("unchecked")
+    public  AbstractDao(){
+        this.persistentClass=(Class<T>)((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+    }
 
     @Autowired
     private SessionFactory sessionFactory;
 
-    protected AbstractDao(Class persistentClass, SessionFactory sessionFactory){
-        this.persistentClass = persistentClass;
-        this.sessionFactory = sessionFactory;
-    }
-
-    protected Session getCurrentSession(){
+    protected Session getSession(){
         return sessionFactory.getCurrentSession();
     }
 
-    @Override
-    public Serializable insert(T entity) throws DAOException {
-        Serializable id;
-        try {
-            Session session = getCurrentSession();
-            session.saveOrUpdate(entity);
-            id = session.getIdentifier(entity);
-        }
-        catch(HibernateException e) {
-            throw new DAOException();
-        }
-        return id;
+    @SuppressWarnings("unchecked")
+    public T getByKey(PK key) {return (T) getSession().get(persistentClass, key);}
+
+    public void persist(T entity) {
+        getSession().persist(entity);
     }
 
-    @Override
-    public T getById(int id) throws DAOException{
-        T entity;
-        try {
-            Session session = getCurrentSession();
-            entity = session.get(persistentClass, id);
-        }
-        catch(HibernateException e){
-            throw new DAOException();
-        }
-        return entity;
+    public void delete(T entity) {
+        getSession().delete(entity);
     }
 
-    @Override
-    public boolean update(T entity) throws DAOException{
-        try {
-            Session session = getCurrentSession();
-            session.merge(entity);
-        }
-        catch(HibernateException e) {
-            throw new DAOException();
-        }
-        return false;
-    }
-
-    @Override
-    public boolean deleteById(int id) throws DAOException{
-        try {
-            Session session = getCurrentSession();
-            T entity = (T) session.get(persistentClass, id);
-            session.delete(entity);
-        }
-        catch(HibernateException e){
-            throw new DAOException(e.getMessage());
-        }
-        catch(IllegalArgumentException e){
-            throw new DAOException();
-        }
-        return false;
+    protected Criteria createEntityCriteria(){
+        return getSession().createCriteria(persistentClass);
     }
 }

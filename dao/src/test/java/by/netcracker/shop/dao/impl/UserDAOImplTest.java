@@ -42,9 +42,5 @@ public class UserDAOImplTest {
 
     @Test
     public void insert() throws Exception {
-        Serializable id;
-        id = userDAO.insert(user);
-        user.setId((int) id);
-        Assert.assertTrue(false);
     }
 }

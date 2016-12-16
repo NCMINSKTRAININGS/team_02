@@ -19,7 +19,11 @@
         <skipTests>true</skipTests>
         <mysql.version>5.1.35</mysql.version>
         <junit.version>4.12</junit.version>
-        <hibernate.version>5.2.5.Final</hibernate.version>
+        <log4j.version>1.2.12</log4j.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <springsecurity.version>4.0.1.RELEASE</springsecurity.version>
+        <hibernate.version>4.3.6.Final</hibernate.version>
+        <tiles.version>3.0.5</tiles.version>
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
         <maven-war-plugin.version>2.1.1</maven-war-plugin.version>
         <spring.version>4.2.4.RELEASE</spring.version>
@@ -40,19 +44,14 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-entitymanager</artifactId>
-                <version>${hibernate.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
-                <version>1.2.12</version>
+                <version>${log4j.version}</version>
             </dependency>
             <!--Hibernate-->
             <dependency>
                 <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-ehcache</artifactId>
+                <artifactId>hibernate-entitymanager</artifactId>
                 <version>${hibernate.version}</version>
             </dependency>
             <dependency>
@@ -64,6 +63,16 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
@@ -96,16 +105,22 @@
                 <artifactId>spring-aop</artifactId>
                 <version>${spring.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-aop</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
             <!--Pool-->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-dbcp2</artifactId>
                 <version>${pool.version}</version>
+            </dependency>
+            <!--Tiles-->
+            <dependency>
+                <groupId>org.apache.tiles</groupId>
+                <artifactId>tiles-core</artifactId>
+                <version>${tiles.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tiles</groupId>
+                <artifactId>tiles-jsp</artifactId>
+                <version>${tiles.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

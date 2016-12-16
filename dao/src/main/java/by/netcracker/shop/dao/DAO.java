@@ -7,9 +7,9 @@ import java.io.Serializable;
 public interface DAO <T>{
     Serializable insert(T entity) throws DAOException;
 
-    T getById(int id) throws DAOException;
+    T getById(Serializable id) throws DAOException;
 
     boolean update(T entity) throws DAOException;
 
-    boolean deleteById(int id) throws DAOException;
+    boolean deleteById(Serializable id) throws DAOException;
 }
