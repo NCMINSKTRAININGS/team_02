@@ -33,4 +33,9 @@ public class OrderDaoImpl extends AbstractDao<Long,Order> implements OrderDao {
         Criteria criteria = createEntityCriteria();
         return (List<Order>) criteria.list();
     }
+
+    @Override
+    public List<Order> findGroupedByUser() {
+        return null;
+    }
 }
