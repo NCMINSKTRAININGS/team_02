@@ -4,13 +4,18 @@
 <nav class="navbar navbar-default navbar-fixed-top" >
     <div class="container">
         <div class="navbar-header">
-            <button class="navbar-toggle collapsed" type="button"></button>
-            <a class="navbar-brand" href="/"><spring:message code="label.title"/> </a>
+            <button class="navbar-toggle collapsed" type="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="<c:url value='/' />"><spring:message code="label.title"/> </a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/"><spring:message code="label.home"/></a></li>
-                <li><a href="/order/list"><spring:message code="label.order.list"/></a></li>
+                <li><a href="<c:url value='/' />"><spring:message code="label.home"/></a></li>
+                <li><a href="<c:url value='/order/list' />"><spring:message code="label.order.list"/></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="?lang=en" >en</a></li>

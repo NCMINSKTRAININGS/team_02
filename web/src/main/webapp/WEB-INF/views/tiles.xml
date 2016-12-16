@@ -16,6 +16,11 @@
         <put-attribute name="body" value="/WEB-INF/views/order/list.jsp" />
     </definition>
 
+    <definition name="order/details" extends="baseTemplate">
+        <put-attribute name="titleKey" value="label.order.details"/>
+        <put-attribute name="body" value="/WEB-INF/views/order/details.jsp"/>
+    </definition>
+
 
 
 </tiles-definitions>

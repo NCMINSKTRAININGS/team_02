@@ -12,4 +12,5 @@ public interface OrderDao {
     Order findById(Long id);
     void deleteOrderById(Long id);
     List<Order> findAllOrders();
+    List <Order> findGroupedByUser();
 }
