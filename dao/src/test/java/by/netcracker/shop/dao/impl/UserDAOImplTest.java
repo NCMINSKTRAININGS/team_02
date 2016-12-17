@@ -11,6 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 @ContextConfiguration("/test-dao-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional(transactionManager = "transactionManager")
@@ -22,17 +24,8 @@ public class UserDAOImplTest {
 
     @Before
     public void setUp() throws Exception {
-        user = new User();
-        user.setFirstName("test");
-        user.setLastName("test");
-        user.setUsername("test");
-        user.setPassword("test");
-        user.setSalt("test");
-        user.setEmail("test");
-        user.setDiscount(0);
-        user.setStatus(UserStatus.OFLINE);
-        user.setBirthday(null);
-        user.setRole(UserRole.ADMIN);
+        user = new User("test", "test", "test", "test", "test", "test", 0,
+                UserStatus.OFLINE, new Date(), UserRole.CLIENT);
     }
 
     @After

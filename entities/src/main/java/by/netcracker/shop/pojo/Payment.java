@@ -2,15 +2,14 @@ package by.netcracker.shop.pojo;
 
 import javax.persistence.*;
 
-/**
- * Created by j on 9.12.16.
- */
+
 @Entity
 @Table(name = "payment")
 public class Payment extends AbstractEntity {
+    private static final long serialVersionUID = 1L;
+
     @Column(name="name", nullable=false)
     private String name;
-
     @Column(name="description")
     private String description;
 

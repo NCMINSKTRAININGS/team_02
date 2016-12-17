@@ -25,7 +25,7 @@ public class User extends AbstractEntity {
     private String email;
     @Column(name = "discount", length = 2)
     private int discount;
-    @Column(name = "status", columnDefinition = "ENUM('online', 'ofline', 'removed', 'banned')", nullable = false)
+    @Column(name = "status", columnDefinition = "ENUM('ONLINE', 'OFLINE', 'REMOVED', 'BANNED')", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserStatus status;
     @Column(name = "birthday")
@@ -35,7 +35,20 @@ public class User extends AbstractEntity {
     private UserRole role;
 
     public User(){
-        super();
+    }
+
+    public User(String firstName, String lastName, String username, String password, String salt,
+                String email, int discount, UserStatus status, Date birthday, UserRole role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.salt = salt;
+        this.email = email;
+        this.discount = discount;
+        this.status = status;
+        this.birthday = birthday;
+        this.role = role;
     }
 
     public String getFirstName() {

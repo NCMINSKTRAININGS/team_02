@@ -6,13 +6,13 @@ import java.util.List;
 @Entity
 @Table(name = "delivery")
 public class Delivery extends AbstractEntity {
-    @Column(name="name", nullable=false)
+    private static final long serialVersionUID = 1L;
+
+    @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
-
-    @OneToMany(mappedBy = "delivery",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL)
     private List<Order> orders;
 
     public Delivery() {
