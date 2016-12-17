@@ -53,7 +53,8 @@ public abstract class AbstractDAO<K extends Serializable, T extends AbstractEnti
     public T getById(K key) throws DAOException {
         T entity;
         try {
-            entity = (T) getSession().get(persistentClass, key);
+            Session session = getSession();
+            entity = (T) session.get(persistentClass, key);
         } catch (HibernateException e) {
             logger.error(DAOConstants.ERROR_DAO, e);
             throw new DAOException(e);
@@ -63,16 +64,25 @@ public abstract class AbstractDAO<K extends Serializable, T extends AbstractEnti
 
     @Override
     public boolean update(T entity) throws DAOException {
-        throw new DAOException();
+        try {
+            Session session = getSession();
+            session.merge(entity);
+        }
+        catch(HibernateException e) {
+            logger.error(DAOConstants.ERROR_DAO, e);
+            throw new DAOException();
+        }
+        return true;
     }
 
     @Override
     public boolean deleteById(K id) throws DAOException {
-        String str = "delete from " + table + " where id=:id";
         try {
-            Query query = getSession().createSQLQuery(str);
-            query.setParameter("id", id);
-            query.executeUpdate();
+            Session session = getSession();
+            T entity = (T) session.get(persistentClass, id);
+            if (entity == null)
+                return false;
+            session.delete(entity);
         } catch (HibernateException e) {
             logger.error(DAOConstants.ERROR_DAO, e);
             throw new DAOException(e);
