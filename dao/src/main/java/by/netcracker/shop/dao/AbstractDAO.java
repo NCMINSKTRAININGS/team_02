@@ -1,5 +1,6 @@
 package by.netcracker.shop.dao;
 
+import by.netcracker.shop.constants.DAOConstants;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.pojo.AbstractEntity;
 import org.apache.log4j.Logger;
@@ -40,7 +41,8 @@ public abstract class AbstractDAO<K extends Serializable, T extends AbstractEnti
             session.saveOrUpdate(entity);
             id = (K) session.getIdentifier(entity);
         }
-        catch(HibernateException e) {
+        catch (HibernateException e) {
+            logger.error(DAOConstants.ERROR_DAO, e);
             throw new DAOException();
         }
         return id;
@@ -53,6 +55,7 @@ public abstract class AbstractDAO<K extends Serializable, T extends AbstractEnti
         try {
             entity = (T) getSession().get(persistentClass, key);
         } catch (HibernateException e) {
+            logger.error(DAOConstants.ERROR_DAO, e);
             throw new DAOException(e);
         }
         return entity;
@@ -71,6 +74,7 @@ public abstract class AbstractDAO<K extends Serializable, T extends AbstractEnti
             query.setParameter("id", id);
             query.executeUpdate();
         } catch (HibernateException e) {
+            logger.error(DAOConstants.ERROR_DAO, e);
             throw new DAOException(e);
         }
         return true;
@@ -82,6 +86,7 @@ public abstract class AbstractDAO<K extends Serializable, T extends AbstractEnti
         try {
             entities = (List<T>) createEntityCriteria().list();
         } catch (HibernateException e) {
+            logger.error(DAOConstants.ERROR_DAO, e);
             throw new DAOException(e);
         }
         return entities;

@@ -1,5 +1,6 @@
 package by.netcracker.shop.services.impl;
 
+import by.netcracker.shop.constants.ServiceConstants;
 import by.netcracker.shop.dao.OrderDAO;
 import by.netcracker.shop.dto.OrderDto;
 import by.netcracker.shop.exceptions.DAOException;
@@ -7,6 +8,7 @@ import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.Order;
 import by.netcracker.shop.services.OrderConverter;
 import by.netcracker.shop.services.OrderService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,8 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderConverter orderConverter;
 
+    private static Logger logger = Logger.getLogger(OrderServiceImpl.class);
+
     @Override
     public void insert(OrderDto order) throws ServiceException {
         try {
@@ -32,6 +36,7 @@ public class OrderServiceImpl implements OrderService {
                 dao.insert(orderConverter.converToLocal(order, new Order()));
             }
         } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
     }
@@ -42,6 +47,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             order = dao.getById(id);
         } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
         return orderConverter.convertToFront(order);
@@ -52,6 +58,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             dao.deleteById(id);
         } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
     }
@@ -62,6 +69,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             orders = dao.getAll();
         } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
         List<OrderDto> result=new ArrayList<>(orders.size());
