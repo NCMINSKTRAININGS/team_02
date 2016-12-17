@@ -1,6 +1,7 @@
 package by.netcracker.shop.dao.impl;
 
 import by.netcracker.shop.dao.UserDAO;
+import by.netcracker.shop.enums.UserRole;
 import by.netcracker.shop.enums.UserStatus;
 import by.netcracker.shop.pojo.User;
 import org.junit.*;
@@ -17,7 +18,7 @@ import java.io.Serializable;
 @Transactional(transactionManager = "transactionManager")
 public class UserDAOImplTest {
     @Autowired
-    private static UserDAO userDAO;
+    private UserDAO userDAO;
 
     private User user;
 
@@ -33,6 +34,7 @@ public class UserDAOImplTest {
         user.setDiscount(0);
         user.setStatus(UserStatus.OFLINE);
         user.setBirthday(null);
+        user.setRole(UserRole.ADMIN);
     }
 
     @After
@@ -42,5 +44,10 @@ public class UserDAOImplTest {
 
     @Test
     public void insert() throws Exception {
+        Long id;
+        id = userDAO.save(user);
+        user.setId(id);
+        User newUser = userDAO.finById(user.getId());
+        Assert.assertEquals(user, newUser);
     }
 }

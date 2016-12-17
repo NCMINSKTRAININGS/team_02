@@ -5,11 +5,11 @@ import by.netcracker.shop.pojo.User;
 import java.util.List;
 
 public interface UserDAO {
-    User finById(int id);
+    User finById(Long id);
 
     List<User> findAll();
 
-    void save(User product);
+    Long save(User product);
 
     void deleteById(int id);
 }

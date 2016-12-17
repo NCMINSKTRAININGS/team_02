@@ -1,5 +1,6 @@
 package by.netcracker.shop.pojo;
 
+import by.netcracker.shop.enums.UserRole;
 import by.netcracker.shop.enums.UserStatus;
 
 import javax.persistence.*;
@@ -25,16 +26,20 @@ public class User{
     private String email;
     @Column(name = "discount", length = 2)
     private int discount;
-    @Column(name = "status", nullable = false)
+    @Column(name = "status", columnDefinition = "ENUM('online', 'ofline', 'removed', 'banned')", nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserStatus status;
     @Column(name = "birthday")
     private Date birthday;
+    @Column(name = "role", columnDefinition = "ENUM('CLIENT', 'ADMIN')")
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     public User(){
         super();
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -112,5 +117,13 @@ public class User{
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 }

@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository("UserDAO")
-public class UserDAOImpl extends AbstractDao<Integer, User> implements UserDAO {
+public class UserDAOImpl extends AbstractDao<Long, User> implements UserDAO {
     @Override
-    public User finById(int id) {
+    public User finById(Long id) {
         return getByKey(id);
     }
 
@@ -22,8 +22,8 @@ public class UserDAOImpl extends AbstractDao<Integer, User> implements UserDAO {
     }
 
     @Override
-    public void save(User product) {
-        persist(product);
+    public Long save(User product) {
+        return persist(product);
     }
 
     @Override
