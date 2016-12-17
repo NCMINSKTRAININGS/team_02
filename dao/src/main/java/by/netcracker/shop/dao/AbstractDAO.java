@@ -10,16 +10,16 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-public abstract class AbstractDao <K extends Serializable, T extends AbstractEntity> implements DAO<T, K>{
+public abstract class AbstractDAO<K extends Serializable, T extends AbstractEntity> implements DAO<T, K>{
     @Autowired
     private SessionFactory sessionFactory;
 
     private String table;
-    private static Logger logger = Logger.getLogger(AbstractDao.class);
+    private static Logger logger = Logger.getLogger(AbstractDAO.class);
     private final Class<T> persistentClass;
 
     @SuppressWarnings("unchecked")
-    public  AbstractDao(String table){
+    public AbstractDAO(String table){
         this.persistentClass=(Class<T>)((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
         this.table = table;
     }

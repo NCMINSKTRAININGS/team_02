@@ -1,6 +1,6 @@
 package by.netcracker.shop.services.impl;
 
-import by.netcracker.shop.dao.ProductDao;
+import by.netcracker.shop.dao.ProductDAO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.Product;
@@ -15,7 +15,7 @@ import java.util.List;
 @Transactional
 public class ProductServiceImpl implements ProductService {
     @Autowired
-    private ProductDao dao;
+    private ProductDAO dao;
 
     @Override
     public Long insert(Product product) throws ServiceException {

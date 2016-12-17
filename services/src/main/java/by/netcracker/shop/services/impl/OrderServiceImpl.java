@@ -1,6 +1,6 @@
 package by.netcracker.shop.services.impl;
 
-import by.netcracker.shop.dao.OrderDao;
+import by.netcracker.shop.dao.OrderDAO;
 import by.netcracker.shop.dto.OrderDto;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
@@ -18,7 +18,7 @@ import java.util.List;
 @Transactional
 public class OrderServiceImpl implements OrderService {
     @Autowired
-    private OrderDao dao;
+    private OrderDAO dao;
     @Autowired
     private OrderConverter orderConverter;
 

@@ -1,16 +1,16 @@
 package by.netcracker.shop.dao.impl;
 
-import by.netcracker.shop.dao.AbstractDao;
-import by.netcracker.shop.dao.OrderDao;
+import by.netcracker.shop.dao.AbstractDAO;
+import by.netcracker.shop.dao.OrderDAO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.pojo.Order;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("orderDao")
-public class OrderDaoImpl extends AbstractDao<Long,Order> implements OrderDao {
-    public OrderDaoImpl() {
+@Repository("orderDAO")
+public class OrderDAOImpl extends AbstractDAO<Long,Order> implements OrderDAO {
+    public OrderDAOImpl() {
         super("order");
     }
 
