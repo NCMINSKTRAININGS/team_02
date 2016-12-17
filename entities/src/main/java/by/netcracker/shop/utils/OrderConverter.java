@@ -1,4 +1,4 @@
-package by.netcracker.shop.services;
+package by.netcracker.shop.utils;
 
 import by.netcracker.shop.utils.Converter;
 import by.netcracker.shop.dto.OrderDto;

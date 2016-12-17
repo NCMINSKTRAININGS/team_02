@@ -6,7 +6,7 @@ import by.netcracker.shop.dto.OrderDto;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.Order;
-import by.netcracker.shop.services.OrderConverter;
+import by.netcracker.shop.utils.OrderConverter;
 import by.netcracker.shop.services.OrderService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

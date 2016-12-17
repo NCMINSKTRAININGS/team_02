@@ -6,7 +6,6 @@ import by.netcracker.shop.enums.UserStatus;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.pojo.User;
 import org.junit.*;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
