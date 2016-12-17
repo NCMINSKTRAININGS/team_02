@@ -11,8 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
-
 @ContextConfiguration("/test-dao-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional(transactionManager = "transactionManager")
@@ -45,9 +43,10 @@ public class UserDAOImplTest {
     @Test
     public void insert() throws Exception {
         Long id;
-        id = userDAO.save(user);
+        id = userDAO.insert(user);
         user.setId(id);
-        User newUser = userDAO.finById(user.getId());
+        User newUser = userDAO.getById(user.getId());
+        Assert.assertTrue(newUser != null);
         Assert.assertEquals(user, newUser);
     }
 }

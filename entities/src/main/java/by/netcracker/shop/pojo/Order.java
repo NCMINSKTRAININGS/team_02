@@ -13,12 +13,8 @@ import java.util.List;
 @Entity
 @Table(name = "\"order\"")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-   /// @ManyToOne(fetch = FetchType.LAZY)
+public class Order extends AbstractEntity {
+    //@ManyToOne(fetch = FetchType.LAZY)
     //@JoinColumn(name = "user_id")
     @Column(name = "user_id")
     private Long userId;
@@ -44,14 +40,6 @@ public class Order {
             joinColumns = {@JoinColumn(name = "order_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
     private List<Product> products=new ArrayList<>();
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getUserId() {
         return userId;

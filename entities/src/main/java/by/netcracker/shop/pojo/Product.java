@@ -5,12 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "product")
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
+public class Product extends AbstractEntity {
     //@ManyToOne(fetch = FetchType.LAZY)
    // @JoinColumn(name = "category_id")
     @Column(name = "category_id")
@@ -58,14 +53,6 @@ public class Product {
         this.keywords = keywords;
         this.quantityInStock = quantityInStock;
 
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Integer getCategoryId() {

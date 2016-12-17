@@ -7,11 +7,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "payment")
-public class Payment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Payment extends AbstractEntity {
     @Column(name="name", nullable=false)
     private String name;
 
@@ -24,14 +20,6 @@ public class Payment {
     public Payment(String name, String description) {
         this.name = name;
         this.description = description;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

@@ -5,9 +5,6 @@ import by.netcracker.shop.dto.OrderDto;
 import by.netcracker.shop.pojo.Order;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by j on 8.12.16.
- */
 @Component
 public class OrderConverter implements Converter<Order, OrderDto> {
     @Override

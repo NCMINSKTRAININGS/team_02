@@ -1,57 +1,89 @@
 package by.netcracker.shop.dao;
 
 import by.netcracker.shop.exceptions.DAOException;
+import by.netcracker.shop.pojo.AbstractEntity;
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
-public abstract class AbstractDao< PK extends Serializable, T> {
+public abstract class AbstractDao <K extends Serializable, T extends AbstractEntity> implements DAO<T, K>{
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    private String table;
     private static Logger logger = Logger.getLogger(AbstractDao.class);
-
     private final Class<T> persistentClass;
 
     @SuppressWarnings("unchecked")
-    public  AbstractDao(){
+    public  AbstractDao(String table){
         this.persistentClass=(Class<T>)((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+        this.table = table;
     }
-
-    @Autowired
-    private SessionFactory sessionFactory;
 
     protected Session getSession(){
         return sessionFactory.getCurrentSession();
     }
 
-    @SuppressWarnings("unchecked")
-    public T getByKey(PK key) {
-        return (T) getSession().get(persistentClass, key);
+    protected Criteria createEntityCriteria(){
+        return getSession().createCriteria(persistentClass);
     }
 
-    public PK persist(T entity) {
-//        getSession().persist(entity);
-        PK id = null;
+    @Override
+    public K insert(T entity) throws DAOException {
+        K id;
         try {
             Session session = getSession();
             session.saveOrUpdate(entity);
-            id = (PK) session.getIdentifier(entity);
+            id = (K) session.getIdentifier(entity);
         }
         catch(HibernateException e) {
-//            throw new DAOException();
+            throw new DAOException();
         }
         return id;
     }
 
-    public void delete(T entity) {
-        getSession().delete(entity);
+    @Override
+    @SuppressWarnings("unchecked")
+    public T getById(K key) throws DAOException {
+        T entity;
+        try {
+            entity = (T) getSession().get(persistentClass, key);
+        } catch (HibernateException e) {
+            throw new DAOException(e);
+        }
+        return entity;
     }
 
-    protected Criteria createEntityCriteria(){
-        return getSession().createCriteria(persistentClass);
+    @Override
+    public boolean update(T entity) throws DAOException {
+        throw new DAOException();
+    }
+
+    @Override
+    public boolean deleteById(K id) throws DAOException {
+        String str = "delete from " + table + " where id=:id";
+        try {
+            Query query = getSession().createSQLQuery(str);
+            query.setParameter("id", id);
+            query.executeUpdate();
+        } catch (HibernateException e) {
+            throw new DAOException(e);
+        }
+        return true;
+    }
+
+    @Override
+    public List<T> getAll() throws DAOException {
+        List<T> entities;
+        try {
+            entities = (List<T>) createEntityCriteria().list();
+        } catch (HibernateException e) {
+            throw new DAOException(e);
+        }
+        return entities;
     }
 }

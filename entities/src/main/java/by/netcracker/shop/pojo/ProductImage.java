@@ -5,12 +5,7 @@ import java.sql.Blob;
 
 @Entity
 @Table(name = "product_image")
-public class ProductImage {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
+public class ProductImage  extends AbstractEntity {
     @OneToOne
     @JoinColumn(name = "product_id")
     private Product product;
@@ -53,14 +48,6 @@ public class ProductImage {
                 ", productId=" + product +
                 ", image=" + image +
                 '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Product getProduct() {
