@@ -11,9 +11,9 @@ public interface Service <T extends AbstractEntity, K extends Serializable> {
 
     T getById(K id) throws ServiceException;
 
-    boolean update(T entity) throws ServiceException;
+    void update(T entity) throws ServiceException;
 
-    boolean deleteById(K id) throws ServiceException;
+    void deleteById(K id) throws ServiceException;
 
     List<T> getAll() throws ServiceException;
 }

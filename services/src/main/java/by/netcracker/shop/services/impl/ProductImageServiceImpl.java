@@ -42,9 +42,9 @@ public class ProductImageServiceImpl implements ProductImageService {
     }
 
     @Override
-    public boolean update(ProductImage entity) throws ServiceException {
+    public void update(ProductImage entity) throws ServiceException {
         try {
-            return dao.update(entity);
+            dao.update(entity);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
@@ -52,9 +52,9 @@ public class ProductImageServiceImpl implements ProductImageService {
     }
 
     @Override
-    public boolean deleteById(Long id) throws ServiceException {
+    public void deleteById(Long id) throws ServiceException {
         try {
-            return dao.deleteById(id);
+            dao.deleteById(id);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);

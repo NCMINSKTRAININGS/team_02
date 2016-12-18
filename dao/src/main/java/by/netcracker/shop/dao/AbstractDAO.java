@@ -63,7 +63,7 @@ public abstract class AbstractDAO<K extends Serializable, T extends AbstractEnti
     }
 
     @Override
-    public boolean update(T entity) throws DAOException {
+    public void update(T entity) throws DAOException {
         try {
             Session session = getSession();
             session.merge(entity);
@@ -72,22 +72,18 @@ public abstract class AbstractDAO<K extends Serializable, T extends AbstractEnti
             logger.error(DAOConstants.ERROR_DAO, e);
             throw new DAOException();
         }
-        return true;
     }
 
     @Override
-    public boolean deleteById(K id) throws DAOException {
+    public void deleteById(K id) throws DAOException {
         try {
             Session session = getSession();
             T entity = (T) session.get(persistentClass, id);
-            if (entity == null)
-                return false;
             session.delete(entity);
-        } catch (HibernateException e) {
+        } catch (HibernateException | IllegalArgumentException e) {
             logger.error(DAOConstants.ERROR_DAO, e);
             throw new DAOException(e);
         }
-        return true;
     }
 
     @Override

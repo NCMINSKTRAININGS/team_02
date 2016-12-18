@@ -44,14 +44,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean update(Product entity) throws ServiceException {
-        throw new ServiceException();
+    public void update(Product entity) throws ServiceException {
+        try {
+            dao.update(entity);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public boolean deleteById(Long id) throws ServiceException {
+    public void deleteById(Long id) throws ServiceException {
         try {
-            return dao.deleteById(id);
+            dao.deleteById(id);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);

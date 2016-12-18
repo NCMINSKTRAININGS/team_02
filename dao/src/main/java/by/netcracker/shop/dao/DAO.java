@@ -11,9 +11,9 @@ public interface DAO <T extends AbstractEntity, K extends Serializable> {
 
     T getById(K id) throws DAOException;
 
-    boolean update(T entity) throws DAOException;
+    void update(T entity) throws DAOException;
 
-    boolean deleteById(K id) throws DAOException;
+    void deleteById(K id) throws DAOException;
 
     List<T> getAll() throws DAOException;
 
