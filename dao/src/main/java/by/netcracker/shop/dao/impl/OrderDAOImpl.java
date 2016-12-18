@@ -11,7 +11,7 @@ import java.util.List;
 @Repository("orderDAO")
 public class OrderDAOImpl extends AbstractDAO<Long,Order> implements OrderDAO {
     public OrderDAOImpl() {
-        super("order");
+        super();
     }
 
     @Override

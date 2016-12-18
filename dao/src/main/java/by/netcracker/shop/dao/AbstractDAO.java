@@ -15,14 +15,12 @@ public abstract class AbstractDAO<K extends Serializable, T extends AbstractEnti
     @Autowired
     private SessionFactory sessionFactory;
 
-    private String table;
     private static Logger logger = Logger.getLogger(AbstractDAO.class);
     private final Class<T> persistentClass;
 
     @SuppressWarnings("unchecked")
-    public AbstractDAO(String table){
+    public AbstractDAO(){
         this.persistentClass=(Class<T>)((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-        this.table = table;
     }
 
     protected Session getSession(){

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository("productImageDAO")
 public class ProductImageDAOImpl extends AbstractDAO<Long, ProductImage> implements ProductImageDAO {
     public ProductImageDAOImpl() {
-        super("product_image");
+        super();
     }
 }

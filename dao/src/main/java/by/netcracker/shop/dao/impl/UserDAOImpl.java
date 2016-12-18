@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository("userDAO")
 public class UserDAOImpl extends AbstractDAO<Long, User> implements UserDAO {
     public UserDAOImpl() {
-        super("user");
+        super();
     }
 }

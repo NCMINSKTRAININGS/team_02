@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository("deliveryDAO")
 public class DeliveryDAOImpl extends AbstractDAO<Long, Delivery> implements DeliveryDAO {
     public DeliveryDAOImpl() {
-        super("delivery");
+        super();
     }
 }

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository("paymentDAO")
 public class PaymentDAOImpl extends AbstractDAO<Long,Payment> implements PaymentDAO {
     public PaymentDAOImpl() {
-        super("payment");
+        super();
     }
 }
