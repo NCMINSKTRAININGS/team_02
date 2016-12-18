@@ -55,7 +55,7 @@ public class ProductController {
 
     @RequestMapping(value = {"/update-product-{id}"}, method = RequestMethod.POST)
     public String updateProduct(@Valid Product product, BindingResult bindingResult, @PathVariable Integer id, ModelMap modelMap) {
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "product/newproduct";
         }
         service.update(product);
