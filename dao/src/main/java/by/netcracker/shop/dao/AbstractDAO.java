@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-public abstract class AbstractDAO<K extends Serializable, T extends AbstractEntity> implements DAO<T, K>{
+public abstract class AbstractDAO<K extends Serializable, T extends AbstractEntity<K>> implements DAO<T, K>{
     @Autowired
     private SessionFactory sessionFactory;
 

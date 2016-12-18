@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "\"order\"")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Order extends AbstractEntity {
+public class Order extends AbstractEntity<Long> {
     private static final long serialVersionUID = 1L;
 
     //@ManyToOne(fetch = FetchType.LAZY)

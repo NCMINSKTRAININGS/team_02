@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "payment")
-public class Payment extends AbstractEntity {
+public class Payment extends AbstractEntity<Long> {
     private static final long serialVersionUID = 1L;
 
     @Column(name="name", nullable=false)

@@ -5,7 +5,7 @@ import java.sql.Blob;
 
 @Entity
 @Table(name = "product_image")
-public class ProductImage  extends AbstractEntity {
+public class ProductImage  extends AbstractEntity<Long> {
     private static final long serialVersionUID = 1L;
 
     @OneToOne

@@ -6,7 +6,7 @@ import by.netcracker.shop.pojo.AbstractEntity;
 import java.io.Serializable;
 import java.util.List;
 
-public interface DAO <T extends AbstractEntity, K extends Serializable> {
+public interface DAO <T extends AbstractEntity<K>, K extends Serializable> {
     K insert(T entity) throws DAOException;
 
     T getById(K id) throws DAOException;
