@@ -2,6 +2,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<div class="container-paddingtop50">
+    <div class="container">
 <table style="border: 1px">
     <thead>
     <tr>
@@ -33,3 +35,5 @@
     </tbody>
     <li><a href="/product/createproduct"><spring:message code="label.product.new"/></a></li>
 </table>
+    </div>
+</div>

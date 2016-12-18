@@ -13,8 +13,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/datatables.min.css" type="text/css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css" type="text/css"/>
 
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/datatables.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/allorders.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/bootstrap.js"></script>
+
 
 </head>
 <body>

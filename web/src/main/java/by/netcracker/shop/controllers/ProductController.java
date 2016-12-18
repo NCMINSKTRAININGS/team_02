@@ -1,5 +1,6 @@
 package by.netcracker.shop.controllers;
 
+import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.Product;
 import by.netcracker.shop.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,13 @@ public class ProductController {
     ProductService service;
 
     @RequestMapping(value = {"/list"}, method = RequestMethod.GET)
-    public String listProducts(ModelMap modelMap) {
-        List<Product> products = service.findAll();
+    public String listOrders(ModelMap modelMap) {
+        List<Product> products = null;
+        try {
+            products = service.getAll();
+        } catch (ServiceException e) {
+            //todo
+        }
         modelMap.addAttribute("products", products);
         return "product/list";
     }
