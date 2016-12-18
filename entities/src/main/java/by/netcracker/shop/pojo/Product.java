@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "product")
-public class Product extends AbstractEntity {
+public class Product extends AbstractEntity<Long> {
     private static final long serialVersionUID = 1L;
 
     //@ManyToOne(fetch = FetchType.LAZY)

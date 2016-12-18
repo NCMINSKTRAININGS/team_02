@@ -57,7 +57,6 @@ public class UserDAOImplTest {
         String msg = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMsg;
         Long id;
         User newUser;
-        boolean updated;
         id = userDAO.insert(user);
         user.setId(id);
         newUser = userDAO.getById(user.getId());
@@ -74,11 +73,10 @@ public class UserDAOImplTest {
         user.setSalt("new_salt");
         user.setStatus(UserStatus.ONLINE);
 
-        updated = userDAO.update(user);
-        Assert.assertTrue(msg, updated);
+        userDAO.update(user);
         newUser = userDAO.getById(id);
         Assert.assertEquals(msg, user, newUser);
-        Assert.assertTrue(msg, userDAO.deleteById(id));
+        userDAO.deleteById(id);
 
         Throwable ex = null;
         try {
@@ -93,19 +91,23 @@ public class UserDAOImplTest {
     public void deleteById() throws Exception {
         String msg = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMsg;
         Long id;
-        boolean deleted;
         User newUser;
 
         id = userDAO.insert(user);
         user.setId(id);
         newUser = userDAO.getById(user.getId());
         Assert.assertEquals(msg, user, newUser);
-        deleted = userDAO.deleteById(id);
-        Assert.assertTrue(msg, deleted);
+        userDAO.deleteById(id);
         newUser = userDAO.getById(id);
         Assert.assertNull(msg, newUser);
-        deleted = userDAO.deleteById(id);
-        Assert.assertFalse(msg, deleted);
+
+        Throwable ex = null;
+        try {
+            userDAO.deleteById(id);
+        } catch (Exception e) {
+            ex = e;
+        }
+        Assert.assertTrue(msg, ex instanceof DAOException);
     }
 
     @Test
@@ -115,7 +117,6 @@ public class UserDAOImplTest {
         List<User> newUsers;
         User newUser;
         Long id;
-        boolean deleted;
 
         oldUsers = userDAO.getAll();
         Assert.assertNotNull(msg, oldUsers);
@@ -131,8 +132,7 @@ public class UserDAOImplTest {
         Assert.assertTrue(msg, newUsers.contains(newUser));
 
         for (User value : newUsers) {
-            deleted = userDAO.deleteById(value.getId());
-            Assert.assertTrue(msg, deleted);
+            userDAO.deleteById(value.getId());
         }
         newUsers = userDAO.getAll();
         Assert.assertNotNull(msg, newUsers);
@@ -158,13 +158,11 @@ public class UserDAOImplTest {
         List<User> users;
         User newUser;
         Long id;
-        boolean deleted;
 
         users = userDAO.getAll();
         Assert.assertNotNull(msg, users);
         for (User value : users) {
-            deleted = userDAO.deleteById(value.getId());
-            Assert.assertTrue(msg, deleted);
+            userDAO.deleteById(value.getId());
         }
         users = userDAO.getAll();
         Assert.assertNotNull(msg, users);
@@ -180,5 +178,8 @@ public class UserDAOImplTest {
         Assert.assertEquals(msg, userDAO.getByGap(3, 5), users.subList(3, 3 + 5));
         Assert.assertEquals(msg, userDAO.getByGap(2, 8), users.subList(2, 2 + 8));
         Assert.assertEquals(msg, userDAO.getByGap(6, 7), users.subList(6, users.size()));
+        Assert.assertEquals(msg, userDAO.getByGap(-4, 3), users.subList(0, 0 + 3));
+        Assert.assertEquals(msg, userDAO.getByGap(0, -1), users.subList(0, users.size()));
+        Assert.assertEquals(msg, userDAO.getByGap(users.size(), 1), users.subList(0, 0));
     }
 }

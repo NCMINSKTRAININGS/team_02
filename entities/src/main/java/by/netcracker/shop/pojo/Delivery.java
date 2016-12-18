@@ -5,7 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "delivery")
-public class Delivery extends AbstractEntity {
+public class Delivery extends AbstractEntity<Long> {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "name", nullable = false)
