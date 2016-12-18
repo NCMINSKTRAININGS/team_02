@@ -3,20 +3,15 @@ package by.netcracker.shop.pojo;
 import java.util.Objects;
 import javax.persistence.*;
 
-/**
- *
- * @author Dmitry
- */
 @Entity
 @Table(name = "manufacturer")
-public class Manufacturer extends AbstractEntity {
+public class Manufacturer extends AbstractEntity<Long> {
+    private static final long serialVersionUID = 1L;
 
     @Column(name = "name", nullable = false, length = 45)
     private String name;
-
     @Column(name = "description")
     private String description;
-
     @Column(name = "logo")
     private String logo;
 
