@@ -26,9 +26,14 @@
         <put-attribute name="body" value="/WEB-INF/views/product/list.jsp" />
     </definition>
 
-    <definition name="product/newproduct" extends="baseTemplate">
+    <definition name="product/new" extends="baseTemplate">
         <put-attribute name="titleKey" value="label.product.new"/>
         <put-attribute name="body" value="/WEB-INF/views/product/new.jsp" />
+    </definition>
+
+    <definition name="product/edit" extends="baseTemplate">
+        <put-attribute name="titleKey" value="label.product.edit"/>
+        <put-attribute name="body" value="/WEB-INF/views/product/edit.jsp" />
     </definition>
 
 

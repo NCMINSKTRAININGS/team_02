@@ -38,39 +38,72 @@ public class ProductController {
     public String createProduct(ModelMap modelMap) {
         Product product = new Product();
         modelMap.addAttribute("product", product);
-        modelMap.addAttribute("edit", false);
-        return "product/newproduct";
+        return "product/new";
     }
 
     @RequestMapping(value = {"/createproduct"}, method = RequestMethod.POST)
     public String saveProduct(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
-            return "product/newproduct";
+            return "product/new";
         } //TODO: validation
-        service.save(product);
+        try {
+            service.insert(product);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
         return "redirect:/product/list";
     }
 
     @RequestMapping(value = {"/update-product-{id}"}, method = RequestMethod.GET)
-    public String editProduct(@PathVariable Integer id, ModelMap modelMap) {
-        Product product = service.finById(id);
+    public String editProduct(@PathVariable Long id, ModelMap modelMap) {
+        Product product = null;
+        try {
+            product = service.getById(id);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
         modelMap.addAttribute("product", product);
-        modelMap.addAttribute("edit", true);
-        return "product/newproduct";
+        return "product/edit";
     }
 
     @RequestMapping(value = {"/update-product-{id}"}, method = RequestMethod.POST)
-    public String updateProduct(@Valid Product product, BindingResult bindingResult, @PathVariable Integer id, ModelMap modelMap) {
+    public String updateProduct(@Valid Product product, BindingResult bindingResult, @PathVariable Long id, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
-            return "product/newproduct";
+            return "product/edit";
         }
-        service.update(product);
+        try {
+            service.updateEntity(product);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
         return "redirect:/product/list";
     }
 
     @RequestMapping(value = {"/delete-product-{id}"}, method = RequestMethod.GET)
-    public String deleteProduct(@PathVariable Integer id) {
-        service.deleteById(id);
+    public String deleteProduct(@PathVariable Long id) {
+        try {
+            service.deleteById(id);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
         return "redirect:/product/list";
     }
+
+/*    @ModelAttribute("categories")
+    public List<Category> getCategories() {
+        try {
+            return categoryService.getAll();
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @ModelAttribute("manufacturers")
+    public List<Manufacturer> getManufacturers() {
+        try {
+            return manufacturerService.getAll();
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+    }*/
 }

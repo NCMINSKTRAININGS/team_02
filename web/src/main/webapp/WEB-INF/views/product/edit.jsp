@@ -4,8 +4,9 @@
 
 <div class="container-paddingtop50">
     <div class="container">
-        <spring:url value="/product/createproduct" var="createUrl"/>
-        <springform:form name="createProductForm" method="post" action="${createUrl}" modelAttribute="product">
+        <spring:url value="/product/update-product-{id}" var="editUrl"/>
+        <springform:form name="editProductForm" method="post" action="${editUrl}" modelAttribute="product">
+            <springform:input type="hidden" path="id" id="id"/>
             <table>
                 <tr>
                     <td><label for="categoryId"><spring:message code="label.product.field.categoryId"/></label></td>
@@ -39,8 +40,8 @@
                 </tr>
                 <tr>
                     <td>
-                        <spring:message var="createButton" code="label.product.button.create"/>
-                        <input type="submit" value="${createButton}"/>
+                        <spring:message var="editButton" code="label.product.button.edit"/>
+                        <input type="submit" value="${editButton}"/>
                     </td>
                 </tr>
             </table>

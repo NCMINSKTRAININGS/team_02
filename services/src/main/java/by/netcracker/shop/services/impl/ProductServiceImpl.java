@@ -16,7 +16,6 @@ import java.util.List;
 @Service("productService")
 @Transactional
 public class ProductServiceImpl implements ProductService {
-
     @Autowired
     private ProductDAO dao;
 
@@ -46,11 +45,18 @@ public class ProductServiceImpl implements ProductService {
 
     public boolean update(Product entity) throws ServiceException {
         throw new ServiceException();
+    }
 
     @Override
-    public void update(Product product) {
-        Product p = dao.finById(product.getId());
-        if (p != null){
+    public void updateEntity(Product product) throws ServiceException {
+        Product p = null;
+        try {
+            p = dao.getById(product.getId());
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+        if (p != null) {
             p.setCategoryId(product.getCategoryId());
             p.setManufacturerId(product.getManufacturerId());
             p.setName(product.getName());
@@ -80,4 +86,5 @@ public class ProductServiceImpl implements ProductService {
             throw new ServiceException(e);
         }
     }
+
 }
