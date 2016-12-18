@@ -5,34 +5,25 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "product")
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Product extends AbstractEntity {
+    private static final long serialVersionUID = 1L;
 
     //@ManyToOne(fetch = FetchType.LAZY)
    // @JoinColumn(name = "category_id")
     @Column(name = "category_id")
     private Integer categoryId;
-
    // @ManyToOne(fetch = FetchType.LAZY)
     //@JoinColumn(name = "manufacturer_id")
     @Column(name = "manufacturer_id")
     private Integer manufacturerId;
-
     @Column(name = "name", nullable = false)
     private String name;
-
     @Column(name = "description", nullable = false)
     private String description;
-
     @Column(name = "price", nullable = false)
     private Integer price;
-
     @Column(name = "keywords", nullable = false)
     private String keywords;
-
     @Column(name = "quantity_in_stock", nullable = false)
     private Integer quantityInStock;
 /*
@@ -58,14 +49,6 @@ public class Product {
         this.keywords = keywords;
         this.quantityInStock = quantityInStock;
 
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Integer getCategoryId() {

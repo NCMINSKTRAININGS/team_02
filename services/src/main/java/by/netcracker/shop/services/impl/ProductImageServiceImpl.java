@@ -1,8 +1,12 @@
 package by.netcracker.shop.services.impl;
 
-import by.netcracker.shop.dao.ProductImageDao;
+import by.netcracker.shop.constants.ServiceConstants;
+import by.netcracker.shop.dao.ProductImageDAO;
+import by.netcracker.shop.exceptions.DAOException;
+import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.ProductImage;
 import by.netcracker.shop.services.ProductImageService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,27 +16,58 @@ import java.util.List;
 @Service("productImageService")
 @Transactional
 public class ProductImageServiceImpl implements ProductImageService {
-
     @Autowired
-    private ProductImageDao dao;
+    private ProductImageDAO dao;
+
+    private static Logger logger = Logger.getLogger(ProductImageServiceImpl.class);
 
     @Override
-    public ProductImage finById(int id) {
-        return dao.finById(id);
+    public Long insert(ProductImage image) throws ServiceException {
+        try {
+            return dao.insert(image);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public List<ProductImage> findAll() {
-        return dao.findAll();
+    public ProductImage getById(Long id) throws ServiceException {
+        try {
+            return dao.getById(id);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public void save(ProductImage image) {
-        dao.save(image);
+    public boolean update(ProductImage entity) throws ServiceException {
+        try {
+            return dao.update(entity);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public void deleteById(int id) {
-        dao.deleteById(id);
+    public boolean deleteById(Long id) throws ServiceException {
+        try {
+            return dao.deleteById(id);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<ProductImage> getAll() throws ServiceException {
+        try {
+            return dao.getAll();
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
     }
 }

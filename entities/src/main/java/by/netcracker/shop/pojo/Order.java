@@ -13,44 +13,42 @@ import java.util.List;
 @Entity
 @Table(name = "\"order\"")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Order extends AbstractEntity {
+    private static final long serialVersionUID = 1L;
 
-   /// @ManyToOne(fetch = FetchType.LAZY)
+    //@ManyToOne(fetch = FetchType.LAZY)
     //@JoinColumn(name = "user_id")
     @Column(name = "user_id")
     private Long userId;
-
-    @ManyToOne(optional = false,targetEntity = Payment.class)
+    @ManyToOne(optional = false, targetEntity = Payment.class)
     @JoinColumn(name = "payment_id")
     //@Column(name = "payment_id")
     private Payment payment;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "delivery_id")
     //@Column(name = "delivery_id")
     private Delivery delivery;
-
-    @Column(name="comment", nullable=false)
+    @Column(name = "comment", nullable = false)
     private String comment;
-
-    @Column(name="price", nullable=false)
+    @Column(name = "price", nullable = false)
     private Integer price;
-
-    @ManyToMany(cascade = CascadeType.ALL,targetEntity = Product.class)
+    @ManyToMany(cascade = CascadeType.ALL, targetEntity = Product.class)
     @JoinTable(name = "order_product",
             joinColumns = {@JoinColumn(name = "order_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
-    private List<Product> products=new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
-    public Long getId() {
-        return id;
+    public Order() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Order(Long userId, Payment payment, Delivery delivery,
+                 String comment, Integer price, List<Product> products) {
+        this.userId = userId;
+        this.payment = payment;
+        this.delivery = delivery;
+        this.comment = comment;
+        this.price = price;
+        this.products = products;
     }
 
     public Long getUserId() {
@@ -77,7 +75,6 @@ public class Order {
         this.delivery = delivery;
     }
 
-
     public String getComment() {
         return comment;
     }
@@ -99,19 +96,6 @@ public class Order {
     }
 
     public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-    public Order() {
-    }
-
-    public Order(Long userId, Payment payment, Delivery delivery,
-                 String comment, Integer price, List<Product> products) {
-        this.userId = userId;
-        this.payment = payment;
-        this.delivery = delivery;
-        this.comment = comment;
-        this.price = price;
         this.products = products;
     }
 
