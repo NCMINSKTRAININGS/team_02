@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto getById(Long id) throws ServiceException {
-        Order order = null;
+        Order order;
         try {
             order = dao.getById(id);
         } catch (DAOException e) {
@@ -65,14 +65,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> getAll() throws ServiceException {
-        List<Order> orders = null;
+        List<Order> orders;
         try {
             orders = dao.getAll();
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
-        List<OrderDto> result=new ArrayList<>(orders.size());
+        List<OrderDto> result = new ArrayList<>(orders.size());
         for (Order order: orders) {
             result.add(orderConverter.convertToFront(order));
         }

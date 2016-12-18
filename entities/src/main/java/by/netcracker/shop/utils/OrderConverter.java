@@ -1,6 +1,5 @@
 package by.netcracker.shop.utils;
 
-import by.netcracker.shop.utils.Converter;
 import by.netcracker.shop.dto.OrderDto;
 import by.netcracker.shop.pojo.Order;
 import org.springframework.stereotype.Component;
