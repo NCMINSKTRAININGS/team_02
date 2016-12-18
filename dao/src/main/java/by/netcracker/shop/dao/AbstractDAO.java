@@ -5,6 +5,8 @@ import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.pojo.AbstractEntity;
 import org.apache.log4j.Logger;
 import org.hibernate.*;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
@@ -48,11 +50,11 @@ public abstract class AbstractDAO<K extends Serializable, T extends AbstractEnti
 
     @Override
     @SuppressWarnings("unchecked")
-    public T getById(K key) throws DAOException {
+    public T getById(K id) throws DAOException {
         T entity;
         try {
             Session session = getSession();
-            entity = (T) session.get(persistentClass, key);
+            entity = (T) session.get(persistentClass, id);
         } catch (HibernateException e) {
             logger.error(DAOConstants.ERROR_DAO, e);
             throw new DAOException(e);
@@ -98,5 +100,39 @@ public abstract class AbstractDAO<K extends Serializable, T extends AbstractEnti
             throw new DAOException(e);
         }
         return entities;
+    }
+
+    @Override
+    public Long getCount() throws DAOException {
+        Long result;
+        try {
+            Session session = getSession();
+            Criteria criteria = session.createCriteria(persistentClass);
+            Projection count = Projections.rowCount();
+            criteria.setProjection(count);
+            result = (Long) criteria.uniqueResult();
+        }
+        catch(HibernateException e) {
+            logger.error(DAOConstants.ERROR_DAO, e);
+            throw new DAOException();
+        }
+        return result;
+    }
+
+    @Override
+    public List<T> getByGap(int offset, int quantity) throws DAOException {
+        List<T> results;
+        try {
+            Session session = getSession();
+            Criteria criteria = session.createCriteria(persistentClass);
+            criteria.setFirstResult(offset);
+            criteria.setMaxResults(quantity);
+            results = criteria.list();
+        }
+        catch(HibernateException e){
+            logger.error(DAOConstants.ERROR_DAO, e);
+            throw new DAOException();
+        }
+        return results;
     }
 }

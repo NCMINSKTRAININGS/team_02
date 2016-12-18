@@ -22,7 +22,13 @@ public class UserDAOImplTest {
     @Autowired
     private UserDAO userDAO;
 
+    private static String assertMsg;
     private User user;
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        assertMsg = "() method from UserDAOImlpTest failed: ";
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -37,23 +43,25 @@ public class UserDAOImplTest {
 
     @Test
     public void insert() throws Exception {
+        String msg = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMsg;
         Long id;
         User newUser;
         id = userDAO.insert(user);
         user.setId(id);
         newUser = userDAO.getById(user.getId());
-        Assert.assertEquals("insert() with getId() methods failed: ", user, newUser);
+        Assert.assertEquals(msg, user, newUser);
     }
 
     @Test
     public void update() throws Exception {
+        String msg = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMsg;
         Long id;
         User newUser;
         boolean updated;
         id = userDAO.insert(user);
         user.setId(id);
         newUser = userDAO.getById(user.getId());
-        Assert.assertEquals("insert() with getById() methods failed: ", user, newUser);
+        Assert.assertEquals(msg, user, newUser);
 
         user.setFirstName("new_firstName");
         user.setLastName("new_lastName");
@@ -67,10 +75,10 @@ public class UserDAOImplTest {
         user.setStatus(UserStatus.ONLINE);
 
         updated = userDAO.update(user);
-        Assert.assertTrue("update() method failed: ", updated);
+        Assert.assertTrue(msg, updated);
         newUser = userDAO.getById(id);
-        Assert.assertEquals("update() with getById() methods failed: ", user, newUser);
-        Assert.assertTrue("deleteById() method failed: ", userDAO.deleteById(id));
+        Assert.assertEquals(msg, user, newUser);
+        Assert.assertTrue(msg, userDAO.deleteById(id));
 
         Throwable ex = null;
         try {
@@ -78,11 +86,12 @@ public class UserDAOImplTest {
         } catch (Exception e) {
             ex = e;
         }
-        Assert.assertTrue("update() method failed: ", ex instanceof DAOException);
+        Assert.assertTrue(msg, ex instanceof DAOException);
     }
 
     @Test
     public void deleteById() throws Exception {
+        String msg = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMsg;
         Long id;
         boolean deleted;
         User newUser;
@@ -90,17 +99,18 @@ public class UserDAOImplTest {
         id = userDAO.insert(user);
         user.setId(id);
         newUser = userDAO.getById(user.getId());
-        Assert.assertEquals("insert() with getById() methods failed: ", user, newUser);
+        Assert.assertEquals(msg, user, newUser);
         deleted = userDAO.deleteById(id);
-        Assert.assertTrue("deleteById() method failed: ", deleted);
+        Assert.assertTrue(msg, deleted);
         newUser = userDAO.getById(id);
-        Assert.assertNull("getById() method failed: ", newUser);
+        Assert.assertNull(msg, newUser);
         deleted = userDAO.deleteById(id);
-        Assert.assertFalse("deleteById() method failed: ", deleted);
+        Assert.assertFalse(msg, deleted);
     }
 
     @Test
     public void getAll() throws Exception {
+        String msg = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMsg;
         List<User> oldUsers;
         List<User> newUsers;
         User newUser;
@@ -108,7 +118,7 @@ public class UserDAOImplTest {
         boolean deleted;
 
         oldUsers = userDAO.getAll();
-        Assert.assertNotNull("getAll() method failed: ", oldUsers);
+        Assert.assertNotNull(msg, oldUsers);
         newUser = new User(user);
         id = userDAO.insert(user);
         user.setId(id);
@@ -116,16 +126,59 @@ public class UserDAOImplTest {
         newUser.setId(id);
 
         newUsers = userDAO.getAll();
-        Assert.assertEquals("insert() with getAll() methods failed: ", oldUsers.size() + 2, newUsers.size());
-        Assert.assertTrue("insert() with getAll() methods failed: ", newUsers.contains(user));
-        Assert.assertTrue("insert() with getAll() methods failed: ", newUsers.contains(newUser));
+        Assert.assertEquals(msg, oldUsers.size() + 2, newUsers.size());
+        Assert.assertTrue(msg, newUsers.contains(user));
+        Assert.assertTrue(msg, newUsers.contains(newUser));
 
         for (User value : newUsers) {
             deleted = userDAO.deleteById(value.getId());
-            Assert.assertTrue("deleteById() method failed: ", deleted);
+            Assert.assertTrue(msg, deleted);
         }
         newUsers = userDAO.getAll();
-        Assert.assertNotNull("getAll() method failed: ", newUsers);
-        Assert.assertTrue("getAll() method failed: ", newUsers.size() == 0);
+        Assert.assertNotNull(msg, newUsers);
+        Assert.assertTrue(msg, newUsers.size() == 0);
+    }
+
+    @Test
+    public void getCount() throws Exception {
+        String msg = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMsg;
+        Long count;
+        Long newCount;
+        count = userDAO.getCount();
+        Assert.assertFalse(msg, count == null || count < 0);
+        userDAO.insert(user);
+        newCount = userDAO.getCount();
+        Assert.assertFalse(msg, newCount == null || newCount < 0);
+        Assert.assertTrue(msg, count + 1 == newCount);
+    }
+
+    @Test
+    public void getByGap() throws Exception {
+        String msg = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMsg;
+        List<User> users;
+        User newUser;
+        Long id;
+        boolean deleted;
+
+        users = userDAO.getAll();
+        Assert.assertNotNull(msg, users);
+        for (User value : users) {
+            deleted = userDAO.deleteById(value.getId());
+            Assert.assertTrue(msg, deleted);
+        }
+        users = userDAO.getAll();
+        Assert.assertNotNull(msg, users);
+        Assert.assertTrue(msg, users.size() == 0);
+        for (int i = 0; i < 10; i++) {
+            newUser = new User(user);
+            id = userDAO.insert(newUser);
+            newUser.setId(id);
+            users.add(newUser);
+        }
+
+        Assert.assertEquals(msg, userDAO.getByGap(0, 3), users.subList(0, 0 + 3));
+        Assert.assertEquals(msg, userDAO.getByGap(3, 5), users.subList(3, 3 + 5));
+        Assert.assertEquals(msg, userDAO.getByGap(2, 8), users.subList(2, 2 + 8));
+        Assert.assertEquals(msg, userDAO.getByGap(6, 7), users.subList(6, users.size()));
     }
 }

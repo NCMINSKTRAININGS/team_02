@@ -16,4 +16,8 @@ public interface DAO <T extends AbstractEntity, K extends Serializable> {
     boolean deleteById(K id) throws DAOException;
 
     List<T> getAll() throws DAOException;
+
+    Long getCount() throws DAOException;
+
+    List<T> getByGap(int offset, int quantity) throws DAOException;
 }
