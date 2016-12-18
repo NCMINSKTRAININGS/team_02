@@ -3,6 +3,8 @@ package by.netcracker.shop.services;
 import by.netcracker.shop.dao.OrderDao;
 import by.netcracker.shop.dto.OrderDto;
 import by.netcracker.shop.pojo.Order;
+import by.netcracker.shop.services.OrderConverter;
+import by.netcracker.shop.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,9 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by j on 8.12.16.
- */
 @Service("orderService")
 @Transactional
 public class OrderServiceImpl implements OrderService {

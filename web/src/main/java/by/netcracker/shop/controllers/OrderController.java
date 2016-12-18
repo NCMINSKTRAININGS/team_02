@@ -10,19 +10,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-/**
- * Created by j on 8.12.16.
- */
 @Controller
 @RequestMapping("/order")
 public class OrderController {
     @Autowired
     OrderService service;
 
-    @RequestMapping(value = {"/list"},method = RequestMethod.GET)
-    public String listOrders(ModelMap modelMap){
-        List<OrderDto> orders= service.findAllOrders();
-        modelMap.addAttribute("orders",orders);
+    @RequestMapping(value = {"/list"}, method = RequestMethod.GET)
+    public String listOrders(ModelMap modelMap) {
+        List<OrderDto> orders = service.findAllOrders();
+        modelMap.addAttribute("orders", orders);
         return "order/list";
     }
 }
