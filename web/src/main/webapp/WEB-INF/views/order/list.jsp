@@ -4,20 +4,20 @@
 
 <div class="container-paddingtop50">
     <div class="container">
-    <table class="table table-hover" id="allorders">
+    <table class="table table-hover" >
         <thead>
         <tr>
-            <th>Order.Id</th>
-            <th>user.id</th>
+            <th>username</th>
+            <th>ordered items</th>
 
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${orders}" var="order">
             <tr>
-                <td>${order.id}</td>
-                <td>${order.userId}</td>
-                <td><input class="btn btn-warning btn-xs" value="Show" onclick="location.href='show-${order.id}-order'" type="button" /></td>
+                <td>${order[1]}</td>
+                <td>${order[2]}</td>
+                <td><input class="btn btn-warning btn-xs" value="Show" onclick="location.href='show-order-${order[0]}'" type="button" /></td>
             </tr>
         </c:forEach>
         </tbody>

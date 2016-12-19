@@ -5,6 +5,7 @@ import by.netcracker.shop.enums.UserStatus;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -33,6 +34,8 @@ public class User extends AbstractEntity<Long> {
     @Column(name = "role", columnDefinition = "ENUM('CLIENT', 'ADMIN')")
     @Enumerated(EnumType.STRING)
     private UserRole role;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<Order> orders;
 
     public User(){
     }
@@ -104,6 +107,14 @@ public class User extends AbstractEntity<Long> {
 
     public String getEmail() {
         return email;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     public void setEmail(String email) {

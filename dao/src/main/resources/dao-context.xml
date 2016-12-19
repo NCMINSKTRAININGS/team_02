@@ -41,7 +41,7 @@
                 <prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache:true}</prop>
                 <prop key="cache.use_query_cache">${cache.use_query_cache:true}</prop>
                 <prop key="hibernate.cache.region.factory_class">
-                    org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+                    ${hibernate.cache.region.factory_class}
                 </prop>
             </props>
         </property>

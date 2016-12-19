@@ -4,23 +4,25 @@
 
 <div class="container-paddingtop50">
     <div class="container">
-        <table class="table table-hover" id="allorders">
+        <table class="table table-hover" >
             <thead>
             <tr>
-                <th>Category</th>
                 <th>Name</th>
+                <th>Description</th>
                 <th>Price</th>
                 <th>Manufacturer</th>
             </tr>
             </thead>
             <tbody>
-                <c:forEach items="${order.products}" var="product">
-                    <tr>
-                        <td>${product.categoryId}</td>
-                        <td>${product.name}</td>
-                        <td>${product.price}</td>
-                        <td>${product.manufacturerId}</td>
-                    </tr>
+                <c:forEach items="${orders}" var="order">
+                    <c:forEach items="${order.products}" var="product">
+                        <tr>
+                            <td>${product.name}</td>
+                            <td>${product.description}</td>
+                            <td>${product.price}</td>
+                            <td>${product.manufacturerId}</td>
+                        </tr>
+                    </c:forEach>
                 </c:forEach>
             </tbody>
         </table>

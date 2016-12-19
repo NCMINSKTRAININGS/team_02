@@ -16,22 +16,24 @@ import java.util.List;
 public class Order extends AbstractEntity<Long> {
     private static final long serialVersionUID = 1L;
 
-    //@ManyToOne(fetch = FetchType.LAZY)
-    //@JoinColumn(name = "user_id")
-    @Column(name = "user_id")
-    private Long userId;
-    @ManyToOne(optional = false, targetEntity = Payment.class)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne(optional = true, targetEntity = Payment.class)
     @JoinColumn(name = "payment_id")
-    //@Column(name = "payment_id")
     private Payment payment;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+
+    @ManyToOne(optional = true, targetEntity = Delivery.class)
     @JoinColumn(name = "delivery_id")
-    //@Column(name = "delivery_id")
     private Delivery delivery;
+
     @Column(name = "comment", nullable = false)
     private String comment;
+
     @Column(name = "price", nullable = false)
     private Integer price;
+
     @ManyToMany(cascade = CascadeType.ALL, targetEntity = Product.class)
     @JoinTable(name = "order_product",
             joinColumns = {@JoinColumn(name = "order_id")},
@@ -41,9 +43,9 @@ public class Order extends AbstractEntity<Long> {
     public Order() {
     }
 
-    public Order(Long userId, Payment payment, Delivery delivery,
+    public Order(User user, Payment payment, Delivery delivery,
                  String comment, Integer price, List<Product> products) {
-        this.userId = userId;
+        this.user = user;
         this.payment = payment;
         this.delivery = delivery;
         this.comment = comment;
@@ -51,12 +53,12 @@ public class Order extends AbstractEntity<Long> {
         this.products = products;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Payment getPayment() {
@@ -103,11 +105,11 @@ public class Order extends AbstractEntity<Long> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Order)) return false;
+        if (!super.equals(o)) return false;
 
         Order order = (Order) o;
 
-        if (getId() != null ? !getId().equals(order.getId()) : order.getId() != null) return false;
-        if (getUserId() != null ? !getUserId().equals(order.getUserId()) : order.getUserId() != null) return false;
+        if (getUser() != null ? !getUser().equals(order.getUser()) : order.getUser() != null) return false;
         if (getPayment() != null ? !getPayment().equals(order.getPayment()) : order.getPayment() != null) return false;
         if (getDelivery() != null ? !getDelivery().equals(order.getDelivery()) : order.getDelivery() != null)
             return false;
@@ -119,8 +121,8 @@ public class Order extends AbstractEntity<Long> {
 
     @Override
     public int hashCode() {
-        int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getUserId() != null ? getUserId().hashCode() : 0);
+        int result = super.hashCode();
+        result = 31 * result + (getUser() != null ? getUser().hashCode() : 0);
         result = 31 * result + (getPayment() != null ? getPayment().hashCode() : 0);
         result = 31 * result + (getDelivery() != null ? getDelivery().hashCode() : 0);
         result = 31 * result + (getComment() != null ? getComment().hashCode() : 0);
@@ -132,8 +134,7 @@ public class Order extends AbstractEntity<Long> {
     @Override
     public String toString() {
         return "Order{" +
-                "id=" + id +
-                ", userId=" + userId +
+                "user=" + user +
                 ", payment=" + payment +
                 ", delivery=" + delivery +
                 ", comment='" + comment + '\'' +
