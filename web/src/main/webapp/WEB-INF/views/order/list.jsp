@@ -9,7 +9,6 @@
         <tr>
             <th>username</th>
             <th>ordered items</th>
-
         </tr>
         </thead>
         <tbody>
@@ -23,4 +22,4 @@
         </tbody>
     </table>
 </div>
-    </div>
+</div>
