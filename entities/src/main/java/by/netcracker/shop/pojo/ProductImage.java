@@ -5,16 +5,12 @@ import java.sql.Blob;
 
 @Entity
 @Table(name = "product_image")
-public class ProductImage {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class ProductImage  extends AbstractEntity<Long> {
+    private static final long serialVersionUID = 1L;
 
     @OneToOne
     @JoinColumn(name = "product_id")
     private Product product;
-
     @Lob
     @Column(name = "image", nullable = false)
     private Blob image;
@@ -24,6 +20,22 @@ public class ProductImage {
 
     public ProductImage(Product product, Blob image) {
         this.product = product;
+        this.image = image;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Blob getImage() {
+        return image;
+    }
+
+    public void setImage(Blob image) {
         this.image = image;
     }
 
@@ -53,29 +65,5 @@ public class ProductImage {
                 ", productId=" + product +
                 ", image=" + image +
                 '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Blob getImage() {
-        return image;
-    }
-
-    public void setImage(Blob image) {
-        this.image = image;
     }
 }

@@ -2,19 +2,14 @@ package by.netcracker.shop.pojo;
 
 import javax.persistence.*;
 
-/**
- * Created by j on 9.12.16.
- */
+
 @Entity
 @Table(name = "payment")
-public class Payment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Payment extends AbstractEntity<Long> {
+    private static final long serialVersionUID = 1L;
 
     @Column(name="name", nullable=false)
     private String name;
-
     @Column(name="description")
     private String description;
 
@@ -24,14 +19,6 @@ public class Payment {
     public Payment(String name, String description) {
         this.name = name;
         this.description = description;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

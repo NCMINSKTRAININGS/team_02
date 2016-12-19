@@ -5,18 +5,14 @@ import java.util.List;
 
 @Entity
 @Table(name = "delivery")
-public class Delivery {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Delivery extends AbstractEntity<Long> {
+    private static final long serialVersionUID = 1L;
 
-    @Column(name="name", nullable=false)
+    @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
-
-    @OneToMany(mappedBy = "delivery",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL)
     private List<Order> orders;
 
     public Delivery() {
@@ -25,14 +21,6 @@ public class Delivery {
     public Delivery(String name, String description) {
         this.name = name;
         this.description = description;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

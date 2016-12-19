@@ -1,16 +1,9 @@
 package by.netcracker.shop.services;
 
+import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.Product;
 
-import java.util.List;
+public interface ProductService extends Service<Product, Long> {
 
-public interface ProductService {
-
-    Product finById(int id);
-
-    List<Product> findAll();
-
-    void save(Product product);
-
-    void deleteById(int id);
+    void updateEntity(Product product) throws ServiceException;
 }

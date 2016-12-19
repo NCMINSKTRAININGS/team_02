@@ -11,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional(transactionManager = "transactionManager")
-public class OrderDaoImplTest {
+public class OrderDAOImplTest {
     @Autowired
-    private OrderDao orderDao;
+    private OrderDAO orderDAO;
     @Autowired
-    private DeliveryDao deliveryDao;
+    private DeliveryDAO deliveryDAO;
     @Autowired
-    private PaymentDao paymentDao;
+    private PaymentDAO paymentDAO;
 
     private Order order;
     private Delivery delivery;
