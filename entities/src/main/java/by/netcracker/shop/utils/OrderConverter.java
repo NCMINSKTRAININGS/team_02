@@ -10,7 +10,7 @@ public class OrderConverter implements Converter<Order, OrderDto> {
     public OrderDto convertToFront(Order order) {
         OrderDto orderDto= new OrderDto();
         orderDto.setId(order.getId());
-        orderDto.setUserId(order.getUserId());
+        orderDto.setUser(order.getUser());
         orderDto.setComment(order.getComment());
         orderDto.setDelivery(order.getDelivery());
         orderDto.setPayment(order.getPayment());
@@ -24,7 +24,7 @@ public class OrderConverter implements Converter<Order, OrderDto> {
 
     @Override
     public Order converToLocal(OrderDto orderDto, Order order) {
-        order.setUserId(orderDto.getUserId());
+        order.setUser(orderDto.getUser());
         order.setPrice(orderDto.getPrice());
         order.setPayment(orderDto.getPayment());
         order.setDelivery(orderDto.getDelivery());

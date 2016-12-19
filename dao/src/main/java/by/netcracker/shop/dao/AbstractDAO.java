@@ -115,6 +115,7 @@ public abstract class AbstractDAO<K extends Serializable, T extends AbstractEnti
         return result;
     }
 
+
     @Override
     public List<T> getByGap(int offset, int quantity) throws DAOException {
         List<T> results;
