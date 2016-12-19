@@ -25,6 +25,11 @@
         <put-attribute name="titleKey" value="label.delivery.list"/>
         <put-attribute name="body" value="/WEB-INF/views/delivery/list.jsp"/>
     </definition>
+
+    <definition name="delivery/new" extends="baseTemplate">
+        <put-attribute name="titleKey" value="label.delivery.list"/>
+        <put-attribute name="body" value="/WEB-INF/views/delivery/new.jsp"/>
+    </definition>
     
     <definition name="product/list" extends="baseTemplate">
         <put-attribute name="titleKey" value="label.product.list"/>
@@ -40,6 +45,5 @@
         <put-attribute name="titleKey" value="label.product.edit"/>
         <put-attribute name="body" value="/WEB-INF/views/product/edit.jsp" />
     </definition>
-
 
 </tiles-definitions>

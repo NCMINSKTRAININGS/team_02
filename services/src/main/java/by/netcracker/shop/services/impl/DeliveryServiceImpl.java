@@ -57,6 +57,8 @@ public class DeliveryServiceImpl implements DeliveryService {
         return converter.convertToFront(delivery);
     }
 
+
+
     @Override
     public void deleteById(Long id) throws ServiceException {
         try {

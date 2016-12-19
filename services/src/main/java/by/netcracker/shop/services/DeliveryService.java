@@ -6,7 +6,7 @@ import by.netcracker.shop.exceptions.ServiceException;
 
 import java.util.List;
 
-public interface DeliveryService {
+public interface DeliveryService  {
     void insert(DeliveryDto delivery) throws ServiceException;
 
     DeliveryDto getById(Long id) throws ServiceException;

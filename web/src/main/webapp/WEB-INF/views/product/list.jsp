@@ -32,6 +32,7 @@
                             code="label.product.edit"/></a></td>
                     <td><a href="<c:url value='/delete-product-${product.id}' />"><spring:message
                             code="label.product.delete"/></a></td>
+                    <td><a href="<c:url value='#' />">Add to order</a></td>
                 </tr>
             </c:forEach>
             </tbody>

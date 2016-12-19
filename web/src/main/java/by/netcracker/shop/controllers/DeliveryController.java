@@ -7,9 +7,13 @@ import by.netcracker.shop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -31,5 +35,69 @@ public class DeliveryController {
         }
         modelMap.addAttribute("deliveries",deliveries);
         return "delivery/list";
+    }
+
+    @RequestMapping(value = { "/edit-{id}-delivery" }, method = RequestMethod.GET)
+    public String editDelivery(@PathVariable Long id, ModelMap model) {
+        try {
+            DeliveryDto deliveryDto = deliveryService.getById(id);
+            model.addAttribute("delivery", deliveryDto);
+            model.addAttribute("edit", true);
+        } catch (ServiceException e) {
+
+        }
+        return "delivery/new";
+    }
+
+
+    @RequestMapping(value = { "/edit-{id}-delivery" }, method = RequestMethod.POST)
+    public String updateDelivery(@Valid @ModelAttribute("delivery") DeliveryDto deliveryDto, BindingResult result,
+                             ModelMap model, @PathVariable Long id) {
+
+        if (result.hasErrors()) {
+            return "delivery/new";
+        }
+        try {
+            deliveryService.insert(deliveryDto);
+        } catch (ServiceException e) {
+
+        }
+        return "redirect:/delivery/list";
+    }
+
+    @RequestMapping(value = { "/delete-{id}-delivery" }, method = RequestMethod.GET)
+    public String deleteDelivery(@PathVariable Long id) {
+        try {
+            deliveryService.deleteById(id);
+        } catch (ServiceException e) {
+
+        }
+        return "redirect:/delivery/list";
+    }
+
+    @RequestMapping(value = { "/new" }, method = RequestMethod.GET)
+    public String newDelivery(ModelMap model) {
+        DeliveryDto delivery = new DeliveryDto();
+        model.addAttribute("delivery", delivery);
+        model.addAttribute("edit", false);
+        return "delivery/new";
+    }
+
+
+    @RequestMapping(value = { "/new" }, method = RequestMethod.POST)
+    public String saveTeam(@Valid @ModelAttribute("delivery") DeliveryDto delivery, BindingResult result,
+                           ModelMap model) {
+
+        if (result.hasErrors()) {
+            return "delivery/new";
+        }
+
+
+        try {
+            deliveryService.insert(delivery);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/delivery/list";
     }
 }
