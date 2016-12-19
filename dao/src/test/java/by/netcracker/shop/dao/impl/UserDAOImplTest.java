@@ -202,4 +202,17 @@ public class UserDAOImplTest {
 
         Assert.assertEquals(msg, user, newUser);
     }
+
+    @Test
+    public void getByUsername() throws Exception {
+        String msg = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMsg;
+        User newUser;
+        Long id;
+
+        id = userDAO.insert(user);
+        user.setId(id);
+        newUser = userDAO.getByUsername(user.getUsername());
+
+        Assert.assertEquals(msg, user, newUser);
+    }
 }
