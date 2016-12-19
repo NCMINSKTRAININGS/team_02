@@ -74,4 +74,14 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(e);
         }
     }
+
+    @Override
+    public User getByUsernamePasswordSalt(String username, String password, String salt) throws ServiceException {
+        try {
+            return dao.getByUsernamePasswordSalt(username, password, salt);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+    }
 }
