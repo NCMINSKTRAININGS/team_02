@@ -4,6 +4,11 @@
         "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
 
+    <definition name="empty" template="/WEB-INF/views/skeleton/empty.jsp">
+        <put-attribute name="title"/>
+        <put-attribute name="body"/>
+    </definition>
+
     <definition name="baseTemplate" template="/WEB-INF/views/skeleton/layout.jsp">
         <put-attribute name="title" value="" />
         <put-attribute name="header" value="/WEB-INF/views/skeleton/header.jsp" />
@@ -36,5 +41,14 @@
         <put-attribute name="body" value="/WEB-INF/views/product/edit.jsp" />
     </definition>
 
+    <definition name="user/login" extends="empty">
+        <put-attribute name="titleKey" value="label.login"/>
+        <put-attribute name="body" value="/WEB-INF/views/user/login.jsp" />
+    </definition>
+
+    <definition name="user/registration" extends="empty">
+        <put-attribute name="titleKey" value="label.registration"/>
+        <put-attribute name="body" value="/WEB-INF/views/user/registration.jsp" />
+    </definition>
 
 </tiles-definitions>
