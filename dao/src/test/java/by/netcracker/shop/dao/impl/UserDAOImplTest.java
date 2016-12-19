@@ -24,16 +24,19 @@ public class UserDAOImplTest {
 
     private static String assertMsg;
     private User user;
+    private static int counter;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
         assertMsg = "() method from UserDAOImlpTest failed: ";
+        counter = 1;
     }
 
     @Before
     public void setUp() throws Exception {
-        user = new User("test", "test", "test", "test", "test", "test", 0,
+        user = new User("test", "test", String.valueOf(counter), "test", "test", "test", 0,
                 UserStatus.OFLINE, new Date(), UserRole.CLIENT);
+        counter += 1;
     }
 
     @After
@@ -121,6 +124,8 @@ public class UserDAOImplTest {
         oldUsers = userDAO.getAll();
         Assert.assertNotNull(msg, oldUsers);
         newUser = new User(user);
+        newUser.setUsername(String.valueOf(counter));
+        counter += 1;
         id = userDAO.insert(user);
         user.setId(id);
         id = userDAO.insert(newUser);
@@ -169,6 +174,8 @@ public class UserDAOImplTest {
         Assert.assertTrue(msg, users.size() == 0);
         for (int i = 0; i < 10; i++) {
             newUser = new User(user);
+            newUser.setUsername(String.valueOf(counter));
+            counter += 1;
             id = userDAO.insert(newUser);
             newUser.setId(id);
             users.add(newUser);
