@@ -1,5 +1,6 @@
 package by.netcracker.shop.controllers;
 
+import by.netcracker.shop.constants.Parameters;
 import by.netcracker.shop.enums.UserRole;
 import by.netcracker.shop.enums.UserStatus;
 import by.netcracker.shop.exceptions.ServiceException;
@@ -16,25 +17,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
+@RequestMapping(Parameters.CONTROLLER_USER)
 public class UserController {
     @Autowired
     UserService service;
 
-    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+    @RequestMapping(value = Parameters.REQUEST_USER_LOGIN, method = RequestMethod.GET)
     public String showLoginForm(HttpServletRequest request) {
         User user;
         HttpSession session = request.getSession();
         user = getUserFromSession(session);
         if (user == null)
-            return "user/login";
-        session.setAttribute("user", user);
-        return "redirect:/";
+            return Parameters.TILES_LOGIN;
+        session.setAttribute(Parameters.ENTITY_USER, user);
+        return "redirect:" + Parameters.CONTROLLER_INDEX;
     }
 
-    @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
+    @RequestMapping(value = Parameters.REQUEST_USER_LOGIN, method = RequestMethod.POST)
     protected String loginUser(HttpServletRequest request) {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username = request.getParameter(Parameters.FIELD_USERNAME);
+        String password = request.getParameter(Parameters.FIELD_PASSWORD);
         String salt;
         User user;
         if (!(username.isEmpty() || password.isEmpty() ||
@@ -44,34 +46,34 @@ public class UserController {
                 password = PasswordGenerator.getInstance().generatePassword(password, salt);
                 user = service.getByUsernamePasswordSalt(username, password, salt);
                 if (user != null) {
-                    request.getSession().setAttribute("user", user);
-                    return "redirect:/";
+                    request.getSession().setAttribute(Parameters.ENTITY_USER, user);
+                    return "redirect:" + Parameters.CONTROLLER_INDEX;
                 }
             } catch (ServiceException | UtilException e) {
                 //todo
             }
         }
-        request.setAttribute("errorLogin", "WRONG_LOGIN");
-        return "user/login";
+        request.setAttribute(Parameters.FIELD_ERROR_MESSAGE, Parameters.MESSAGE_LOGIN_ERROR);
+        return Parameters.TILES_LOGIN;
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    @RequestMapping(value = Parameters.REQUEST_USER_REGISTRATION, method = RequestMethod.GET)
     public String showRegistrationForm(HttpServletRequest request){
         User user;
         HttpSession session = request.getSession();
         user = getUserFromSession(session);
         if (user == null)
-            return "user/registration";
-        session.setAttribute("user", user);
-        return "redirect:/";
+            return Parameters.TILES_REGISTRATION;
+        session.setAttribute(Parameters.ENTITY_USER, user);
+        return "redirect:" + Parameters.CONTROLLER_INDEX;
     }
 
-    @RequestMapping(value = {"/registration"}, method = RequestMethod.POST)
+    @RequestMapping(value = Parameters.REQUEST_USER_REGISTRATION, method = RequestMethod.POST)
     protected String registrationUser(HttpServletRequest request) {
-        String firstname = request.getParameter("firstname");
-        String lastname = request.getParameter("lastname");
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String firstname = request.getParameter(Parameters.FIELD_FIRST_NAME);
+        String lastname = request.getParameter(Parameters.FIELD_LAST_NAME);
+        String username = request.getParameter(Parameters.FIELD_USERNAME);
+        String password = request.getParameter(Parameters.FIELD_PASSWORD);
         String salt;
         User user;
         Long id;
@@ -79,8 +81,9 @@ public class UserController {
                 firstname.isEmpty() || lastname.isEmpty() || firstname.length() > 45 || lastname.length() > 45)) {
             try {
                 if (service.getByUsername(username) != null) {
-                    request.setAttribute("errorMessage", "Username already exist");
-                    return "user/registration";
+                    request.setAttribute(Parameters.FIELD_ERROR_MESSAGE,
+                            Parameters.MESSAGE_USERNAME_EXIST_ERROR);
+                    return Parameters.TILES_REGISTRATION;
                 }
                 salt = PasswordGenerator.getInstance().generateSalt(password);
                 password = PasswordGenerator.getInstance().generatePassword(password, salt);
@@ -94,19 +97,19 @@ public class UserController {
                 user.setStatus(UserStatus.ONLINE);
                 id = service.insert(user);
                 user.setId(id);
-                request.getSession().setAttribute("user", user);
-                return "redirect:/";
+                request.getSession().setAttribute(Parameters.ENTITY_USER, user);
+                return "redirect:" + Parameters.CONTROLLER_INDEX;
             } catch (ServiceException | UtilException e) {
                 //todo
             }
         }
-        request.setAttribute("errorMessage", "Wrong data");
-        return "user/registration";
+        request.setAttribute(Parameters.FIELD_ERROR_MESSAGE, Parameters.MESSAGE_WRONG_DATA_ERROR);
+        return Parameters.TILES_REGISTRATION;
     }
 
     private User getUserFromSession(HttpSession session) {
         User user;
-        user = (User)session.getAttribute("user");
+        user = (User)session.getAttribute(Parameters.ENTITY_USER);
         if (user != null && user.getId() != null) {
             try {
                 user = service.getById(user.getId());
