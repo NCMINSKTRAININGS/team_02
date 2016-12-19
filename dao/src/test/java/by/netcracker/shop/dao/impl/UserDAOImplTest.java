@@ -182,4 +182,17 @@ public class UserDAOImplTest {
         Assert.assertEquals(msg, userDAO.getByGap(0, -1), users.subList(0, users.size()));
         Assert.assertEquals(msg, userDAO.getByGap(users.size(), 1), users.subList(0, 0));
     }
+
+    @Test
+    public void getUserByLogin() throws Exception {
+        String msg = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMsg;
+        User newUser;
+        Long id;
+
+        id = userDAO.insert(user);
+        user.setId(id);
+        newUser = userDAO.getByUsernamePasswordSalt(user.getUsername(), user.getPassword(), user.getSalt());
+
+        Assert.assertEquals(msg, user, newUser);
+    }
 }
