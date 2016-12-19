@@ -3,20 +3,15 @@ package by.netcracker.shop.pojo;
 import java.util.Objects;
 import javax.persistence.*;
 
-/**
- *
- * @author Dmitry
- */
 @Entity
 @Table(name = "category")
-public class Category extends AbstractEntity {
+public class Category extends AbstractEntity<Long> {
+    private static final long serialVersionUID = 1L;
 
     @Column(name = "name", nullable = false, length = 45)
     private String name;
-
     @Column(name = "description")
     private String description;
-
     @Column(name = "image")
     private String image;
 
@@ -64,16 +59,6 @@ public class Category extends AbstractEntity {
      */
     public void setImage(String image) {
         this.image = image;
-    }
-
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
     }
 
     @Override
