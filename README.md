@@ -14,5 +14,5 @@ The online shop system. The administrator manages the product catalog. The clien
 
     Harapko Daniil              Team lead
     Makarevich Julia            Magic proger
-    Tolochko Nattilia           Cool proger
+    Tolochko Natalia            Cool proger
     Ushenko Dmitry              Omg proger
