@@ -62,39 +62,33 @@ public class UserController {
     }
 
     @RequestMapping(value = Parameters.REQUEST_USER_REGISTRATION, method = RequestMethod.GET)
-    public String showRegistrationForm(HttpServletRequest request){
+    public String showRegistrationForm(ModelMap model, HttpServletRequest request){
         User user;
         HttpSession session = request.getSession();
         user = getUserFromSession(session);
-        if (user == null)
+        if (user == null) {
+            model.addAttribute(Parameters.FIELD_USER, new User());
             return Parameters.TILES_REGISTRATION;
+        }
         session.setAttribute(Parameters.ENTITY_USER, user);
         return "redirect:" + Parameters.CONTROLLER_INDEX;
     }
 
     @RequestMapping(value = Parameters.REQUEST_USER_REGISTRATION, method = RequestMethod.POST)
-    protected String registrationUser(HttpServletRequest request) {
-        String firstname = request.getParameter(Parameters.FIELD_FIRST_NAME);
-        String lastname = request.getParameter(Parameters.FIELD_LAST_NAME);
-        String username = request.getParameter(Parameters.FIELD_USERNAME);
-        String password = request.getParameter(Parameters.FIELD_PASSWORD);
+    protected String registrationUser(@Valid @ModelAttribute(Parameters.FIELD_USER) User user, ModelMap model,
+                                      HttpServletRequest request, BindingResult result) {
+        String password;
         String salt;
-        User user;
         Long id;
-        if (!(username.isEmpty() || password.isEmpty() || username.length() > 45 || password.length() > 45 ||
-                firstname.isEmpty() || lastname.isEmpty() || firstname.length() > 45 || lastname.length() > 45)) {
+        if (!result.hasErrors()) {
             try {
-                if (service.getByUsername(username) != null) {
+                if (service.getByUsername(user.getUsername()) != null) {
                     request.setAttribute(Parameters.FIELD_ERROR_MESSAGE,
                             Parameters.MESSAGE_USERNAME_EXIST_ERROR);
                     return Parameters.TILES_REGISTRATION;
                 }
-                salt = PasswordGenerator.getInstance().generateSalt(password);
-                password = PasswordGenerator.getInstance().generatePassword(password, salt);
-                user = new User();
-                user.setFirstName(firstname);
-                user.setLastName(lastname);
-                user.setUsername(username);
+                salt = PasswordGenerator.getInstance().generateSalt(user.getPassword());
+                password = PasswordGenerator.getInstance().generatePassword(user.getPassword(), salt);
                 user.setPassword(password);
                 user.setSalt(salt);
                 user.setRole(UserRole.CLIENT);

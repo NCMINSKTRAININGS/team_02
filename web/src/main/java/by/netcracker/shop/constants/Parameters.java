@@ -21,10 +21,6 @@ public class Parameters {
     public static final String ENTITY_USER = "user";
 
 //    Fields
-    public static final String FIELD_USERNAME = "username";
-    public static final String FIELD_PASSWORD = "password";
-    public static final String FIELD_FIRST_NAME = "firstname";
-    public static final String FIELD_LAST_NAME = "lastname";
     public static final String FIELD_ERROR_MESSAGE = "errorMessage";
     public static final String FIELD_ORDERS = "orders";
     public static final String FIELD_PRODUCTS = "products";
