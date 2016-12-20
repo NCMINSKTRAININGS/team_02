@@ -33,9 +33,9 @@ public class DeliveryServiceImpl implements DeliveryService {
         try {
             if (delivery.getId() != null) {
                 Delivery entity = deliveryDAO.getById(delivery.getId());
-                deliveryDAO.insert(converter.converToLocal(delivery, entity));
+                deliveryDAO.insert(converter.convertToLocal(delivery, entity));
             } else {
-                deliveryDAO.insert(converter.converToLocal(delivery, new Delivery()));
+                deliveryDAO.insert(converter.convertToLocal(delivery, new Delivery()));
             }
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
@@ -56,8 +56,6 @@ public class DeliveryServiceImpl implements DeliveryService {
         }
         return converter.convertToFront(delivery);
     }
-
-
 
     @Override
     public void deleteById(Long id) throws ServiceException {
@@ -81,7 +79,7 @@ public class DeliveryServiceImpl implements DeliveryService {
             throw new ServiceException(e);
         }
         List<DeliveryDto> result = new ArrayList<>(deliveries.size());
-        for (Delivery delivery: deliveries) {
+        for (Delivery delivery : deliveries) {
             result.add(converter.convertToFront(delivery));
         }
         return result;
