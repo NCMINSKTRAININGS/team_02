@@ -43,4 +43,6 @@ public class Parameters {
     public static final String TILES_PRODUCT_LIST = "product/list";
     public static final String TILES_PRODUCT_NEW = "product/new";
     public static final String TILES_PRODUCT_EDIT = "product/edit";
+
+    public static final String EDIT = "edit";
 }
