@@ -17,7 +17,7 @@ public class Parameters {
     public static final String REQUEST_PRODUCT_EDIT = "/update-product-{id}";
     public static final String REQUEST_PRODUCT_DELETE = "/delete-product-{id}";
 
-//    Entities
+//    Sessions
     public static final String ENTITY_USER = "user";
 
 //    Fields
@@ -29,9 +29,10 @@ public class Parameters {
     public static final String FIELD_ORDERS = "orders";
     public static final String FIELD_PRODUCTS = "products";
     public static final String FIELD_PRODUCT = "product";
+    public static final String FIELD_USER = "user";
 
 //    Messages
-    public static final String MESSAGE_LOGIN_ERROR = "Wrong login";
+    public static final String MESSAGE_LOGIN_ERROR = "Invalid username or password";
     public static final String MESSAGE_WRONG_DATA_ERROR = "Wrong data";
     public static final String MESSAGE_USERNAME_EXIST_ERROR = "Username already exist";
 
