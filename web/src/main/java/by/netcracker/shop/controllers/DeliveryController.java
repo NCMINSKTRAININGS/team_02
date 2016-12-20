@@ -5,6 +5,7 @@ import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.services.DeliveryService;
 import by.netcracker.shop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,9 @@ public class DeliveryController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    private MessageSource messageSource;
 
     @RequestMapping(value = {"/list"},method = RequestMethod.GET)
     public String listDeliveries(ModelMap modelMap){
@@ -55,6 +59,7 @@ public class DeliveryController {
                              ModelMap model, @PathVariable Long id) {
 
         if (result.hasErrors()) {
+            model.addAttribute("edit", true);
             return "delivery/new";
         }
         try {

@@ -1,8 +1,16 @@
 package by.netcracker.shop.dto;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.Size;
+
 public class DeliveryDto {
     private Long id;
+
+    @NotBlank
+    @Size(min = 3, max = 45)
     private String name;
+
     private String description;
 
     public DeliveryDto() {
