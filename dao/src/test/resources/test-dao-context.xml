@@ -55,4 +55,9 @@
           class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
     <bean id="userDAO" class="by.netcracker.shop.dao.impl.UserDAOImpl"/>
+    <bean id="orderDao" class="by.netcracker.shop.dao.impl.OrderDAOImpl"/>
+    <bean id="paymentDao" class="by.netcracker.shop.dao.impl.PaymentDAOImpl"/>
+    <bean id="deliveryDao" class="by.netcracker.shop.dao.impl.DeliveryDAOImpl"/>
+    <bean id="productDao" class="by.netcracker.shop.dao.impl.ProductDAOImpl"/>
+
 </beans>

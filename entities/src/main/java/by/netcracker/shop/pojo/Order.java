@@ -24,7 +24,7 @@ public class Order extends AbstractEntity<Long> {
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
-    @ManyToOne(optional = true, targetEntity = Delivery.class)
+    @ManyToOne(optional = true, targetEntity = Delivery.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 

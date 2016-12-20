@@ -1,7 +1,8 @@
 package by.netcracker.shop.pojo;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "delivery")
@@ -12,8 +13,6 @@ public class Delivery extends AbstractEntity<Long> {
     private String name;
     @Column(name = "description")
     private String description;
-    @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL)
-    private List<Order> orders;
 
     public Delivery() {
     }
@@ -39,45 +38,33 @@ public class Delivery extends AbstractEntity<Long> {
         this.description = description;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Delivery)) return false;
+        if (!super.equals(o)) return false;
 
         Delivery delivery = (Delivery) o;
 
-        if (getId() != null ? !getId().equals(delivery.getId()) : delivery.getId() != null) return false;
         if (getName() != null ? !getName().equals(delivery.getName()) : delivery.getName() != null) return false;
-        if (getDescription() != null ? !getDescription().equals(delivery.getDescription()) : delivery.getDescription() != null)
-            return false;
-        return getOrders() != null ? getOrders().equals(delivery.getOrders()) : delivery.getOrders() == null;
+        return getDescription() != null ? getDescription().equals(delivery.getDescription()) : delivery.getDescription() == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = getId() != null ? getId().hashCode() : 0;
+        int result = super.hashCode();
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
-        result = 31 * result + (getOrders() != null ? getOrders().hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "Delivery{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", orders=" + orders +
                 '}';
     }
 }

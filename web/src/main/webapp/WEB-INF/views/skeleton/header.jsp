@@ -17,6 +17,7 @@
                 <li><a href="<c:url value='/' />"><spring:message code="label.home"/></a></li>
                 <li><a href="<c:url value='/order/list' />"><spring:message code="label.order.list"/></a></li>
                 <li><a href="<c:url value='/product/list' />"><spring:message code="label.product.list"/></a></li>
+                <li><a href="<c:url value='/delivery/list' />"><spring:message code="label.delivery.list"/></a></li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
