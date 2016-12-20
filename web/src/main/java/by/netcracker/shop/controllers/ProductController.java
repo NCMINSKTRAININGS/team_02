@@ -1,8 +1,10 @@
 package by.netcracker.shop.controllers;
 
 import by.netcracker.shop.constants.Parameters;
+import by.netcracker.shop.dto.ManufacturerDTO;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.Product;
+import by.netcracker.shop.services.ManufacturerService;
 import by.netcracker.shop.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,9 @@ public class ProductController {
     @Autowired
     ProductService service;
 
+    @Autowired
+    ManufacturerService manufacturerService;
+
     @RequestMapping(value = Parameters.REQUEST_PRODUCT_LIST, method = RequestMethod.GET)
     public String listProducts(ModelMap modelMap) {
         List<Product> products = null;
@@ -39,6 +44,7 @@ public class ProductController {
     public String createProduct(ModelMap modelMap) {
         Product product = new Product();
         modelMap.addAttribute(Parameters.FIELD_PRODUCT, product);
+        modelMap.addAttribute(Parameters.EDIT, false);
         return Parameters.TILES_PRODUCT_NEW;
     }
 
@@ -65,17 +71,19 @@ public class ProductController {
             e.printStackTrace();
         }
         modelMap.addAttribute(Parameters.FIELD_PRODUCT, product);
-        return Parameters.TILES_PRODUCT_EDIT;
+        modelMap.addAttribute(Parameters.EDIT, true);
+        return Parameters.TILES_PRODUCT_NEW;
     }
 
     @RequestMapping(value = Parameters.REQUEST_PRODUCT_EDIT, method = RequestMethod.POST)
     public String updateProduct(@Valid Product product, BindingResult bindingResult, @PathVariable Long id,
                                 ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
-            return Parameters.TILES_PRODUCT_EDIT;
+            modelMap.addAttribute(Parameters.EDIT, true);
+            return Parameters.TILES_PRODUCT_NEW;
         }
         try {
-            service.updateEntity(product);
+            service.insert(product);
         } catch (ServiceException e) {
             e.printStackTrace();
         }
@@ -99,14 +107,16 @@ public class ProductController {
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     @ModelAttribute("manufacturers")
-    public List<Manufacturer> getManufacturers() {
+    public List<ManufacturerDTO> getManufacturers() {
+        List<ManufacturerDTO> list = null;
         try {
-            return manufacturerService.getAll();
+            list = manufacturerService.getAll();
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-    }*/
+        return list;
+    }
 }
