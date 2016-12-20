@@ -5,6 +5,8 @@ import by.netcracker.shop.pojo.Payment;
 import by.netcracker.shop.pojo.Product;
 import by.netcracker.shop.pojo.User;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -18,12 +20,12 @@ public class OrderDto {
     private String comment;
 
     @NotNull
+    @Min(1) @Max(999999999)
     private Integer price;
 
     private User user;
     private Delivery delivery;
     private Payment payment;
-
     private List<Product> products=new ArrayList<>();
 
     public OrderDto() {
