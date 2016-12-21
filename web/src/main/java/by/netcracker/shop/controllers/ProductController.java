@@ -1,5 +1,6 @@
 package by.netcracker.shop.controllers;
 
+import by.netcracker.shop.constants.Parameters;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.Product;
 import by.netcracker.shop.services.ProductService;
@@ -16,45 +17,46 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/product")
+@RequestMapping(Parameters.CONTROLLER_PRODUCT)
 public class ProductController {
 
     @Autowired
     ProductService service;
 
-    @RequestMapping(value = {"/list"}, method = RequestMethod.GET)
-    public String listOrders(ModelMap modelMap) {
+    @RequestMapping(value = Parameters.REQUEST_PRODUCT_LIST, method = RequestMethod.GET)
+    public String listProducts(ModelMap modelMap) {
         List<Product> products = null;
         try {
             products = service.getAll();
         } catch (ServiceException e) {
             //todo
         }
-        modelMap.addAttribute("products", products);
-        return "product/list";
+        modelMap.addAttribute(Parameters.FIELD_PRODUCTS, products);
+        return Parameters.TILES_PRODUCT_LIST;
     }
 
-    @RequestMapping(value = {"/createproduct"}, method = RequestMethod.GET)
+    @RequestMapping(value = Parameters.REQUEST_PRODUCT_CREATE, method = RequestMethod.GET)
     public String createProduct(ModelMap modelMap) {
         Product product = new Product();
-        modelMap.addAttribute("product", product);
-        return "product/new";
+        modelMap.addAttribute(Parameters.FIELD_PRODUCT, product);
+        return Parameters.TILES_PRODUCT_NEW;
     }
 
-    @RequestMapping(value = {"/createproduct"}, method = RequestMethod.POST)
-    public String saveProduct(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult, ModelMap modelMap) {
+    @RequestMapping(value = Parameters.REQUEST_PRODUCT_CREATE, method = RequestMethod.POST)
+    public String saveProduct(@ModelAttribute(Parameters.FIELD_PRODUCT) @Valid Product product,
+                              BindingResult bindingResult, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
-            return "product/new";
+            return Parameters.TILES_PRODUCT_NEW;
         } //TODO: validation
         try {
             service.insert(product);
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        return "redirect:/product/list";
+        return "redirect:" + Parameters.CONTROLLER_PRODUCT + Parameters.REQUEST_PRODUCT_LIST;
     }
 
-    @RequestMapping(value = {"/update-product-{id}"}, method = RequestMethod.GET)
+    @RequestMapping(value = Parameters.REQUEST_PRODUCT_EDIT, method = RequestMethod.GET)
     public String editProduct(@PathVariable Long id, ModelMap modelMap) {
         Product product = null;
         try {
@@ -62,31 +64,32 @@ public class ProductController {
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        modelMap.addAttribute("product", product);
-        return "product/edit";
+        modelMap.addAttribute(Parameters.FIELD_PRODUCT, product);
+        return Parameters.TILES_PRODUCT_EDIT;
     }
 
-    @RequestMapping(value = {"/update-product-{id}"}, method = RequestMethod.POST)
-    public String updateProduct(@Valid Product product, BindingResult bindingResult, @PathVariable Long id, ModelMap modelMap) {
+    @RequestMapping(value = Parameters.REQUEST_PRODUCT_EDIT, method = RequestMethod.POST)
+    public String updateProduct(@Valid Product product, BindingResult bindingResult, @PathVariable Long id,
+                                ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
-            return "product/edit";
+            return Parameters.TILES_PRODUCT_EDIT;
         }
         try {
             service.updateEntity(product);
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        return "redirect:/product/list";
+        return "redirect:" + Parameters.CONTROLLER_PRODUCT + Parameters.REQUEST_PRODUCT_LIST;
     }
 
-    @RequestMapping(value = {"/delete-product-{id}"}, method = RequestMethod.GET)
+    @RequestMapping(value = Parameters.REQUEST_PRODUCT_DELETE, method = RequestMethod.GET)
     public String deleteProduct(@PathVariable Long id) {
         try {
             service.deleteById(id);
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        return "redirect:/product/list";
+        return "redirect:" + Parameters.CONTROLLER_PRODUCT + Parameters.REQUEST_PRODUCT_LIST;
     }
 
 /*    @ModelAttribute("categories")

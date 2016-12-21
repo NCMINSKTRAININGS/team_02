@@ -1,5 +1,6 @@
 package by.netcracker.shop.controllers;
 
+import by.netcracker.shop.constants.Parameters;
 import by.netcracker.shop.dto.OrderDto;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.User;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 
 @Controller
-@RequestMapping("/order")
+@RequestMapping(Parameters.CONTROLLER_ORDER)
 public class OrderController {
     @Autowired
     OrderService orderService;
@@ -23,7 +24,7 @@ public class OrderController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = {"/list"},method = RequestMethod.GET)
+    @RequestMapping(value = Parameters.REQUEST_ORDER_LIST, method = RequestMethod.GET)
     public String listOrders(ModelMap modelMap){
         List orders= null;
         try {
@@ -31,11 +32,11 @@ public class OrderController {
         } catch (ServiceException e) {
             //todo
         }
-        modelMap.addAttribute("orders",orders);
-        return "order/list";
+        modelMap.addAttribute(Parameters.FIELD_ORDERS, orders);
+        return Parameters.TILES_ORDER_LIST;
     }
 
-    @RequestMapping(value = {"/show-order-{id}"}, method = RequestMethod.GET)
+    @RequestMapping(value = Parameters.REQUEST_ORDER_SHOW, method = RequestMethod.GET)
     public String showOrder(@PathVariable Long id, ModelMap modelMap){
         List<OrderDto> dtoList = null;
         User user;
@@ -45,7 +46,7 @@ public class OrderController {
         } catch (ServiceException e) {
             //todo
         }
-        modelMap.addAttribute("orders",dtoList);
-        return "order/details";
+        modelMap.addAttribute(Parameters.FIELD_ORDERS, dtoList);
+        return Parameters.TILES_ORDER_DETAILS;
     }
 }

@@ -17,7 +17,6 @@ import java.util.List;
 @Service("userService")
 @Transactional
 public class UserServiceImpl implements UserService {
-
     @Autowired
     UserDAO dao;
 
@@ -25,7 +24,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Long insert(User entity) throws ServiceException {
-        return null;
+        Long id;
+        try {
+            id = dao.insert(entity);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+        return id;
     }
 
     @Override
@@ -41,15 +47,51 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(User entity) throws ServiceException {
-
+        try {
+            dao.update(entity);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
     }
 
     @Override
     public void deleteById(Long id) throws ServiceException {
+        try {
+            dao.deleteById(id);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
     }
 
     @Override
     public List<User> getAll() throws ServiceException {
-        return null;
+        try {
+            return dao.getAll();
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public User getByUsername(String username) throws ServiceException {
+        try {
+            return dao.getByUsername(username);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public User getByUsernamePasswordSalt(String username, String password, String salt) throws ServiceException {
+        try {
+            return dao.getByUsernamePasswordSalt(username, password, salt);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
     }
 }
