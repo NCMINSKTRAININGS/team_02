@@ -21,7 +21,7 @@ public class PaymentConverter  implements Converter<Payment,PaymentDto> {
     }
 
     @Override
-    public Payment converToLocal(PaymentDto paymentDto, Payment payment) {
+    public Payment convertToLocal(PaymentDto paymentDto, Payment payment) {
         payment.setName(paymentDto.getName());
         payment.setDescription(paymentDto.getDescription());
         return payment;

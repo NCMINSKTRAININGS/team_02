@@ -34,9 +34,9 @@ public class PaymentServiceImpl implements PaymentService {
         try {
             if (payment.getId() != null) {
                 Payment entity = paymentDAO.getById(payment.getId());
-                paymentDAO.insert(converter.converToLocal(payment, entity));
+                paymentDAO.insert(converter.convertToLocal(payment, entity));
             } else {
-                paymentDAO.insert(converter.converToLocal(payment, new Payment()));
+                paymentDAO.insert(converter.convertToLocal(payment, new Payment()));
             }
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);

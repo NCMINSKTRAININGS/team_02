@@ -72,6 +72,7 @@ public class OrderController {
             order = orders.get(orders.size()-1);
             if(!order.getProducts().contains(product)){
                 order.getProducts().add(product);
+                order.setPrice(order.getPrice()+product.getPrice());
             }else {
                 Set<Product> productSet= new HashSet<>();
                 productSet.add(product);
