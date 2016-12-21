@@ -1,13 +1,13 @@
 package by.netcracker.shop.services.impl;
 
 import by.netcracker.shop.constants.ServiceConstants;
-import by.netcracker.shop.dao.DeliveryDAO;
-import by.netcracker.shop.dto.DeliveryDto;
+import by.netcracker.shop.dao.CategoryDAO;
+import by.netcracker.shop.dto.CategoryDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
-import by.netcracker.shop.pojo.Delivery;
-import by.netcracker.shop.services.DeliveryService;
-import by.netcracker.shop.utils.DeliveryConverter;
+import by.netcracker.shop.pojo.Category;
+import by.netcracker.shop.services.CategoryService;
+import by.netcracker.shop.utils.CategoryConverter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,25 +17,39 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service("deliveryService")
+@Service("categoryService")
 @Transactional
-public class DeliveryServiceImpl implements DeliveryService {
-    @Autowired
-    private DeliveryDAO deliveryDAO;
+public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
-    private DeliveryConverter converter;
+    private CategoryDAO dao;
 
-    private static Logger logger = Logger.getLogger(DeliveryServiceImpl.class);
+    @Autowired
+    private CategoryConverter converter;
+
+    private static Logger logger = Logger.getLogger(CategoryServiceImpl.class);
 
     @Override
-    public void insert(DeliveryDto delivery) throws ServiceException {
+    public CategoryDTO getById(Long id) throws ServiceException {
+        Category category;
         try {
-            if (delivery.getId() != null) {
-                Delivery entity = deliveryDAO.getById(delivery.getId());
-                deliveryDAO.insert(converter.convertToLocal(delivery, entity));
+            category = dao.getById(id);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            throw new ServiceException(e);
+        }
+        return converter.convertToFront(category);
+    }
+
+    @Override
+    public void insert(CategoryDTO categoryDTO) throws ServiceException {
+        try {
+            if (categoryDTO.getId() != null) {
+                Category category = dao.getById(categoryDTO.getId());
+                dao.insert(converter.convertToLocal(categoryDTO, category));
             } else {
-                deliveryDAO.insert(converter.convertToLocal(delivery, new Delivery()));
+                dao.insert(converter.convertToLocal(categoryDTO, new Category()));
             }
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
@@ -45,43 +59,30 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public DeliveryDto getById(Long id) throws ServiceException {
-        Delivery delivery;
+    public List<CategoryDTO> getAll() throws ServiceException {
+        List<Category> categoryList;
         try {
-            delivery = deliveryDAO.getById(id);
+            categoryList = dao.getAll();
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e.getCause());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        return converter.convertToFront(delivery);
+        List<CategoryDTO> dtoList = new ArrayList<>(categoryList.size());
+        for (Category category : categoryList) {
+            dtoList.add(converter.convertToFront(category));
+        }
+        return dtoList;
     }
 
     @Override
     public void deleteById(Long id) throws ServiceException {
         try {
-            deliveryDAO.deleteById(id);
+            dao.deleteById(id);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e.getCause());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-    }
-
-    @Override
-    public List<DeliveryDto> getAll() throws ServiceException {
-        List<Delivery> deliveries;
-        try {
-            deliveries = deliveryDAO.getAll();
-        } catch (DAOException e) {
-            logger.error(ServiceConstants.ERROR_SERVICE, e.getCause());
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            throw new ServiceException(e);
-        }
-        List<DeliveryDto> result = new ArrayList<>(deliveries.size());
-        for (Delivery delivery : deliveries) {
-            result.add(converter.convertToFront(delivery));
-        }
-        return result;
     }
 }

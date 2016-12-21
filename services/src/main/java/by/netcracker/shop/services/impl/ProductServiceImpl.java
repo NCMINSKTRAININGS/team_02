@@ -44,26 +44,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateEntity(Product product) throws ServiceException {
-        Product p = null;
-        try {
-            p = dao.getById(product.getId());
-        } catch (DAOException e) {
-            logger.error(ServiceConstants.ERROR_SERVICE, e);
-            throw new ServiceException(e);
-        }
-        if (p != null) {
-            p.setCategoryId(product.getCategoryId());
-            p.setManufacturerId(product.getManufacturerId());
-            p.setName(product.getName());
-            p.setDescription(product.getDescription());
-            p.setPrice(product.getPrice());
-            p.setKeywords(product.getKeywords());
-            p.setQuantityInStock(product.getQuantityInStock());
-        }
-    }
-
-    @Override
     public void update(Product entity) throws ServiceException {
         try {
             dao.update(entity);

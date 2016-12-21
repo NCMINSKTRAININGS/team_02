@@ -4,6 +4,9 @@
 
 <div class="container-paddingtop50">
     <div class="container">
+        <spring:message var="createButton" code="label.product.new"/>
+        <td><input class="btn btn-warning btn-xs" value="${createButton}" onclick="location.href='createproduct'"
+                   type="button"/></td>
         <table class="table table-hover" id="productList">
             <thead>
             <tr>
@@ -28,15 +31,16 @@
                     <td>${product.price}</td>
                     <td>${product.keywords}</td>
                     <td>${product.quantityInStock}</td>
-                    <td><a href="<c:url value='/update-product-${product.id}' />"><spring:message
-                            code="label.product.edit"/></a></td>
-                    <td><a href="<c:url value='/delete-product-${product.id}' />"><spring:message
-                            code="label.product.delete"/></a></td>
-                    <td><a href="<c:url value='/order/add-${product.id}-to-order' />">Add to order</a></td>
+                    <td><a href="<c:url value='#' />">Add to order</a></td>
+                    <spring:message var="editButton" code="label.product.button.edit"/>
+                    <spring:message var="deleteButton" code="label.product.button.delete"/>
+                    <td><input class="btn btn-warning btn-xs" value="${editButton}"
+                               onclick="location.href='update-product-${product.id}'" type="button"/></td>
+                    <td><input class="btn btn-warning btn-xs" value="${deleteButton}"
+                               onclick="location.href='delete-product-${product.id}'" type="button"/></td>
                 </tr>
             </c:forEach>
             </tbody>
-            <li><a href="/product/createproduct"><spring:message code="label.product.new"/></a></li>
         </table>
     </div>
 </div>

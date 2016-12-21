@@ -18,7 +18,7 @@ public class DeliveryConverter implements Converter<Delivery,DeliveryDto>{
     }
 
     @Override
-    public Delivery converToLocal(DeliveryDto deliveryDto, Delivery delivery) {
+    public Delivery convertToLocal(DeliveryDto deliveryDto, Delivery delivery) {
         delivery.setName(deliveryDto.getName());
         delivery.setDescription(deliveryDto.getDescription());
         return delivery;

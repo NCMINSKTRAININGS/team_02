@@ -23,7 +23,7 @@ public class OrderConverter implements Converter<Order, OrderDto> {
     }
 
     @Override
-    public Order converToLocal(OrderDto orderDto, Order order) {
+    public Order convertToLocal(OrderDto orderDto, Order order) {
         order.setUser(orderDto.getUser());
         order.setPrice(orderDto.getPrice());
         order.setPayment(orderDto.getPayment());

@@ -46,11 +46,6 @@
         <put-attribute name="body" value="/WEB-INF/views/product/new.jsp" />
     </definition>
 
-    <definition name="product/edit" extends="baseTemplate">
-        <put-attribute name="titleKey" value="label.product.edit"/>
-        <put-attribute name="body" value="/WEB-INF/views/product/edit.jsp" />
-    </definition>
-
     <definition name="user/login" extends="empty">
         <put-attribute name="titleKey" value="label.login"/>
         <put-attribute name="body" value="/WEB-INF/views/user/login.jsp" />

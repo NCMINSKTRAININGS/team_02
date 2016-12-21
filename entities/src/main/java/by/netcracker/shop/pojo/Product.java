@@ -1,6 +1,11 @@
 package by.netcracker.shop.pojo;
 
-import javax.persistence.*;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -8,35 +13,31 @@ import javax.persistence.*;
 public class Product extends AbstractEntity<Long> {
     private static final long serialVersionUID = 1L;
 
-    //@ManyToOne(fetch = FetchType.LAZY)
-   // @JoinColumn(name = "category_id")
     @Column(name = "category_id")
     private Integer categoryId;
-   // @ManyToOne(fetch = FetchType.LAZY)
-    //@JoinColumn(name = "manufacturer_id")
     @Column(name = "manufacturer_id")
     private Integer manufacturerId;
+    @NotBlank
+    @Size(min = 2, max = 45)
     @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "description", nullable = false)
     private String description;
+    //    @NotBlank
     @Column(name = "price", nullable = false)
     private Integer price;
     @Column(name = "keywords", nullable = false)
     private String keywords;
+    //    @NotEmpty
     @Column(name = "quantity_in_stock", nullable = false)
     private Integer quantityInStock;
-/*
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "order_product", joinColumns = {@JoinColumn(name = "product_id")},
-            inverseJoinColumns = {@JoinColumn(name = "order_id")})
-    private List<Integer> ordersId = new ArrayList<>();
-*/
-
-  //  @ManyToMany(mappedBy = "productsId")
-   // private List<Order> orders =new ArrayList<>();
 
     public Product() {
+    }
+
+    public Product(Product product) {
+        this(product.getCategoryId(), product.getManufacturerId(), product.getName(), product.getDescription(),
+                product.getPrice(), product.getKeywords(), product.getQuantityInStock());
     }
 
     public Product(Integer categoryId, Integer manufacturerId, String name,

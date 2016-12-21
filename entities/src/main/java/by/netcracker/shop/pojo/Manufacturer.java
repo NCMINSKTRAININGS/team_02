@@ -1,22 +1,34 @@
 package by.netcracker.shop.pojo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import java.sql.Blob;
 import java.util.Objects;
-import javax.persistence.*;
 
 @Entity
 @Table(name = "manufacturer")
 public class Manufacturer extends AbstractEntity<Long> {
     private static final long serialVersionUID = 1L;
 
+    @NotNull
     @Column(name = "name", nullable = false, length = 45)
     private String name;
+    @NotNull
     @Column(name = "description")
     private String description;
     @Column(name = "logo")
-    private String logo;
+    private Blob logo;
 
     public Manufacturer() {
         super();
+    }
+
+    public Manufacturer(String name, String description, Blob logo) {
+        this.name = name;
+        this.description = description;
+        this.logo = logo;
     }
 
     /**
@@ -50,14 +62,14 @@ public class Manufacturer extends AbstractEntity<Long> {
     /**
      * @return the logo
      */
-    public String getLogo() {
+    public Blob getLogo() {
         return logo;
     }
 
     /**
      * @param logo the logo to set
      */
-    public void setLogo(String logo) {
+    public void setLogo(Blob logo) {
         this.logo = logo;
     }
 

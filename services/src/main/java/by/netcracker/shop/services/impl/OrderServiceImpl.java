@@ -33,9 +33,9 @@ public class OrderServiceImpl implements OrderService {
         try {
             if (order.getId() != null) {
                 Order entity = dao.getById(order.getId());
-                dao.insert(orderConverter.converToLocal(order, entity));
+                dao.insert(orderConverter.convertToLocal(order, entity));
             } else {
-                dao.insert(orderConverter.converToLocal(order, new Order()));
+                dao.insert(orderConverter.convertToLocal(order, new Order()));
             }
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
@@ -79,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException(e);
         }
         List<OrderDto> result = new ArrayList<>(orders.size());
-        for (Order order: orders) {
+        for (Order order : orders) {
             result.add(orderConverter.convertToFront(order));
         }
         return result;
@@ -89,14 +89,14 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDto> getOrdersByUser(User user) throws ServiceException {
         List<Order> orders;
         try {
-            orders= dao.getOrdersByUser(user);
+            orders = dao.getOrdersByUser(user);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e.getCause());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
         List<OrderDto> result = new ArrayList<>(orders.size());
-        for (Order order: orders) {
+        for (Order order : orders) {
             result.add(orderConverter.convertToFront(order));
         }
         return result;
@@ -106,7 +106,7 @@ public class OrderServiceImpl implements OrderService {
     public List<Object[]> getGroupedOrders() throws ServiceException {
         List<Object[]> list;
         try {
-            list=dao.getGroupedOrders();
+            list = dao.getGroupedOrders();
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();

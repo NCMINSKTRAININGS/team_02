@@ -1,7 +1,10 @@
 package by.netcracker.shop.pojo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.sql.Blob;
 import java.util.Objects;
-import javax.persistence.*;
 
 @Entity
 @Table(name = "category")
@@ -13,7 +16,7 @@ public class Category extends AbstractEntity<Long> {
     @Column(name = "description")
     private String description;
     @Column(name = "image")
-    private String image;
+    private Blob image;
 
     public Category() {
         super();
@@ -50,14 +53,14 @@ public class Category extends AbstractEntity<Long> {
     /**
      * @return the image
      */
-    public String getImage() {
+    public Blob getImage() {
         return image;
     }
 
     /**
      * @param image the image to set
      */
-    public void setImage(String image) {
+    public void setImage(Blob image) {
         this.image = image;
     }
 
