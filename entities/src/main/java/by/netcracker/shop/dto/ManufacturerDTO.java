@@ -1,6 +1,7 @@
 package by.netcracker.shop.dto;
 
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.validation.constraints.Size;
 import java.sql.Blob;
 
@@ -8,7 +9,7 @@ public class ManufacturerDTO {
 
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Size(min = 3, max = 45)
     private String name;
 
