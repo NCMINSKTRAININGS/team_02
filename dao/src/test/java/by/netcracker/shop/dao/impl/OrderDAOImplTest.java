@@ -31,6 +31,10 @@ public class OrderDAOImplTest {
     private DeliveryDAO deliveryDAO;
     @Autowired
     private ProductDAO productDAO;
+    @Autowired
+    private CategoryDAO categoryDAO;
+    @Autowired
+    private ManufacturerDAO manufacturerDAO;
 
 
     private Category category;
@@ -50,6 +54,12 @@ public class OrderDAOImplTest {
         user = new User("test", "test", "test", "test", "test", "test", 0,
                 UserStatus.OFLINE, new Date(), UserRole.CLIENT);
         userDAO.insert(user);
+
+        category = new Category("test", "test", "test");
+        categoryDAO.insert(category);
+
+        manufacturer = new Manufacturer("test", "test", "test");
+        manufacturerDAO.insert(manufacturer);
 
         product = new Product(category, manufacturer, "test", "test", 1, "test", 1);
         productDAO.insert(product);
