@@ -1,8 +1,11 @@
 package by.netcracker.shop.pojo;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -14,20 +17,18 @@ public class Product extends AbstractEntity<Long> {
     private Integer categoryId;
     @Column(name = "manufacturer_id")
     private Integer manufacturerId;
-    //    @NotNull
-//    @Size(min = 2, max = 45)
+    @NotBlank
+    @Size(min = 2, max = 45)
     @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "description", nullable = false)
     private String description;
-    //    @NotNull
-//    @Min(1)
+    //    @NotBlank
     @Column(name = "price", nullable = false)
     private Integer price;
     @Column(name = "keywords", nullable = false)
     private String keywords;
-    //    @NotNull
-//    @Min(0)
+    //    @NotEmpty
     @Column(name = "quantity_in_stock", nullable = false)
     private Integer quantityInStock;
 
