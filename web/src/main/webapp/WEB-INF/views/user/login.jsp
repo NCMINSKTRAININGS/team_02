@@ -3,19 +3,37 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+
 <div class="container">
-    <form:form class="form-signin" name="loginForm" method="POST" modelAttribute="user">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <c:if test="${errorMessage != null}">
+    <c:url var="loginUrl" value="/login" />
+    <form action="${loginUrl}" method="post" class="form-sigin">
+        <c:if test="${param.error != null}">
             <div class="alert alert-danger">
-                <p>${errorMessage}</p>
+                <p>Неверный пароль и элетронный адрес.</p>
             </div>
         </c:if>
-        <form:input type="text" cssClass="form-control" path="username" id="username" placeholder="Username"/>
-        <form:errors path="username" cssStyle="line-height: 3" cssClass="label label-danger"/>
-        <form:input type="password" cssClass="form-control" path="password" id="password" placeholder="Password"/>
-        <form:errors path="password" cssStyle="line-height: 3" cssClass="label label-danger"/>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        <a class="btn btn-default btn-block" href="registration" role="button">Create an account</a>
-    </form:form>
+        <c:if test="${param.logout != null}">
+            <div class="alert alert-success">
+                <p>Вы успешно вышли.</p>
+            </div>
+        </c:if>
+        <div class="form-group">
+            <label class="sr-only " for="inputUsername">Элекронный адрес</label>
+            <div class="col-sm-10">
+                <input type="username" name="username" class="form-control" id="inputUsername" placeholder="Username" required="" autofocus="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="sr-only " for="inputPassword">Пароль</label>
+            <div class="col-sm-10">
+                <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Пароль" required="">
+            </div>
+        </div>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        <div class="form-group">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-block btn-primary">Вход</button>
+            </div>
+        </div>
+    </form>
 </div>

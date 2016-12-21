@@ -1,12 +1,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="sec"
+          uri="http://www.springframework.org/security/tags"%>
 
 <div class="container-paddingtop50">
     <div class="container">
-        <spring:message var="createButton" code="label.product.new"/>
-        <td><input class="btn btn-warning btn-xs" value="${createButton}" onclick="location.href='createproduct'"
-                   type="button"/></td>
+        <sec:authorize access="hasRole('ADMIN')">
+            <spring:message var="createButton" code="label.product.new"/>
+            <td><input class="btn btn-warning btn-xs" value="${createButton}" onclick="location.href='createproduct'"
+                       type="button"/></td>
+        </sec:authorize>
+        <sec:authorize access="hasRole('CLIENT')">
+            ty client
+        </sec:authorize>
+        <sec:authorize access="isAnonymous()">
+            ty anonymous
+        </sec:authorize>
+
         <table class="table table-hover" id="productList">
             <thead>
             <tr>
