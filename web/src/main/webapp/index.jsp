@@ -9,6 +9,8 @@
 <body>
 <ul>
     <li><a href="<c:url value='/order/list' />">order/list</a></li>
+    <li><a href="<c:url value='/login' />">/login</a></li>
+    <li><a href="<c:url value='/registration' />">/registration</a></li>
     </ul>
 </body>
 </html>
