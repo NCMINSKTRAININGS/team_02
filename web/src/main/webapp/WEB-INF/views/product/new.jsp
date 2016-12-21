@@ -12,11 +12,11 @@
                         <label for="category"><spring:message code="label.product.field.category"/></label>
                     </td>
                     <td class="col-sm-6">
-                        <springform:select id="category" path="categoryId" items="${categories}" itemValue="id"
+                        <springform:select id="category" path="category.id" items="${categories}" itemValue="id"
                                            itemLabel="name" cssClass="form-control"/>
                     </td>
                     <td>
-                        <springform:errors path="categoryId" cssStyle="line-height: 3" cssClass="label label-danger"/>
+                        <springform:errors path="category" cssStyle="line-height: 3" cssClass="label label-danger"/>
                     </td>
                 </tr>
                 <tr>
@@ -24,11 +24,11 @@
                         <label for="manufacturer"><spring:message code="label.product.field.manufacturer"/></label>
                     </td>
                     <td class="col-sm-6">
-                        <springform:select id="manufacturer" path="manufacturerId" items="${manufacturers}"
+                        <springform:select id="manufacturer" path="manufacturer.id" items="${manufacturers}"
                                            itemValue="id" itemLabel="name" cssClass="form-control"/>
                     </td>
                     <td>
-                        <springform:errors path="manufacturerId" cssStyle="line-height: 3"
+                        <springform:errors path="manufacturer" cssStyle="line-height: 3"
                                            cssClass="label label-danger"/>
                     </td>
                 </tr>
