@@ -90,7 +90,7 @@ public class DeliveryController {
 
 
     @RequestMapping(value = { "/new" }, method = RequestMethod.POST)
-    public String saveTeam(@Valid @ModelAttribute("delivery") DeliveryDto delivery, BindingResult result,
+    public String saveDelivery(@Valid @ModelAttribute("delivery") DeliveryDto delivery, BindingResult result,
                            ModelMap model) {
 
         if (result.hasErrors()) {

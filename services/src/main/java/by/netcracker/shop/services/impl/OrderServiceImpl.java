@@ -2,13 +2,18 @@ package by.netcracker.shop.services.impl;
 
 import by.netcracker.shop.constants.ServiceConstants;
 import by.netcracker.shop.dao.OrderDAO;
+import by.netcracker.shop.dao.ProductDAO;
 import by.netcracker.shop.dto.OrderDto;
+import by.netcracker.shop.dto.ProductDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.Order;
+import by.netcracker.shop.pojo.Product;
 import by.netcracker.shop.pojo.User;
 import by.netcracker.shop.services.OrderService;
+import by.netcracker.shop.services.ProductService;
 import by.netcracker.shop.utils.OrderConverter;
+import by.netcracker.shop.utils.ProductConverter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service("orderService")
 @Transactional
@@ -24,7 +31,13 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderDAO dao;
     @Autowired
+    private ProductDAO productDAO;
+    @Autowired
     private OrderConverter orderConverter;
+    @Autowired
+    private ProductConverter productConverter;
+    @Autowired
+    private ProductService productService;
 
     private static Logger logger = Logger.getLogger(OrderServiceImpl.class);
 
@@ -113,5 +126,34 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException(e);
         }
         return list;
+    }
+
+    @Override
+    public void addProdToOrder(User user, ProductDTO product) throws ServiceException, DAOException {
+
+        List<OrderDto> usersOrders = getOrdersByUser(user);
+        OrderDto order = usersOrders.get(usersOrders.size()-1);
+
+        Product entityProd = productDAO.getById(product.getId());
+        Product productConverted=productConverter.convertToLocal(product,entityProd);
+
+        if(!order.getProducts().contains(productConverted)){
+            order.getProducts().add(productConverted);
+            order.setPrice(order.getPrice()+product.getPrice());
+        }else {
+            Set<Product> productSet= new HashSet<>();
+            productSet.add(productConverted);
+            OrderDto newOrder = new OrderDto();
+            newOrder.setUser(user);
+            newOrder.setComment("");
+            newOrder.setPrice(product.getPrice());
+            newOrder.setProducts(productSet);
+            insert(newOrder);
+        }
+
+        insert(order);
+
+        product.setQuantityInStock(product.getQuantityInStock()-1);
+        productService.insert(product);
     }
 }

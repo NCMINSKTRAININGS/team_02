@@ -5,10 +5,12 @@ import by.netcracker.shop.pojo.Payment;
 import by.netcracker.shop.pojo.Product;
 import by.netcracker.shop.pojo.User;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class OrderDto {
     private Long id;
@@ -18,20 +20,20 @@ public class OrderDto {
     private String comment;
 
     @NotNull
+    @Min(1) @Max(999999999)
     private Integer price;
 
     private User user;
     private Delivery delivery;
     private Payment payment;
-
-    private List<Product> products=new ArrayList<>();
+    private Set<Product> products = new HashSet<>();
 
     public OrderDto() {
     }
 
     public OrderDto(Long id, String comment, Integer price,
                     User user, Delivery delivery, Payment payment,
-                    List<Product> products) {
+                    Set<Product> products) {
         this.id = id;
         this.comment = comment;
         this.price = price;
@@ -89,11 +91,11 @@ public class OrderDto {
         this.payment = payment;
     }
 
-    public List<Product> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(Set<Product> products) {
         this.products = products;
     }
 

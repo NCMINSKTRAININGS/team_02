@@ -35,7 +35,7 @@ public class UserDAOImplTest {
     @Before
     public void setUp() throws Exception {
         user = new User("test", "test", String.valueOf(counter), "test", "test", "test", 0,
-                UserStatus.OFLINE, new Date(), UserRole.CLIENT);
+                UserStatus.OFLINE, new Date(), UserRole.CLIENT, null);
         counter += 1;
     }
 

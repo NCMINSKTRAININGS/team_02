@@ -89,15 +89,6 @@ public class ProductDAOImplTest {
         product.setId(id);
         newProduct = productDAO.getById(product.getId());
         Assert.assertEquals(mess, product, newProduct);
-
-        product.setCategory(category);
-        product.setManufacturer(manufacturer);
-        product.setName("newname");
-        product.setDescription("newdescr");
-        product.setPrice(1);
-        product.setKeywords("newkeywords");
-        product.setQuantityInStock(1);
-
         productDAO.update(product);
         newProduct = productDAO.getById(product.getId());
         Assert.assertEquals(mess, product, newProduct);

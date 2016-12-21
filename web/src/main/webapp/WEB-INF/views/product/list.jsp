@@ -23,7 +23,7 @@
             <tbody>
             <c:forEach items="${products}" var="product">
                 <tr>
-                        <%--<td>${product.id}</td>--%>
+                    <%--<td>${product.id}</td>--%>
                     <td>${product.category.name}</td>
                     <td>${product.manufacturer.name}</td>
                     <td>${product.name}</td>
@@ -31,9 +31,10 @@
                     <td>${product.price}</td>
                     <td>${product.keywords}</td>
                     <td>${product.quantityInStock}</td>
-                    <td><a href="<c:url value='#' />">Add to order</a></td>
-                    <spring:message var="editButton" code="label.button.edit"/>
-                    <spring:message var="deleteButton" code="label.button.delete"/>
+
+                    <td><a href="<c:url value='/order/add-${product.id}-to-order' />">Add to order</a></td>
+                    <spring:message var="editButton" code="label.product.button.edit"/>
+                    <spring:message var="deleteButton" code="label.product.button.delete"/>
                     <td><input class="btn btn-warning btn-xs" value="${editButton}"
                                onclick="location.href='update-product-${product.id}'" type="button"/></td>
                     <td><input class="btn btn-warning btn-xs" value="${deleteButton}"
