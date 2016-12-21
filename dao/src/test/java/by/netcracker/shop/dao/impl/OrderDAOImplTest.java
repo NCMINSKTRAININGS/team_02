@@ -1,8 +1,6 @@
 package by.netcracker.shop.dao.impl;
 
 import by.netcracker.shop.dao.*;
-import by.netcracker.shop.enums.UserRole;
-import by.netcracker.shop.enums.UserStatus;
 import by.netcracker.shop.pojo.*;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -11,9 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @ContextConfiguration("/test-dao-context.xml")
@@ -44,7 +40,7 @@ public class OrderDAOImplTest {
 
     @Before
     public void setUp() throws Exception {
-        user = new User("test", "test", "test", "test", "test", "test", 0,
+      /*  user = new User("test", "test", "test", "test", "test", "test", 0,
                 UserStatus.OFLINE, new Date(), UserRole.CLIENT);
         userDAO.insert(user);
 
@@ -65,7 +61,7 @@ public class OrderDAOImplTest {
         expectedGroupedOrder[0] = 1;
         expectedGroupedOrder[1] = "test";
         expectedGroupedOrder[2] = BigInteger.valueOf(1);
-
+*/
     }
 
     @After
@@ -111,7 +107,7 @@ public class OrderDAOImplTest {
         order.setPayment(payment);
         order.setComment("comment");
         order.setDelivery(delivery);
-        order.setProducts(products);
+        //order.setProducts(products);
         order.setPrice(90);
         orderDao.update(order);
         Assert.assertEquals(this.order, order);
