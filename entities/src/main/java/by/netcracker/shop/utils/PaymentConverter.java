@@ -8,12 +8,16 @@ import org.springframework.stereotype.Component;
 public class PaymentConverter  implements Converter<Payment,PaymentDto> {
     @Override
     public PaymentDto convertToFront(Payment payment) {
-        PaymentDto paymentDto= new PaymentDto();
-        paymentDto.setId(payment.getId());
-        paymentDto.setName(payment.getName());
-        paymentDto.setDescription(payment.getDescription());
-
-        return paymentDto;
+        PaymentDto paymentDto;
+        if (payment==null){
+             return null;
+        }else {
+            paymentDto = new PaymentDto();
+            paymentDto.setId(payment.getId());
+            paymentDto.setName(payment.getName());
+            paymentDto.setDescription(payment.getDescription());
+            return paymentDto;
+        }
     }
 
     @Override
