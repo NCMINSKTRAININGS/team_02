@@ -41,17 +41,17 @@ public class User extends AbstractEntity<Long> {
     }
 
     public User(String firstName, String lastName, String username, String password, String salt,
-                String email, int discount, UserStatus status, Date birthday, UserRole role) {
-        this(null, firstName, lastName, username, password, salt, email, discount, status, birthday, role);
+                String email, int discount, UserStatus status, Date birthday, UserRole role, List<Order> orders) {
+        this(null, firstName, lastName, username, password, salt, email, discount, status, birthday, role, orders);
     }
 
     public User(User user) {
         this(user.getId(), user.getFirstName(), user.getLastName(), user.getUsername(), user.getPassword(),
-                user.getSalt(), user.getEmail(), user.getDiscount(), user.getStatus(), user.getBirthday(), user.getRole());
+                user.getSalt(), user.getEmail(), user.getDiscount(), user.getStatus(), user.getBirthday(), user.getRole(), user.getOrders());
     }
 
     public User(Long id, String firstName, String lastName, String username, String password, String salt,
-                String email, int discount, UserStatus status, Date birthday, UserRole role) {
+                String email, int discount, UserStatus status, Date birthday, UserRole role,List<Order> orders) {
         super(id);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -63,6 +63,7 @@ public class User extends AbstractEntity<Long> {
         this.status = status;
         this.birthday = birthday;
         this.role = role;
+        this.orders = orders;
     }
 
     public String getFirstName() {

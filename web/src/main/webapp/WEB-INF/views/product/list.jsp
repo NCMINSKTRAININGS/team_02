@@ -31,7 +31,8 @@
                     <td>${product.price}</td>
                     <td>${product.keywords}</td>
                     <td>${product.quantityInStock}</td>
-                    <td><a href="<c:url value='#' />">Add to order</a></td>
+
+                    <td><a href="<c:url value='/order/add-${product.id}-to-order' />">Add to order</a></td>
                     <spring:message var="editButton" code="label.product.button.edit"/>
                     <spring:message var="deleteButton" code="label.product.button.delete"/>
                     <td><input class="btn btn-warning btn-xs" value="${editButton}"

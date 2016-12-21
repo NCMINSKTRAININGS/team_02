@@ -7,6 +7,8 @@ import by.netcracker.shop.pojo.User;
 import java.util.List;
 
 public interface OrderDAO extends DAO<Order, Long> {
+
     List<Order> getOrdersByUser(User user) throws DAOException;
+
     List getGroupedOrders() throws DAOException;
 }

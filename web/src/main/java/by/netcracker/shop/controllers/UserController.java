@@ -105,7 +105,7 @@ public class UserController {
         return Parameters.TILES_REGISTRATION;
     }
 
-    private User getUserFromSession(HttpSession session) {
+    public User getUserFromSession(HttpSession session) {
         User user;
         user = (User)session.getAttribute(Parameters.ENTITY_USER);
         if (user != null && user.getId() != null) {

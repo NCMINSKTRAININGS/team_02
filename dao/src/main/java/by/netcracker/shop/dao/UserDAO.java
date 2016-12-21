@@ -7,4 +7,6 @@ public interface UserDAO extends DAO<User, Long> {
     User getByUsername(String username) throws DAOException;
 
     User getByUsernamePasswordSalt(String username, String password, String salt) throws DAOException;
+
+
 }
