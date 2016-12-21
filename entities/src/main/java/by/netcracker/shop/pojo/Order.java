@@ -1,14 +1,11 @@
 package by.netcracker.shop.pojo;
 
-import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "\"order\"")
@@ -38,13 +35,13 @@ public class Order extends AbstractEntity<Long> {
     @JoinTable(name = "order_product",
             joinColumns = {@JoinColumn(name = "order_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
-    private List<Product> products = new ArrayList<>();
+    private Set<Product> products = new HashSet<>();
 
     public Order() {
     }
 
     public Order(User user, Payment payment, Delivery delivery,
-                 String comment, Integer price, List<Product> products) {
+                 String comment, Integer price, Set<Product> products) {
         this.user = user;
         this.payment = payment;
         this.delivery = delivery;
@@ -93,11 +90,11 @@ public class Order extends AbstractEntity<Long> {
         this.price = price;
     }
 
-    public List<Product> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(Set<Product> products) {
         this.products = products;
     }
 

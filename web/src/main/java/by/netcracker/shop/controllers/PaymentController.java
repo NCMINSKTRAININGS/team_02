@@ -31,10 +31,10 @@ public class PaymentController {
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        if(payments.isEmpty()){
-            return new ResponseEntity<List<PaymentDto>>(HttpStatus.NO_CONTENT);
+        if(payments==null||payments.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<PaymentDto>>(payments, HttpStatus.OK);
+        return new ResponseEntity<>(payments, HttpStatus.OK);
      }
 
     // Get by Id
@@ -47,9 +47,9 @@ public class PaymentController {
             e.printStackTrace();
         }
             if (payment==null){
-                return new ResponseEntity<PaymentDto>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<PaymentDto>(payment,HttpStatus.OK);
+            return new ResponseEntity<>(payment, HttpStatus.OK);
     }
 
     //Create
@@ -62,7 +62,7 @@ public class PaymentController {
         }
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/payment/{id}").buildAndExpand(paymentDto.getId()).toUri());
-        return new ResponseEntity<Void>(headers,HttpStatus.CREATED);
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     //update
@@ -76,9 +76,9 @@ public class PaymentController {
             currentPayment.setDescription(payment.getDescription());
             paymentService.insert(currentPayment);
         }catch (ServiceException e){
-
+// TODO: logger etc.
         }
-        return new ResponseEntity<PaymentDto>(currentPayment,HttpStatus.OK);
+        return new ResponseEntity<>(currentPayment, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/payment/{id}",method = RequestMethod.DELETE)
@@ -87,12 +87,12 @@ public class PaymentController {
         try {
             payment =paymentService.getById(id);
             if (payment==null){
-                return new ResponseEntity<PaymentDto>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             paymentService.deleteById(id);
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<PaymentDto>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
