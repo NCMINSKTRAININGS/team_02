@@ -59,7 +59,7 @@ public class ProductController {
                               BindingResult bindingResult, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
             return Parameters.TILES_PRODUCT_NEW;
-        } //TODO: validation
+        }
         try {
             service.insert(product);
         } catch (ServiceException e) {
