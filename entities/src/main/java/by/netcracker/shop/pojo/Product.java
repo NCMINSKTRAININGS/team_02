@@ -35,6 +35,11 @@ public class Product extends AbstractEntity<Long> {
     public Product() {
     }
 
+    public Product(Product product) {
+        this(product.getCategoryId(), product.getManufacturerId(), product.getName(), product.getDescription(),
+                product.getPrice(), product.getKeywords(), product.getQuantityInStock());
+    }
+
     public Product(Integer categoryId, Integer manufacturerId, String name,
                    String description, Integer price, String keywords, Integer quantityInStock) {
         this.categoryId = categoryId;

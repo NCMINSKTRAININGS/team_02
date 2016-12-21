@@ -30,7 +30,7 @@ public class ProductDAOImplTest {
 
     @Before
     public void setUp() throws Exception {
-        product = new Product(0, 0, "test", "test", 0, "test", 0);
+        product = new Product(null, null, "test", "test", 0, "test", 0);
     }
 
     @After
@@ -118,7 +118,7 @@ public class ProductDAOImplTest {
 
         oldProducts = dao.getAll();
         Assert.assertNotNull(mess, oldProducts);
-        newProduct = new Product();
+        newProduct = new Product(product);
         id = dao.insert(product);
         product.setId(id);
         id = dao.insert(newProduct);
@@ -166,7 +166,7 @@ public class ProductDAOImplTest {
         Assert.assertNotNull(mess, products);
         Assert.assertTrue(mess, products.size() == 0);
         for (int i = 0; i < 10; i++) {
-            newProduct = new Product();
+            newProduct = new Product(product);
             id = dao.insert(newProduct);
             newProduct.setId(id);
             products.add(newProduct);
