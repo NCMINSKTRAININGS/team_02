@@ -103,6 +103,8 @@
                     </td>
                 </tr>
             </table>
+            <spring:message var="backButton" code="label.product.button.back"/>
+            <input type="submit" class="btn btn-primary" value="${backButton}"/>
         </springform:form>
     </div>
 </div>
