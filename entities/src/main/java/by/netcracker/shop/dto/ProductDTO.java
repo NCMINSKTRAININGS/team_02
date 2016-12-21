@@ -1,46 +1,39 @@
-package by.netcracker.shop.pojo;
+package by.netcracker.shop.dto;
 
-import javax.persistence.*;
+import by.netcracker.shop.pojo.Category;
+import by.netcracker.shop.pojo.Manufacturer;
+import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.*;
 
-@Entity
-@Table(name = "product")
-public class Product extends AbstractEntity<Long> {
-    private static final long serialVersionUID = 1L;
+public class ProductDTO {
 
-    @ManyToOne(targetEntity = Category.class)
-    @JoinColumn(name = "category_id")
+    private Long id;
+
     private Category category;
 
-    @ManyToOne(targetEntity = Manufacturer.class)
-    @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 
-    @Column(name = "name", nullable = false)
+    @NotBlank
+    @Size(max = 45)
     private String name;
 
-    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "price", nullable = false)
+    @NotNull
     private Integer price;
 
-    @Column(name = "keywords", nullable = false)
     private String keywords;
 
-    @Column(name = "quantity_in_stock", nullable = false)
+    @NotNull
     private Integer quantityInStock;
 
-    public Product() {
+    public ProductDTO() {
     }
 
-    public Product(Product product) {
-        this(product.getCategory(), product.getManufacturer(), product.getName(), product.getDescription(),
-                product.getPrice(), product.getKeywords(), product.getQuantityInStock());
-    }
-
-    public Product(Category category, Manufacturer manufacturer, String name,
-                   String description, Integer price, String keywords, Integer quantityInStock) {
+    public ProductDTO(Long id, Category category, Manufacturer manufacturer, String name, String description,
+                      Integer price, String keywords, Integer quantityInStock) {
+        this.id = id;
         this.category = category;
         this.manufacturer = manufacturer;
         this.name = name;
@@ -48,7 +41,14 @@ public class Product extends AbstractEntity<Long> {
         this.price = price;
         this.keywords = keywords;
         this.quantityInStock = quantityInStock;
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Category getCategory() {
@@ -107,23 +107,27 @@ public class Product extends AbstractEntity<Long> {
         this.quantityInStock = quantityInStock;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Product product = (Product) o;
+        ProductDTO dto = (ProductDTO) o;
 
-        if (!id.equals(product.id)) return false;
-        if (category != null ? !category.equals(product.category) : product.category != null) return false;
-        return manufacturer != null ? manufacturer.equals(product.manufacturer) : product.manufacturer == null;
+        if (!id.equals(dto.id)) return false;
+        if (category != null ? !category.equals(dto.category) : dto.category != null) return false;
+        if (manufacturer != null ? !manufacturer.equals(dto.manufacturer) : dto.manufacturer != null) return false;
+        if (!name.equals(dto.name)) return false;
+        if (description != null ? !description.equals(dto.description) : dto.description != null) return false;
+        if (!price.equals(dto.price)) return false;
+        if (keywords != null ? !keywords.equals(dto.keywords) : dto.keywords != null) return false;
+        return quantityInStock.equals(dto.quantityInStock);
 
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (category != null ? category.hashCode() : 0);
         result = 31 * result + (manufacturer != null ? manufacturer.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
@@ -136,7 +140,7 @@ public class Product extends AbstractEntity<Long> {
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "ProductDTO{" +
                 "id=" + id +
                 ", category=" + category +
                 ", manufacturer=" + manufacturer +

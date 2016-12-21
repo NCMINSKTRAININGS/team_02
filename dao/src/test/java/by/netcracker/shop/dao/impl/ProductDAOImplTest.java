@@ -51,7 +51,12 @@ public class ProductDAOImplTest {
 
     @Test
     public void getById() throws Exception {
-
+        String mess = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMess;
+        Long id;
+        id = dao.insert(product);
+        product.setId(id);
+        Product currentProduct = dao.getById(product.getId());
+        Assert.assertEquals(mess, product, currentProduct);
     }
 
     @Test
@@ -64,8 +69,8 @@ public class ProductDAOImplTest {
         newProduct = dao.getById(product.getId());
         Assert.assertEquals(mess, product, newProduct);
 
-        product.setCategoryId(1);
-        product.setManufacturerId(1);
+        product.setCategory(1);
+        product.setManufacturer(1);
         product.setName("newname");
         product.setDescription("newdescr");
         product.setPrice(1);
@@ -111,30 +116,8 @@ public class ProductDAOImplTest {
     @Test
     public void getAll() throws Exception {
         String mess = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMess;
-        List<Product> oldProducts;
-        List<Product> newProducts;
-        Product newProduct;
-        Long id;
-
-        oldProducts = dao.getAll();
-        Assert.assertNotNull(mess, oldProducts);
-        newProduct = new Product(product);
-        id = dao.insert(product);
-        product.setId(id);
-        id = dao.insert(newProduct);
-        newProduct.setId(id);
-
-        newProducts = dao.getAll();
-        Assert.assertEquals(mess, oldProducts.size() + 2, newProducts.size());
-        Assert.assertTrue(mess, newProducts.contains(product));
-        Assert.assertTrue(mess, newProducts.contains(newProduct));
-
-        for (Product value : newProducts) {
-            dao.deleteById(value.getId());
-        }
-        newProducts = dao.getAll();
-        Assert.assertNotNull(mess, newProducts);
-        Assert.assertTrue(mess, newProducts.size() == 0);
+        List<Product> products = dao.getAll();
+        Assert.assertNotNull(mess, products);
     }
 
     @Test

@@ -10,7 +10,7 @@
         <table class="table table-hover" id="productList">
             <thead>
             <tr>
-                <th><spring:message code="label.product.field.id"/></th>
+                <%--<th><spring:message code="label.product.field.id"/></th>--%>
                 <th><spring:message code="label.product.field.category"/></th>
                 <th><spring:message code="label.product.field.manufacturer"/></th>
                 <th><spring:message code="label.product.field.name"/></th>
@@ -23,9 +23,9 @@
             <tbody>
             <c:forEach items="${products}" var="product">
                 <tr>
-                    <td>${product.id}</td>
-                    <td>${product.categoryId}</td>
-                    <td>${product.manufacturerId}</td>
+                    <%--<td>${product.id}</td>--%>
+                    <td>${product.category.name}</td>
+                    <td>${product.manufacturer.name}</td>
                     <td>${product.name}</td>
                     <td>${product.description}</td>
                     <td>${product.price}</td>
