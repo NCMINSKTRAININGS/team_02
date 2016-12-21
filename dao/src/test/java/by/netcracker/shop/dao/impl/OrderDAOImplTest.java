@@ -32,6 +32,9 @@ public class OrderDAOImplTest {
     @Autowired
     private ProductDAO productDAO;
 
+
+    private Category category;
+    private Manufacturer manufacturer;
     private User user;
     private Product product;
     private Payment payment;
@@ -48,7 +51,7 @@ public class OrderDAOImplTest {
                 UserStatus.OFLINE, new Date(), UserRole.CLIENT);
         userDAO.insert(user);
 
-        product = new Product(1, 1, "test", "test", 1, "test", 1);
+        product = new Product(category, manufacturer, "test", "test", 1, "test", 1);
         productDAO.insert(product);
         products.add(0, product);
 
