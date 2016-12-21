@@ -3,7 +3,6 @@ package by.netcracker.shop.dto;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Size;
-import java.sql.Blob;
 
 public class ManufacturerDTO {
 
@@ -15,12 +14,12 @@ public class ManufacturerDTO {
 
     private String description;
 
-    private Blob logo;
+    private String logo;
 
     public ManufacturerDTO() {
     }
 
-    public ManufacturerDTO(Long id, String name, String description, Blob logo) {
+    public ManufacturerDTO(Long id, String name, String description, String logo) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -51,11 +50,11 @@ public class ManufacturerDTO {
         this.description = description;
     }
 
-    public Blob getLogo() {
+    public String getLogo() {
         return logo;
     }
 
-    public void setLogo(Blob logo) {
+    public void setLogo(String logo) {
         this.logo = logo;
     }
 

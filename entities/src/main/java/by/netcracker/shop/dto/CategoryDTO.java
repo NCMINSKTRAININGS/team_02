@@ -3,7 +3,6 @@ package by.netcracker.shop.dto;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Size;
-import java.sql.Blob;
 
 public class CategoryDTO {
 
@@ -15,12 +14,12 @@ public class CategoryDTO {
 
     private String description;
 
-    private Blob image;
+    private String image;
 
     public CategoryDTO() {
     }
 
-    public CategoryDTO(Long id, String name, String description, Blob image) {
+    public CategoryDTO(Long id, String name, String description, String image) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -51,11 +50,11 @@ public class CategoryDTO {
         this.description = description;
     }
 
-    public Blob getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Blob image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
