@@ -56,4 +56,14 @@
         <put-attribute name="body" value="/WEB-INF/views/user/registration.jsp" />
     </definition>
 
+    <definition name="image/list" extends="baseTemplate">
+        <put-attribute name="titleKey" value="label.image.list"/>
+        <put-attribute name="body" value="/WEB-INF/views/image/list.jsp" />
+    </definition>
+
+    <definition name="image/new" extends="baseTemplate">
+        <put-attribute name="titleKey" value="label.image.new"/>
+        <put-attribute name="body" value="/WEB-INF/views/image/new.jsp" />
+    </definition>
+
 </tiles-definitions>
