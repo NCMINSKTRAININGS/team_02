@@ -11,7 +11,7 @@
             <thead>
             <tr>
                 <th><spring:message code="label.product.field.id"/></th>
-                <th><spring:message code="label.product.field.categoryId"/></th>
+                <th><spring:message code="label.product.field.category"/></th>
                 <th><spring:message code="label.product.field.manufacturer"/></th>
                 <th><spring:message code="label.product.field.name"/></th>
                 <th><spring:message code="label.product.field.description"/></th>

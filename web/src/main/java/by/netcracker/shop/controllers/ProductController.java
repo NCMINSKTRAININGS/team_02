@@ -1,9 +1,11 @@
 package by.netcracker.shop.controllers;
 
 import by.netcracker.shop.constants.Parameters;
+import by.netcracker.shop.dto.CategoryDTO;
 import by.netcracker.shop.dto.ManufacturerDTO;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.Product;
+import by.netcracker.shop.services.CategoryService;
 import by.netcracker.shop.services.ManufacturerService;
 import by.netcracker.shop.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class ProductController {
 
     @Autowired
     ManufacturerService manufacturerService;
+
+    @Autowired
+    CategoryService categoryService;
 
     @RequestMapping(value = Parameters.REQUEST_PRODUCT_LIST, method = RequestMethod.GET)
     public String listProducts(ModelMap modelMap) {
@@ -100,14 +105,16 @@ public class ProductController {
         return "redirect:" + Parameters.CONTROLLER_PRODUCT + Parameters.REQUEST_PRODUCT_LIST;
     }
 
-/*    @ModelAttribute("categories")
-    public List<Category> getCategories() {
+    @ModelAttribute("categories")
+    public List<CategoryDTO> getCategories() {
+        List<CategoryDTO> list = null;
         try {
-            return categoryService.getAll();
+            list = categoryService.getAll();
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-    }*/
+        return list;
+    }
 
     @ModelAttribute("manufacturers")
     public List<ManufacturerDTO> getManufacturers() {

@@ -7,25 +7,25 @@
         <springform:form name="newProductForm" method="post" modelAttribute="product">
             <springform:input path="id" id="id" type="hidden"/>
             <table>
-                <%--<tr>--%>
-                    <%--<td style="line-height: 2" class="col-sm-2 control-label">--%>
-                        <%--<label for="category"><spring:message code="label.product.field.categoryId"/></label>--%>
-                    <%--</td>--%>
-                    <%--<td class="col-sm-6">--%>
-                        <%--<springform:select id="category" path="categoryId" items="${manufacturers}" itemValue="id"--%>
-                                           <%--itemLabel="name" cssClass="form-control"/>--%>
-                    <%--</td>--%>
-                    <%--<td>--%>
-                        <%--<springform:errors path="categoryId" cssStyle="line-height: 3" cssClass="label label-danger"/>--%>
-                    <%--</td>--%>
-                <%--</tr>--%>
+                <tr>
+                    <td style="line-height: 2" class="col-sm-2 control-label">
+                        <label for="category"><spring:message code="label.product.field.category"/></label>
+                    </td>
+                    <td class="col-sm-6">
+                        <springform:select id="category" path="categoryId" items="${categories}" itemValue="id"
+                                           itemLabel="name" cssClass="form-control"/>
+                    </td>
+                    <td>
+                        <springform:errors path="categoryId" cssStyle="line-height: 3" cssClass="label label-danger"/>
+                    </td>
+                </tr>
                 <tr>
                     <td style="line-height: 2" class="col-sm-2 control-label">
                         <label for="manufacturer"><spring:message code="label.product.field.manufacturer"/></label>
                     </td>
                     <td class="col-sm-6">
                         <springform:select id="manufacturer" path="manufacturerId" items="${manufacturers}"
-                                          itemValue="id" itemLabel="name" cssClass="form-control"/>
+                                           itemValue="id" itemLabel="name" cssClass="form-control"/>
                     </td>
                     <td>
                         <springform:errors path="manufacturerId" cssStyle="line-height: 3"
