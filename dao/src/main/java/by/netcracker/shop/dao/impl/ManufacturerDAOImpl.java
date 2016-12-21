@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository("manufacturerDAO")
 public class ManufacturerDAOImpl extends AbstractDAO<Long, Manufacturer> implements ManufacturerDAO {
-
     public ManufacturerDAOImpl() {
         super();
     }

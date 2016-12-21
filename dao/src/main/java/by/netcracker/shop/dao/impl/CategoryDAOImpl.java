@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository("categoryDAO")
 public class CategoryDAOImpl extends AbstractDAO<Long, Category> implements CategoryDAO {
-
     public CategoryDAOImpl() {
         super();
     }
