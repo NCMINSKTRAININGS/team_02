@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.sql.Blob;
 import java.util.Objects;
 
 @Entity
@@ -19,13 +18,13 @@ public class Manufacturer extends AbstractEntity<Long> {
     @Column(name = "description")
     private String description;
     @Column(name = "logo")
-    private Blob logo;
+    private String logo;
 
     public Manufacturer() {
         super();
     }
 
-    public Manufacturer(String name, String description, Blob logo) {
+    public Manufacturer(String name, String description, String logo) {
         this.name = name;
         this.description = description;
         this.logo = logo;
@@ -62,14 +61,14 @@ public class Manufacturer extends AbstractEntity<Long> {
     /**
      * @return the logo
      */
-    public Blob getLogo() {
+    public String getLogo() {
         return logo;
     }
 
     /**
      * @param logo the logo to set
      */
-    public void setLogo(Blob logo) {
+    public void setLogo(String logo) {
         this.logo = logo;
     }
 

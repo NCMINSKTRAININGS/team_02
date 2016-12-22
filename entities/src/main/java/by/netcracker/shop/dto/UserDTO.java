@@ -1,34 +1,36 @@
 package by.netcracker.shop.dto;
 
-
 import by.netcracker.shop.enums.UserRole;
 import by.netcracker.shop.enums.UserStatus;
-import by.netcracker.shop.pojo.Order;
+import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.List;
 
 public class UserDTO {
-    private String firstname;
-
+    private Long id;
+    private String firstName;
     private String lastName;
+    @NotBlank
+    @Size(min = 5, max = 45)
     private String username;
+    @NotBlank
     private String password;
+    @NotBlank
     private String salt;
     private String email;
     private int discount;
     private UserStatus status;
     private Date birthday;
     private UserRole role;
-    private List<Order> orders;
 
     public UserDTO() {
     }
 
     public UserDTO(String firstname, String lastName, String username, String password,
                    String salt, String email, int discount, UserStatus status, Date birthday,
-                   UserRole role, List<Order> orders) {
-        this.firstname = firstname;
+                   UserRole role) {
+        this.firstName = firstname;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
@@ -38,15 +40,22 @@ public class UserDTO {
         this.status = status;
         this.birthday = birthday;
         this.role = role;
-        this.orders = orders;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public Long getId() {
+        return id;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -119,74 +128,5 @@ public class UserDTO {
 
     public void setRole(UserRole role) {
         this.role = role;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-
-
-        if (this == o) return true;
-        if (!(o instanceof UserDTO)) return false;
-
-        UserDTO userDTO = (UserDTO) o;
-
-        if (getDiscount() != userDTO.getDiscount()) return false;
-        if (getFirstname() != null ? !getFirstname().equals(userDTO.getFirstname()) : userDTO.getFirstname() != null)
-            return false;
-        if (getLastName() != null ? !getLastName().equals(userDTO.getLastName()) : userDTO.getLastName() != null)
-            return false;
-        if (getUsername() != null ? !getUsername().equals(userDTO.getUsername()) : userDTO.getUsername() != null)
-            return false;
-        if (getPassword() != null ? !getPassword().equals(userDTO.getPassword()) : userDTO.getPassword() != null)
-            return false;
-        if (getSalt() != null ? !getSalt().equals(userDTO.getSalt()) : userDTO.getSalt() != null) return false;
-        if (getEmail() != null ? !getEmail().equals(userDTO.getEmail()) : userDTO.getEmail() != null) return false;
-        if (getStatus() != userDTO.getStatus()) return false;
-        if (getBirthday() != null ? !getBirthday().equals(userDTO.getBirthday()) : userDTO.getBirthday() != null)
-            return false;
-        if (getRole() != userDTO.getRole()) return false;
-        return getOrders() != null ? getOrders().equals(userDTO.getOrders()) : userDTO.getOrders() == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getFirstname() != null ? getFirstname().hashCode() : 0;
-        result = 31 * result + (getLastName() != null ? getLastName().hashCode() : 0);
-        result = 31 * result + (getUsername() != null ? getUsername().hashCode() : 0);
-        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
-        result = 31 * result + (getSalt() != null ? getSalt().hashCode() : 0);
-        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
-        result = 31 * result + getDiscount();
-        result = 31 * result + (getStatus() != null ? getStatus().hashCode() : 0);
-        result = 31 * result + (getBirthday() != null ? getBirthday().hashCode() : 0);
-        result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
-        result = 31 * result + (getOrders() != null ? getOrders().hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "UserDTO{" +
-                "firstname='" + firstname + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", salt='" + salt + '\'' +
-                ", email='" + email + '\'' +
-                ", discount=" + discount +
-                ", status=" + status +
-                ", birthday=" + birthday +
-                ", role=" + role +
-                ", orders=" + orders +
-                '}';
     }
 }

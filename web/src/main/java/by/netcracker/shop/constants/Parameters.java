@@ -6,6 +6,7 @@ public class Parameters {
     public static final String CONTROLLER_INDEX = "/";
     public static final String CONTROLLER_ORDER = "/order";
     public static final String CONTROLLER_PRODUCT = "/product";
+    public static final String CONTROLLER_PRODUCT_IMAGE = "/image";
 
 //    Request Mapping
     public static final String REQUEST_USER_LOGIN = "/login";
@@ -13,9 +14,13 @@ public class Parameters {
     public static final String REQUEST_ORDER_LIST = "/list";
     public static final String REQUEST_ORDER_SHOW = "/show-order-{id}";
     public static final String REQUEST_PRODUCT_LIST = "/list";
-    public static final String REQUEST_PRODUCT_CREATE = "/createproduct";
+    public static final String REQUEST_PRODUCT_CREATE = "/new";
     public static final String REQUEST_PRODUCT_EDIT = "/update-product-{id}";
     public static final String REQUEST_PRODUCT_DELETE = "/delete-product-{id}";
+    public static final String REQUEST_PRODUCT_IMAGE_LIST = "/list";
+    public static final String REQUEST_PRODUCT_IMAGE_CREATE = "/new";
+    public static final String REQUEST_PRODUCT_IMAGE_EDIT = "/update-image-{id}";
+    public static final String REQUEST_PRODUCT_IMAGE_DELETE = "/delete-image-{id}";
 
 //    Sessions
     public static final String ENTITY_USER = "user";
@@ -26,6 +31,8 @@ public class Parameters {
     public static final String FIELD_PRODUCTS = "products";
     public static final String FIELD_PRODUCT = "product";
     public static final String FIELD_USER = "user";
+    public static final String FIELD_PRODUCT_IMAGES = "images";
+    public static final String FIELD_PRODUCT_IMAGE = "image";
 
 //    Messages
     public static final String MESSAGE_LOGIN_ERROR = "Invalid username or password";
@@ -39,7 +46,8 @@ public class Parameters {
     public static final String TILES_ORDER_DETAILS = "order/details";
     public static final String TILES_PRODUCT_LIST = "product/list";
     public static final String TILES_PRODUCT_NEW = "product/new";
-    public static final String TILES_PRODUCT_EDIT = "product/edit";
+    public static final String TILES_PRODUCT_IMAGE_LIST = "image/list";
+    public static final String TILES_PRODUCT_IMAGE_NEW = "image/new";
 
     public static final String EDIT = "edit";
 }

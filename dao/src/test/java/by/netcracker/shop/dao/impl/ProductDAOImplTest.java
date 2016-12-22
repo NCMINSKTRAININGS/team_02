@@ -1,7 +1,11 @@
 package by.netcracker.shop.dao.impl;
 
+import by.netcracker.shop.dao.CategoryDAO;
+import by.netcracker.shop.dao.ManufacturerDAO;
 import by.netcracker.shop.dao.ProductDAO;
 import by.netcracker.shop.exceptions.DAOException;
+import by.netcracker.shop.pojo.Category;
+import by.netcracker.shop.pojo.Manufacturer;
 import by.netcracker.shop.pojo.Product;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -18,10 +22,21 @@ import java.util.List;
 public class ProductDAOImplTest {
 
     @Autowired
-    private ProductDAO dao;
+    private ProductDAO productDAO;
+
+    private Product product;
+
+    @Autowired
+    private CategoryDAO categoryDAO;
+
+    private Category category;
+
+    @Autowired
+    private ManufacturerDAO manufacturerDAO;
+
+    private Manufacturer manufacturer;
 
     private static String assertMess;
-    private Product product;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -31,11 +46,17 @@ public class ProductDAOImplTest {
     @Before
     public void setUp() throws Exception {
         product = new Product(null, null, "test", "test", 0, "test", 0);
+        category = new Category("test", "test", "test");
+        categoryDAO.insert(category);
+        manufacturer = new Manufacturer("test", "test", "test");
+        manufacturerDAO.insert(manufacturer);
     }
 
     @After
     public void tearDown() throws Exception {
         product = null;
+        category = null;
+        manufacturer = null;
     }
 
     @Test
@@ -43,9 +64,9 @@ public class ProductDAOImplTest {
         String mess = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMess;
         Long id;
         Product newProduct;
-        id = dao.insert(product);
+        id = productDAO.insert(product);
         product.setId(id);
-        newProduct = dao.getById(product.getId());
+        newProduct = productDAO.getById(product.getId());
         Assert.assertEquals(mess, product, newProduct);
     }
 
@@ -53,9 +74,9 @@ public class ProductDAOImplTest {
     public void getById() throws Exception {
         String mess = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMess;
         Long id;
-        id = dao.insert(product);
+        id = productDAO.insert(product);
         product.setId(id);
-        Product currentProduct = dao.getById(product.getId());
+        Product currentProduct = productDAO.getById(product.getId());
         Assert.assertEquals(mess, product, currentProduct);
     }
 
@@ -64,27 +85,18 @@ public class ProductDAOImplTest {
         String mess = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMess;
         Long id;
         Product newProduct;
-        id = dao.insert(product);
+        id = productDAO.insert(product);
         product.setId(id);
-        newProduct = dao.getById(product.getId());
+        newProduct = productDAO.getById(product.getId());
         Assert.assertEquals(mess, product, newProduct);
-/*
-        product.setCategory(1);
-        product.setManufacturer(1);
-        product.setName("newname");
-        product.setDescription("newdescr");
-        product.setPrice(1);
-        product.setKeywords("newkeywords");
-        product.setQuantityInStock(1);
-*/
-        dao.update(product);
-        newProduct = dao.getById(product.getId());
+        productDAO.update(product);
+        newProduct = productDAO.getById(product.getId());
         Assert.assertEquals(mess, product, newProduct);
-        dao.deleteById(id);
+        productDAO.deleteById(id);
 
         Throwable ex = null;
         try {
-            dao.update(newProduct);
+            productDAO.update(newProduct);
         } catch (Exception e) {
             ex = e;
         }
@@ -96,17 +108,17 @@ public class ProductDAOImplTest {
         String mess = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMess;
         Long id;
         Product newProduct;
-        id = dao.insert(product);
+        id = productDAO.insert(product);
         product.setId(id);
-        newProduct = dao.getById(product.getId());
+        newProduct = productDAO.getById(product.getId());
         Assert.assertEquals(mess, product, newProduct);
-        dao.deleteById(id);
-        newProduct = dao.getById(id);
+        productDAO.deleteById(id);
+        newProduct = productDAO.getById(id);
         Assert.assertNull(mess, newProduct);
 
         Throwable ex = null;
         try {
-            dao.deleteById(id);
+            productDAO.deleteById(id);
         } catch (Exception e) {
             ex = e;
         }
@@ -116,7 +128,7 @@ public class ProductDAOImplTest {
     @Test
     public void getAll() throws Exception {
         String mess = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMess;
-        List<Product> products = dao.getAll();
+        List<Product> products = productDAO.getAll();
         Assert.assertNotNull(mess, products);
     }
 
@@ -125,10 +137,10 @@ public class ProductDAOImplTest {
         String mess = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMess;
         Long count;
         Long newCount;
-        count = dao.getCount();
+        count = productDAO.getCount();
         Assert.assertFalse(mess, count == null || count < 0);
-        dao.insert(product);
-        newCount = dao.getCount();
+        productDAO.insert(product);
+        newCount = productDAO.getCount();
         Assert.assertFalse(mess, newCount == null || newCount < 0);
         Assert.assertTrue(mess, count + 1 == newCount);
     }
@@ -140,28 +152,28 @@ public class ProductDAOImplTest {
         Product newProduct;
         Long id;
 
-        products = dao.getAll();
+        products = productDAO.getAll();
         Assert.assertNotNull(mess, products);
         for (Product value : products) {
-            dao.deleteById(value.getId());
+            productDAO.deleteById(value.getId());
         }
-        products = dao.getAll();
+        products = productDAO.getAll();
         Assert.assertNotNull(mess, products);
         Assert.assertTrue(mess, products.size() == 0);
         for (int i = 0; i < 10; i++) {
             newProduct = new Product(product);
-            id = dao.insert(newProduct);
+            id = productDAO.insert(newProduct);
             newProduct.setId(id);
             products.add(newProduct);
         }
 
-        Assert.assertEquals(mess, dao.getByGap(0, 3), products.subList(0, 0 + 3));
-        Assert.assertEquals(mess, dao.getByGap(3, 5), products.subList(3, 3 + 5));
-        Assert.assertEquals(mess, dao.getByGap(2, 8), products.subList(2, 2 + 8));
-        Assert.assertEquals(mess, dao.getByGap(6, 7), products.subList(6, products.size()));
-        Assert.assertEquals(mess, dao.getByGap(-4, 3), products.subList(0, 0 + 3));
-        Assert.assertEquals(mess, dao.getByGap(0, -1), products.subList(0, products.size()));
-        Assert.assertEquals(mess, dao.getByGap(products.size(), 1), products.subList(0, 0));
+        Assert.assertEquals(mess, productDAO.getByGap(0, 3), products.subList(0, 0 + 3));
+        Assert.assertEquals(mess, productDAO.getByGap(3, 5), products.subList(3, 3 + 5));
+        Assert.assertEquals(mess, productDAO.getByGap(2, 8), products.subList(2, 2 + 8));
+        Assert.assertEquals(mess, productDAO.getByGap(6, 7), products.subList(6, products.size()));
+        Assert.assertEquals(mess, productDAO.getByGap(-4, 3), products.subList(0, 0 + 3));
+        Assert.assertEquals(mess, productDAO.getByGap(0, -1), products.subList(0, products.size()));
+        Assert.assertEquals(mess, productDAO.getByGap(products.size(), 1), products.subList(0, 0));
     }
 
 }

@@ -11,13 +11,14 @@
             <form:input type="hidden" path="id" id="id"/>
             <table class=" table">
                 <tr>
-                    <td style="line-height: 2" class="col-sm-2 control-label"><label for="name">name: </label> </td>
-                    <td class="col-sm-6"><form:input  cssClass="form-control" path="name" id="name"/></td>
-                    <td ><form:errors path="name" cssStyle="line-height: 3" cssClass="label label-danger"/></td>
+                    <td style="line-height: 2" class="col-sm-2 control-label"><label for="name">name: </label></td>
+                    <td class="col-sm-6"><form:input cssClass="form-control" path="name" id="name"/></td>
+                    <td><form:errors path="name" cssStyle="line-height: 3" cssClass="label label-danger"/></td>
                 </tr>
 
                 <tr>
-                    <td style="line-height: 2" class="col-sm-2 control-label"><label for="description">description: </label> </td>
+                    <td style="line-height: 2" class="col-sm-2 control-label"><label
+                            for="description">description: </label></td>
                     <td class="col-sm-6"><form:input cssClass="form-control" path="description" id="description"/></td>
                     <td><form:errors path="description" cssStyle="line-height: 3" cssClass="label label-danger"/></td>
                 </tr>

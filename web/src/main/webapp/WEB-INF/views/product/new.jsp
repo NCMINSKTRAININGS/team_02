@@ -6,7 +6,7 @@
     <div class="container">
         <springform:form name="newProductForm" method="post" modelAttribute="product">
             <springform:input path="id" id="id" type="hidden"/>
-            <table>
+            <table class=" table">
                 <tr>
                     <td style="line-height: 2" class="col-sm-2 control-label">
                         <label for="category"><spring:message code="label.product.field.category"/></label>
@@ -89,22 +89,26 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td colspan="3">
                         <c:choose>
                             <c:when test="${edit}">
-                                <spring:message var="editButton" code="label.product.button.edit"/>
+                                <spring:message var="editButton" code="label.button.edit"/>
                                 <input type="submit" class="btn btn-primary" value="${editButton}"/>
                             </c:when>
                             <c:otherwise>
-                                <spring:message var="createButton" code="label.product.button.create"/>
+                                <spring:message var="createButton" code="label.button.create"/>
                                 <input type="submit" class="btn btn-primary" value="${createButton}"/>
                             </c:otherwise>
                         </c:choose>
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="3">
+                        <spring:message var="backButton" code="label.button.back"/>
+                        <input type="submit" class="btn btn-primary" value="${backButton}"/>
+                    </td>
+                </tr>
             </table>
-            <spring:message var="backButton" code="label.product.button.back"/>
-            <input type="submit" class="btn btn-primary" value="${backButton}"/>
         </springform:form>
     </div>
 </div>
