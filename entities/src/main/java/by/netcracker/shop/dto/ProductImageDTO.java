@@ -1,25 +1,29 @@
-package by.netcracker.shop.pojo;
+package by.netcracker.shop.dto;
 
-import javax.persistence.*;
+import by.netcracker.shop.pojo.Product;
 
-@Entity
-@Table(name = "product_image")
-public class ProductImage  extends AbstractEntity<Long> {
-    private static final long serialVersionUID = 1L;
+public class ProductImageDTO {
 
-    @OneToOne
-    @JoinColumn(name = "product_id")
+    private Long id;
+
     private Product product;
 
-    @Column(name = "image", nullable = false)
     private String image;
 
-    public ProductImage() {
+    public ProductImageDTO() {
     }
 
-    public ProductImage(Product product, String image) {
+    public ProductImageDTO(Product product, String image) {
         this.product = product;
         this.image = image;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Product getProduct() {
@@ -43,7 +47,7 @@ public class ProductImage  extends AbstractEntity<Long> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProductImage that = (ProductImage) o;
+        ProductImageDTO that = (ProductImageDTO) o;
 
         if (!id.equals(that.id)) return false;
         return product.equals(that.product);

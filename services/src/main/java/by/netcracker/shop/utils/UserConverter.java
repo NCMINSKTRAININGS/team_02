@@ -9,9 +9,10 @@ public class UserConverter implements Converter<User,UserDTO> {
     @Override
     public UserDTO convertToFront(User user) {
         UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
         dto.setUsername(user.getUsername());
         dto.setEmail(user.getEmail());
-        dto.setFirstname(user.getFirstName());
+        dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
         dto.setBirthday(user.getBirthday());
         dto.setDiscount(user.getDiscount());
@@ -19,18 +20,15 @@ public class UserConverter implements Converter<User,UserDTO> {
         dto.setStatus(user.getStatus());
         dto.setSalt(user.getSalt());
         dto.setPassword(user.getPassword());
-        if (user.getOrders().iterator().hasNext()){
-            dto.setOrders(user.getOrders());
-        }
         return dto;
     }
 
-
     @Override
     public User convertToLocal(UserDTO userDTO, User user) {
+        user.setId(userDTO.getId());
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
-        user.setFirstName(userDTO.getFirstname());
+        user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setSalt(userDTO.getSalt());
         user.setDiscount(userDTO.getDiscount());
@@ -38,10 +36,6 @@ public class UserConverter implements Converter<User,UserDTO> {
         user.setRole(userDTO.getRole());
         user.setStatus(userDTO.getStatus());
         user.setPassword(userDTO.getPassword());
-
-        if (userDTO.getOrders().iterator().hasNext()){
-            user.setOrders(userDTO.getOrders());
-        }
         return user;
     }
 }
