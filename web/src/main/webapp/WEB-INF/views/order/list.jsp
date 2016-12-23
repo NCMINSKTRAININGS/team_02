@@ -13,11 +13,11 @@
         </thead>
         <tbody>
         <c:forEach items="${orders}" var="order">
-            <tr>
-                <td>${order[1]}</td>
-                <td>${order[2]}</td>
-                <td><input class="btn btn-warning btn-xs" value="Show" onclick="location.href='show-order-${order[0]}'" type="button" /></td>
-            </tr>
+                <tr>
+                    <td>${order[1]}</td>
+                    <td>${order[2]}</td>
+                    <td><input class="btn btn-warning btn-xs" value="Show" onclick="location.href='show-order-${order[0]}'" type="button" /></td>
+                </tr>
         </c:forEach>
         </tbody>
     </table>

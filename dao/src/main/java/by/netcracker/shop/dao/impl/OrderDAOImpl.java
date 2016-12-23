@@ -24,12 +24,12 @@ public class OrderDAOImpl extends AbstractDAO<Long,Order> implements OrderDAO {
         Criteria criteria= getSession().createCriteria(Order.class);
         criteria.add(Restrictions.eq("user",user));
         orders=criteria.list();
-    return orders;
+        return orders;
     }
 
     @Override
     public List<Object[]> getGroupedOrders() throws DAOException {
-        String hql="SELECT   user_id, username,  COUNT(*) FROM `order` INNER JOIN user ON `order`.user_id = user.id GROUP BY  user_id";
+        String hql="select user_id,username, COUNT(*) from `order` INNER JOIN user ON `order`.user_id = user.id GROUP BY user_id";
         return getSession().createSQLQuery(hql).list();
     }
 }

@@ -2,7 +2,10 @@ package by.netcracker.shop.dao.impl;
 
 import by.netcracker.shop.dao.*;
 import by.netcracker.shop.pojo.*;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -10,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @ContextConfiguration("/test-dao-context.xml")
@@ -77,14 +81,20 @@ public class OrderDAOImplTest {
     @Test
     public void testGetOrdersByUser() throws Exception {
         List<Order> actualOrders = orderDao.getOrdersByUser(user);
+        System.out.println(actualOrders.toString());
         Assert.assertEquals(expectedOrders, actualOrders);
     }
 
-    @Ignore
+
     @Test
     public void testGetGroupedOrders() throws Exception {
         List<Object[]> actualList = orderDao.getGroupedOrders();
-        Assert.assertEquals(expectedGroupedOrder, actualList.get(actualList.size() - 1));
+        for (Iterator<Object[]> i = actualList.iterator(); i.hasNext();) {
+            Object[] objects =i.next();
+            System.out.println(objects[0]);
+            System.out.println(objects[1]);
+            System.out.println(objects[2]);
+        }
     }
 
     @Test

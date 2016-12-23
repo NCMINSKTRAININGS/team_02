@@ -13,7 +13,7 @@ import java.util.Set;
 public class Order extends AbstractEntity<Long> {
     private static final long serialVersionUID = 1L;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 

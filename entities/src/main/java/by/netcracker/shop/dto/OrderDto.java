@@ -1,10 +1,5 @@
 package by.netcracker.shop.dto;
 
-import by.netcracker.shop.pojo.Delivery;
-import by.netcracker.shop.pojo.Payment;
-import by.netcracker.shop.pojo.Product;
-import by.netcracker.shop.pojo.User;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -23,24 +18,24 @@ public class OrderDto {
     @Min(1) @Max(999999999)
     private Integer price;
 
-    private User user;
-    private Delivery delivery;
-    private Payment payment;
-    private Set<Product> products = new HashSet<>();
+    private Long userId;
+    private Long deliveryId;
+    private Long paymentId;
+    private Set<Long> productsId = new HashSet<>();
 
     public OrderDto() {
     }
 
     public OrderDto(Long id, String comment, Integer price,
-                    User user, Delivery delivery, Payment payment,
-                    Set<Product> products) {
+                    Long userId, Long deliveryId, Long paymentId,
+                    Set<Long> productsId) {
         this.id = id;
         this.comment = comment;
         this.price = price;
-        this.user = user;
-        this.delivery = delivery;
-        this.payment = payment;
-        this.products = products;
+        this.userId = userId;
+        this.deliveryId = deliveryId;
+        this.paymentId = paymentId;
+        this.productsId = productsId;
     }
 
     public Long getId() {
@@ -67,36 +62,36 @@ public class OrderDto {
         this.price = price;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Delivery getDelivery() {
-        return delivery;
+    public Long getDeliveryId() {
+        return deliveryId;
     }
 
-    public void setDelivery(Delivery delivery) {
-        this.delivery = delivery;
+    public void setDeliveryId(Long deliveryId) {
+        this.deliveryId = deliveryId;
     }
 
-    public Payment getPayment() {
-        return payment;
+    public Long getPaymentId() {
+        return paymentId;
     }
 
-    public void setPayment(Payment payment) {
-        this.payment = payment;
+    public void setPaymentId(Long paymentId) {
+        this.paymentId = paymentId;
     }
 
-    public Set<Product> getProducts() {
-        return products;
+    public Set<Long> getProductsId() {
+        return productsId;
     }
 
-    public void setProducts(Set<Product> products) {
-        this.products = products;
+    public void setProductsId(Set<Long> productsId) {
+        this.productsId = productsId;
     }
 
     @Override
@@ -110,12 +105,13 @@ public class OrderDto {
         if (getComment() != null ? !getComment().equals(orderDto.getComment()) : orderDto.getComment() != null)
             return false;
         if (getPrice() != null ? !getPrice().equals(orderDto.getPrice()) : orderDto.getPrice() != null) return false;
-        if (getUser() != null ? !getUser().equals(orderDto.getUser()) : orderDto.getUser() != null) return false;
-        if (getDelivery() != null ? !getDelivery().equals(orderDto.getDelivery()) : orderDto.getDelivery() != null)
+        if (getUserId() != null ? !getUserId().equals(orderDto.getUserId()) : orderDto.getUserId() != null)
             return false;
-        if (getPayment() != null ? !getPayment().equals(orderDto.getPayment()) : orderDto.getPayment() != null)
+        if (getDeliveryId() != null ? !getDeliveryId().equals(orderDto.getDeliveryId()) : orderDto.getDeliveryId() != null)
             return false;
-        return getProducts() != null ? getProducts().equals(orderDto.getProducts()) : orderDto.getProducts() == null;
+        if (getPaymentId() != null ? !getPaymentId().equals(orderDto.getPaymentId()) : orderDto.getPaymentId() != null)
+            return false;
+        return getProductsId() != null ? getProductsId().equals(orderDto.getProductsId()) : orderDto.getProductsId() == null;
 
     }
 
@@ -124,10 +120,10 @@ public class OrderDto {
         int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getComment() != null ? getComment().hashCode() : 0);
         result = 31 * result + (getPrice() != null ? getPrice().hashCode() : 0);
-        result = 31 * result + (getUser() != null ? getUser().hashCode() : 0);
-        result = 31 * result + (getDelivery() != null ? getDelivery().hashCode() : 0);
-        result = 31 * result + (getPayment() != null ? getPayment().hashCode() : 0);
-        result = 31 * result + (getProducts() != null ? getProducts().hashCode() : 0);
+        result = 31 * result + (getUserId() != null ? getUserId().hashCode() : 0);
+        result = 31 * result + (getDeliveryId() != null ? getDeliveryId().hashCode() : 0);
+        result = 31 * result + (getPaymentId() != null ? getPaymentId().hashCode() : 0);
+        result = 31 * result + (getProductsId() != null ? getProductsId().hashCode() : 0);
         return result;
     }
 
@@ -137,10 +133,10 @@ public class OrderDto {
                 "id=" + id +
                 ", comment='" + comment + '\'' +
                 ", price=" + price +
-                ", user=" + user +
-                ", delivery=" + delivery +
-                ", payment=" + payment +
-                ", products=" + products +
+                ", userId=" + userId +
+                ", deliveryId=" + deliveryId +
+                ", paymentId=" + paymentId +
+                ", productsId=" + productsId +
                 '}';
     }
 }
