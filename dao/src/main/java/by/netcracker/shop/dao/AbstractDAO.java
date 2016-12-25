@@ -52,6 +52,9 @@ public abstract class AbstractDAO<K extends Serializable, T extends AbstractEnti
     @SuppressWarnings("unchecked")
     public T getById(K id) throws DAOException {
         T entity;
+        if (id==null){
+            return null;
+        }else {
         try {
             Session session = getSession();
             entity = (T) session.get(persistentClass, id);
@@ -60,7 +63,7 @@ public abstract class AbstractDAO<K extends Serializable, T extends AbstractEnti
             throw new DAOException(e);
         }
         return entity;
-    }
+    }}
 
     @Override
     public void update(T entity) throws DAOException {

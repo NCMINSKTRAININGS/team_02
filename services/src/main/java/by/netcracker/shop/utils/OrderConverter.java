@@ -28,10 +28,14 @@ public class OrderConverter implements Converter<Order, OrderDto> {
     public OrderDto convertToFront(Order order) {
         OrderDto orderDto= new OrderDto();
         orderDto.setId(order.getId());
-        orderDto.setId(order.getUser().getId());
+        orderDto.setUserId(order.getUser().getId());
         orderDto.setComment(order.getComment());
-        orderDto.setDeliveryId(order.getDelivery().getId());
-        orderDto.setPaymentId(order.getPayment().getId());
+        if(order.getDelivery()!=null){
+            orderDto.setDeliveryId(order.getDelivery().getId());
+        }else {orderDto.setDeliveryId(null);}
+        if (order.getPayment()!=null){
+            orderDto.setPaymentId(order.getPayment().getId());
+        }else {orderDto.setPaymentId(null);}
         orderDto.setPrice(order.getPrice());
 
         for (Product product: order.getProducts()) {

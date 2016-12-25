@@ -14,15 +14,14 @@
             </tr>
             </thead>
             <tbody>
-                <c:forEach items="${orders}" var="order">
-                    <c:forEach items="${order.products}" var="product">
+                <c:forEach items="${productList}" var="product">
                         <tr>
                             <td>${product.name}</td>
                             <td>${product.description}</td>
                             <td>${product.price}</td>
-                            <td>${product.manufacturer}</td>
+                            <td>${product.manufacturer.name}</td>
+                            <td><a href="/order/remove-${product.id}-${username}">Remove</a> </td>
                         </tr>
-                    </c:forEach>
                 </c:forEach>
             </tbody>
         </table>

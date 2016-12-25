@@ -15,13 +15,16 @@ import by.netcracker.shop.services.ProductService;
 import by.netcracker.shop.utils.OrderConverter;
 import by.netcracker.shop.utils.ProductConverter;
 import by.netcracker.shop.utils.UserConverter;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service("orderService")
 @Transactional
@@ -41,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private UserConverter userConverter;
 
-   // private static Logger logger = Logger.getLogger(OrderServiceImpl.class);
+    private static Logger logger = Logger.getLogger(OrderServiceImpl.class);
 
 
     @Override
@@ -120,6 +123,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<ProductDTO> getProductsByOrders(List<OrderDto> orderDtos) throws ServiceException {
+        List<ProductDTO> result = new ArrayList<>();
+        for (OrderDto orderDto:orderDtos){
+            for (Long id:orderDto.getProductsId()){
+                result.add(productService.getById(id));
+            }
+        }
+        return result;
+    }
+
+    @Override
     public List<Object[]> getGroupedOrders() throws ServiceException {
         List<Object[]> mapList= new ArrayList<>();
         try {
@@ -131,38 +145,48 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void addProdToOrder(User user, ProductDTO product) throws ServiceException, DAOException {
-
+    public void addProdToOrder(UserDTO user, ProductDTO product) throws ServiceException, DAOException {
+        List<OrderDto> usersOrders =getOrdersByUser(user);
+        OrderDto orderDto = null;
+        if (!usersOrders.isEmpty()) {
+            orderDto = usersOrders.get(usersOrders.size() - 1);
+        }
+                if(product.getQuantityInStock()>0){
+                    if (usersOrders.isEmpty()||usersOrders==null||orderDto.getProductsId().contains(product.getId())){
+                        OrderDto dto=new OrderDto();
+                        dto.setPrice(product.getPrice());
+                        dto.setUserId(user.getId());
+                        Set<Long> longSet =new HashSet<>();
+                        longSet.add(product.getId());
+                        dto.setProductsId(longSet);
+                        insert(dto);
+                    }else {
+                        if (orderDto.getProductsId().contains(product.getId())){
+                            orderDto.getProductsId().add(product.getId());
+                            orderDto.setPrice(orderDto.getPrice()+product.getPrice());
+                            insert(orderDto);
+                        }
+                    }
+                    product.setQuantityInStock(product.getQuantityInStock()-1);
+                    productService.insert(product);
+                }
     }
-/*
 
     @Override
-    public void addProdToOrder(User user, ProductDTO product) throws ServiceException, DAOException {
-
-        List<OrderDto> usersOrders = getOrdersByUser(user);
-        OrderDto order = usersOrders.get(usersOrders.size()-1);
-
-        Product entityProd = productDAO.getById(product.getId());
-        Product productConverted=productConverter.convertToLocal(product,entityProd);
-
-        if(!order.getProducts().contains(productConverted)){
-            order.getProducts().add(productConverted);
-            order.setPrice(order.getPrice()+product.getPrice());
-        }else {
-            Set<Product> productSet= new HashSet<>();
-            productSet.add(productConverted);
-            OrderDto newOrder = new OrderDto();
-            newOrder.setUser(user);
-            newOrder.setComment("");
-            newOrder.setPrice(product.getPrice());
-            newOrder.setProducts(productSet);
-            insert(newOrder);
+    public void removeProdFromOrder(Long prodId, UserDTO userDTO) throws ServiceException {
+        List<OrderDto> orders =getOrdersByUser(userDTO);
+        for (OrderDto orderDto:orders){
+            if (orderDto.getProductsId().contains(prodId)){
+                orderDto.getProductsId().remove(prodId);
+                //todo minus k stoimosti zakaza
+                if(orderDto.getProductsId().isEmpty()){
+                        deleteById(orderDto.getId());
+                        break;
+                }else {insert(orderDto);}
+                break;
+            }
         }
-
-        insert(order);
-
-        product.setQuantityInStock(product.getQuantityInStock()-1);
-        productService.insert(product);
     }
-    */
+
+
 }

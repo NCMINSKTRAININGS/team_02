@@ -5,7 +5,6 @@ import by.netcracker.shop.dto.ProductDTO;
 import by.netcracker.shop.dto.UserDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
-import by.netcracker.shop.pojo.User;
 
 import java.util.List;
 
@@ -21,9 +20,11 @@ public interface OrderService {
 
     List<OrderDto> getOrdersByUser(UserDTO user) throws ServiceException;
 
+    List<ProductDTO> getProductsByOrders(List<OrderDto> orderDtos) throws  ServiceException;
+
     List<Object[]> getGroupedOrders() throws  ServiceException;
 
-    void addProdToOrder(User user, ProductDTO product) throws ServiceException, DAOException;
+    void addProdToOrder(UserDTO user, ProductDTO product) throws ServiceException, DAOException;
 
-
+    void removeProdFromOrder(Long id, UserDTO user) throws ServiceException;
 }

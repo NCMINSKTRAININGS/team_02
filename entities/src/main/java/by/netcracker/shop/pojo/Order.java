@@ -31,7 +31,7 @@ public class Order extends AbstractEntity<Long> {
     @Column(name = "price", nullable = false)
     private Integer price;
 
-    @ManyToMany(cascade = CascadeType.ALL, targetEntity = Product.class)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},targetEntity = Product.class)
     @JoinTable(name = "order_product",
             joinColumns = {@JoinColumn(name = "order_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
