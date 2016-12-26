@@ -4,7 +4,8 @@ import by.netcracker.shop.pojo.Category;
 import by.netcracker.shop.pojo.Manufacturer;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class ProductDTO {
 
@@ -28,11 +29,13 @@ public class ProductDTO {
     @NotNull
     private Integer quantityInStock;
 
+    private String image;
+
     public ProductDTO() {
     }
 
     public ProductDTO(Long id, Category category, Manufacturer manufacturer, String name, String description,
-                      Integer price, String keywords, Integer quantityInStock) {
+                      Integer price, String keywords, Integer quantityInStock, String image) {
         this.id = id;
         this.category = category;
         this.manufacturer = manufacturer;
@@ -41,6 +44,7 @@ public class ProductDTO {
         this.price = price;
         this.keywords = keywords;
         this.quantityInStock = quantityInStock;
+        this.image = image;
     }
 
     public Long getId() {
@@ -105,6 +109,14 @@ public class ProductDTO {
 
     public void setQuantityInStock(Integer quantityInStock) {
         this.quantityInStock = quantityInStock;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override
