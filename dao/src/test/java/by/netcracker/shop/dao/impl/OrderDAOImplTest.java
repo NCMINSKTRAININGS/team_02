@@ -12,9 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @ContextConfiguration("/test-dao-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -44,18 +42,17 @@ public class OrderDAOImplTest {
     private Payment payment;
     private Delivery delivery;
     private Order order;
-    private List<Product> products = new ArrayList<>();
+    private Set<Product> products = new HashSet<>();
     private List<Order> expectedOrders = new ArrayList<>();
     private Object[] expectedGroupedOrder = new Object[3];
 
 
     @Before
     public void setUp() throws Exception {
-       /* user = new User("test", "test", "test", "test", "test", "test", 0,
-                UserStatus.OFLINE, new Date(), UserRole.CLIENT);
+       user = new User("test", "test", "test", "test", "test", new Double(0),
+                UserStatus.OFLINE, new Date(), UserRole.CLIENT, null);
         userDAO.insert(user);
 
-*/
 
         payment = new Payment("test", "test");
         paymentDAO.insert(payment);
@@ -63,10 +60,12 @@ public class OrderDAOImplTest {
         delivery = new Delivery("test", "test");
         deliveryDAO.insert(delivery);
 
-      //  order = new Order(user, payment, delivery, "test", 0, products);
+        order = new Order(user, payment, delivery, "test", 0, products);
         orderDao.insert(order);
         expectedOrders.add(0, order);
 
+
+        expectedOrders.get(0);
         expectedGroupedOrder[0] = 1;
         expectedGroupedOrder[1] = "test";
         expectedGroupedOrder[2] = BigInteger.valueOf(1);
