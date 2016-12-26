@@ -20,12 +20,10 @@ public class User extends AbstractEntity<Long> {
     private String username;
     @Column(name = "password", nullable = false, length = 255)
     private String password;
-    @Column(name = "salt", nullable = false, length = 255)
-    private String salt;
     @Column(name = "email", length = 50)
     private String email;
     @Column(name = "discount", length = 2)
-    private int discount;
+    private Double discount;
     @Column(name = "status", columnDefinition = "ENUM('ONLINE', 'OFLINE', 'REMOVED', 'BANNED')", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserStatus status;
@@ -40,24 +38,23 @@ public class User extends AbstractEntity<Long> {
     public User(){
     }
 
-    public User(String firstName, String lastName, String username, String password, String salt,
-                String email, int discount, UserStatus status, Date birthday, UserRole role, List<Order> orders) {
-        this(null, firstName, lastName, username, password, salt, email, discount, status, birthday, role, orders);
+    public User(String firstName, String lastName, String username, String password, String email, Double discount,
+                UserStatus status, Date birthday, UserRole role, List<Order> orders) {
+        this(null, firstName, lastName, username, password, email, discount, status, birthday, role, orders);
     }
 
     public User(User user) {
         this(user.getId(), user.getFirstName(), user.getLastName(), user.getUsername(), user.getPassword(),
-                user.getSalt(), user.getEmail(), user.getDiscount(), user.getStatus(), user.getBirthday(), user.getRole(), user.getOrders());
+                user.getEmail(), user.getDiscount(), user.getStatus(), user.getBirthday(), user.getRole(), user.getOrders());
     }
 
-    public User(Long id, String firstName, String lastName, String username, String password, String salt,
-                String email, int discount, UserStatus status, Date birthday, UserRole role,List<Order> orders) {
+    public User(Long id, String firstName, String lastName, String username, String password,
+                String email, Double discount, UserStatus status, Date birthday, UserRole role,List<Order> orders) {
         super(id);
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
-        this.salt = salt;
         this.email = email;
         this.discount = discount;
         this.status = status;
@@ -98,14 +95,6 @@ public class User extends AbstractEntity<Long> {
         this.password = password;
     }
 
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -122,11 +111,11 @@ public class User extends AbstractEntity<Long> {
         this.email = email;
     }
 
-    public int getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(int discount) {
+    public void setDiscount(Double discount) {
         this.discount = discount;
     }
 
@@ -167,7 +156,6 @@ public class User extends AbstractEntity<Long> {
         if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
         if (username != null ? !username.equals(user.username) : user.username != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (salt != null ? !salt.equals(user.salt) : user.salt != null) return false;
         if (email != null ? !email.equals(user.email) : user.email != null) return false;
         if (status != user.status) return false;
         if (birthday != null ? !birthday.equals(user.birthday) : user.birthday != null) return false;
@@ -182,9 +170,8 @@ public class User extends AbstractEntity<Long> {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (salt != null ? salt.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + discount;
+        result = 31 * result + (discount != null ? discount.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
@@ -198,7 +185,6 @@ public class User extends AbstractEntity<Long> {
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", salt='" + salt + '\'' +
                 ", email='" + email + '\'' +
                 ", discount=" + discount +
                 ", status=" + status +

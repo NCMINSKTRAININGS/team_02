@@ -9,17 +9,18 @@ import java.util.Date;
 
 public class UserDTO {
     private Long id;
+    @Size(max = 45)
     private String firstName;
+    @Size(max = 45)
     private String lastName;
     @NotBlank
     @Size(min = 5, max = 45)
     private String username;
     @NotBlank
+    @Size(min = 5, max = 45)
     private String password;
-    @NotBlank
-    private String salt;
     private String email;
-    private int discount;
+    private Double discount;
     private UserStatus status;
     private Date birthday;
     private UserRole role;
@@ -28,13 +29,12 @@ public class UserDTO {
     }
 
     public UserDTO(String firstname, String lastName, String username, String password,
-                   String salt, String email, int discount, UserStatus status, Date birthday,
+                   String email, Double discount, UserStatus status, Date birthday,
                    UserRole role) {
         this.firstName = firstname;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
-        this.salt = salt;
         this.email = email;
         this.discount = discount;
         this.status = status;
@@ -82,14 +82,6 @@ public class UserDTO {
         this.password = password;
     }
 
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -98,11 +90,11 @@ public class UserDTO {
         this.email = email;
     }
 
-    public int getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(int discount) {
+    public void setDiscount(Double discount) {
         this.discount = discount;
     }
 

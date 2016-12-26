@@ -44,7 +44,10 @@
                 </tbody>
             </table>
         </sec:authorize>
-        <sec:authorize access="hasRole('CLIENT')">
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+            ty admin
+        </sec:authorize>
+        <sec:authorize access="hasRole('ROLE_CLIENT')">
             ty client
         </sec:authorize>
         <sec:authorize access="isAnonymous()">

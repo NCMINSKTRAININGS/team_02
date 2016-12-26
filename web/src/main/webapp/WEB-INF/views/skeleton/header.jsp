@@ -17,11 +17,11 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="<c:url value='/' />"><spring:message code="label.home"/></a></li>
-                <sec:authorize access="hasRole('ADMIN')">
+                <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <li><a href="<c:url value='/order/list' />"><spring:message code="label.order.list"/></a></li>
                 </sec:authorize>
                 <li><a href="<c:url value='/product/list' />"><spring:message code="label.product.list"/></a></li>
-                <sec:authorize access="hasRole('ADMIN')">
+                <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <li><a href="<c:url value='/delivery/list' />"><spring:message code="label.delivery.list"/></a></li>
                     <li><a href="<c:url value='/image/list' />"><spring:message code="label.image.list"/></a></li>
                 </sec:authorize>
@@ -33,7 +33,7 @@
                 <sec:authorize access="isAnonymous()">
                     <li><a href="/login">Login</a> </li>
                 </sec:authorize>
-                <sec:authorize access="hasAnyRole('ADMIN','CLIENT')">
+                <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_CLIENT')">
                     <li><a href="/logout">logout</a> </li>
                 </sec:authorize>
             </ul>
