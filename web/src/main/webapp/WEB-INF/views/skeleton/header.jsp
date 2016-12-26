@@ -34,6 +34,9 @@
                     <li><a href="/login">Login</a> </li>
                 </sec:authorize>
                 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_CLIENT')">
+                    <li><a href="/profile">profile</a> </li>
+                </sec:authorize>
+                <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_CLIENT')">
                     <li><a href="/logout">logout</a> </li>
                 </sec:authorize>
             </ul>

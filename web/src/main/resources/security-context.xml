@@ -11,6 +11,7 @@
         <intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/login" access="isAnonymous()" />
         <intercept-url pattern="/registration" access="isAnonymous()" />
+        <intercept-url pattern="/profile**" access="isAnonymous() == false " />
 
         <!-- access denied page -->
         <access-denied-handler error-page="/403" />

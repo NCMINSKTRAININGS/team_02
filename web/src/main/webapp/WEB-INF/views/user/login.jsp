@@ -28,7 +28,6 @@
                 <td><button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button></td>
             </tr>
             <tr>
-                <%--<td><button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button></td>--%>
                 <td><a class="btn btn-default btn-block" href="/registration" role="button">Create an account</a></td>
             </tr>
         </table>

@@ -8,6 +8,7 @@ import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -80,5 +81,30 @@ public class UserController {
                 Parameters.REQUEST_USER_LOGIN +
                 "?" +
                 Parameters.PARAMETER_LOGOUT;
+    }
+
+    @RequestMapping(value = Parameters.REQUEST_USER_PROFILE, method = RequestMethod.GET)
+    public String profile(ModelMap model,
+                          @RequestParam(value = Parameters.PARAMETER_ID, required = false) Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDTO user;
+        if (id == null) {
+            String username = auth.getName();
+            try {
+                user = service.getByUsername(username);
+            } catch (ServiceException e) {
+                //todo
+                return "redirect:" + Parameters.CONTROLLER_INDEX;
+            }
+            model.addAttribute(Parameters.FIELD_USER, user);
+        } else {
+//            try {
+//                user = service.getById(id);
+//            } catch (ServiceException e) {
+                //todo
+//            }
+            return "redirect:" + Parameters.CONTROLLER_INDEX;
+        }
+        return Parameters.TILES_USER_PROFILE;
     }
 }
