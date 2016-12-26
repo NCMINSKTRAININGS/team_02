@@ -37,7 +37,7 @@ public class ProductDAOImplTest {
 
     private Manufacturer manufacturer;
 
-    private static String assertMess;
+    //private static String assertMess;
 
     @BeforeClass
     public static void setUpClass() throws Exception {

@@ -51,11 +51,11 @@ public class OrderDAOImplTest {
 
     @Before
     public void setUp() throws Exception {
-        user = new User("test", "test", "test", "test", "test", "test", 0,
+       /* user = new User("test", "test", "test", "test", "test", "test", 0,
                 UserStatus.OFLINE, new Date(), UserRole.CLIENT);
         userDAO.insert(user);
 
-
+*/
 
         payment = new Payment("test", "test");
         paymentDAO.insert(payment);
@@ -63,7 +63,7 @@ public class OrderDAOImplTest {
         delivery = new Delivery("test", "test");
         deliveryDAO.insert(delivery);
 
-        order = new Order(user, payment, delivery, "test", 0, products);
+      //  order = new Order(user, payment, delivery, "test", 0, products);
         orderDao.insert(order);
         expectedOrders.add(0, order);
 
@@ -116,7 +116,7 @@ public class OrderDAOImplTest {
         order.setPayment(payment);
         order.setComment("comment");
         order.setDelivery(delivery);
-        order.setProducts(products);
+      //  order.setProducts(products);
         order.setPrice(90);
         orderDao.update(order);
         Assert.assertEquals(this.order, order);
