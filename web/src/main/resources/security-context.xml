@@ -17,10 +17,12 @@
         <form-login
                 login-page="/login"
                 default-target-url="/"
+                authentication-failure-url="/login?error"
                 username-parameter="username"
                 password-parameter="password"
                 login-processing-url="/auth/login_check" />
         <logout logout-success-url="/login?logout" delete-cookies="JSESSIONID" />
+
         <!-- enable csrf protection -->
         <!--<csrf disabled="true" />-->
         <csrf />

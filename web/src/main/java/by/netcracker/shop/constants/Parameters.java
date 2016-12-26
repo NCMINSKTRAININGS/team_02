@@ -24,12 +24,14 @@ public class Parameters {
     public static final String REQUEST_PRODUCT_IMAGE_DELETE = "/delete-image-{id}";
 
 //    Parameters
-    public static final String PARAMETERS_USER_LOGOUT = "logout";
+    public static final String PARAMETER_LOGOUT = "logout";
+    public static final String PARAMETER_ERROR = "error";
 
 //    Sessions
     public static final String ENTITY_USER = "user";
 
 //    Fields
+    public static final String FIELD_MESSAGE = "msg";
     public static final String FIELD_ERROR_MESSAGE = "errorMessage";
     public static final String FIELD_ORDERS = "orders";
     public static final String FIELD_PRODUCTS = "products";
@@ -39,7 +41,8 @@ public class Parameters {
     public static final String FIELD_PRODUCT_IMAGE = "image";
 
 //    Messages
-    public static final String MESSAGE_LOGIN_ERROR = "Invalid username or password";
+    public static final String MESSAGE_LOGIN_ERROR = "Invalid username or password!";
+    public static final String MESSAGE_LOGOUT = "You've been logged out successfully.";
     public static final String MESSAGE_WRONG_DATA_ERROR = "Wrong data";
     public static final String MESSAGE_USERNAME_EXIST_ERROR = "Username already exist";
 
