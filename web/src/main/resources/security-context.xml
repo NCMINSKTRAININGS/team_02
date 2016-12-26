@@ -9,6 +9,8 @@
     <!-- enable use-expressions -->
     <http auto-config="true" use-expressions="true">
         <intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/login" access="isAnonymous()" />
+        <intercept-url pattern="/registration" access="isAnonymous()" />
 
         <!-- access denied page -->
         <access-denied-handler error-page="/403" />
@@ -16,8 +18,11 @@
                 login-page="/login"
                 default-target-url="/"
                 username-parameter="username"
-                password-parameter="password" />
+                password-parameter="password"
+                login-processing-url="/auth/login_check" />
+        <logout logout-success-url="/login?logout" delete-cookies="JSESSIONID" />
         <!-- enable csrf protection -->
+        <!--<csrf disabled="true" />-->
         <csrf />
     </http>
 

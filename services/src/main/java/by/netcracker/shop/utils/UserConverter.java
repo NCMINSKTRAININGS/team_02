@@ -18,7 +18,6 @@ public class UserConverter implements Converter<User,UserDTO> {
         dto.setDiscount(user.getDiscount());
         dto.setRole(user.getRole());
         dto.setStatus(user.getStatus());
-        dto.setSalt(user.getSalt());
         dto.setPassword(user.getPassword());
         return dto;
     }
@@ -30,7 +29,6 @@ public class UserConverter implements Converter<User,UserDTO> {
         user.setEmail(userDTO.getEmail());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
-        user.setSalt(userDTO.getSalt());
         user.setDiscount(userDTO.getDiscount());
         user.setBirthday(userDTO.getBirthday());
         user.setRole(userDTO.getRole());
