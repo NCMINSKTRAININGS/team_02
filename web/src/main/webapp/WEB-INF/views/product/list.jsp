@@ -11,7 +11,10 @@
             <td><input class="btn btn-warning btn-xs" value="${createButton}" onclick="location.href='createproduct'"
                        type="button"/></td>
         </sec:authorize>
-        <sec:authorize access="hasRole('CLIENT')">
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+            ty admin
+        </sec:authorize>
+        <sec:authorize access="hasRole('ROLE_CLIENT')">
             ty client
         </sec:authorize>
         <sec:authorize access="isAnonymous()">

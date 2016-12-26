@@ -27,24 +27,33 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDTO user = null;
+        boolean enabled;
+        UserDetails result;
         try {
             user = userService.getByUsername(username);
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        if (user==null){
+        if (user == null) {
             throw new UsernameNotFoundException("Username not found");
         }
-        return new org.springframework.security.core.userdetails.User
-                (user.getUsername(),user.getPassword(),
-                        user.getStatus().equals(UserStatus.ONLINE)||equals(UserStatus.OFLINE),true,true,true,getGrantedAuthorities(user));
+        enabled = user.getStatus().equals(UserStatus.ONLINE) || user.getStatus().equals(UserStatus.OFLINE);
+        result = new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                enabled,
+                true,
+                true,
+                true,
+                getGrantedAuthorities(user));
+        return result;
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(UserDTO user){
+    private List<GrantedAuthority> getGrantedAuthorities(UserDTO user) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + UserRole.valueOf(String.valueOf(user.getRole()))));
-
-            return authorities;
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(
+                "ROLE_" + UserRole.valueOf(String.valueOf(user.getRole())));
+        authorities.add(authority);
+        return authorities;
     }
 }
