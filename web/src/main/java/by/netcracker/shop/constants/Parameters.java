@@ -11,6 +11,7 @@ public class Parameters {
 //    Request Mapping
     public static final String REQUEST_USER_LOGIN = "/login";
     public static final String REQUEST_USER_REGISTRATION = "/registration";
+    public static final String REQUEST_USER_LOGOUT = "/logout";
     public static final String REQUEST_ORDER_LIST = "/list";
     public static final String REQUEST_ORDER_SHOW = "/show-order-{id}";
     public static final String REQUEST_PRODUCT_LIST = "/list";
@@ -21,6 +22,9 @@ public class Parameters {
     public static final String REQUEST_PRODUCT_IMAGE_CREATE = "/new";
     public static final String REQUEST_PRODUCT_IMAGE_EDIT = "/update-image-{id}";
     public static final String REQUEST_PRODUCT_IMAGE_DELETE = "/delete-image-{id}";
+
+//    Parameters
+    public static final String PARAMETERS_USER_LOGOUT = "logout";
 
 //    Sessions
     public static final String ENTITY_USER = "user";

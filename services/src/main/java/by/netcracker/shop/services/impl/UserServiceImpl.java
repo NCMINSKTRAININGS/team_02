@@ -109,8 +109,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void insert(UserDTO user) throws ServiceException {
-        user.setStatus(UserStatus.ONLINE);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         User userEntity = userConverter.convertToLocal(user, new User());
         try {
             dao.update(userEntity);

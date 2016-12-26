@@ -4,19 +4,24 @@ import by.netcracker.shop.enums.UserRole;
 import by.netcracker.shop.enums.UserStatus;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class UserDTO {
     private Long id;
+//    @Null
+    @Size(max = 45)
     private String firstName;
+//    @Null
+    @Size(max = 45)
     private String lastName;
     @NotBlank
     @Size(min = 5, max = 45)
     private String username;
     @NotBlank
+    @Size(min = 5, max = 45)
     private String password;
-    @NotBlank
     private String salt;
     private String email;
     private int discount;
