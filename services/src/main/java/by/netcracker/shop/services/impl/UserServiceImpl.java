@@ -97,9 +97,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getByUsernamePasswordSalt(String username, String password, String salt) throws ServiceException {
+    public UserDTO getByUsernamePasswordSalt(String username, String password) throws ServiceException {
         try {
-            User user = dao.getByUsernamePasswordSalt(username, password, salt);
+            User user = dao.getByUsernamePasswordSalt(username, password);
             return userConverter.convertToFront(user);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);

@@ -34,7 +34,7 @@ public class UserDAOImplTest {
 
     @Before
     public void setUp() throws Exception {
-        user = new User("test", "test", String.valueOf(counter), "test", "test", "test", 0,
+        user = new User("test", "test", String.valueOf(counter), "test", "test", 0,
                 UserStatus.OFLINE, new Date(), UserRole.CLIENT, null);
         counter += 1;
     }
@@ -73,7 +73,6 @@ public class UserDAOImplTest {
         user.setDiscount(5);
         user.setBirthday(new Date());
         user.setPassword("new_password");
-        user.setSalt("new_salt");
         user.setStatus(UserStatus.ONLINE);
 
         userDAO.update(user);
@@ -198,7 +197,7 @@ public class UserDAOImplTest {
 
         id = userDAO.insert(user);
         user.setId(id);
-        newUser = userDAO.getByUsernamePasswordSalt(user.getUsername(), user.getPassword(), user.getSalt());
+        newUser = userDAO.getByUsernamePasswordSalt(user.getUsername(), user.getPassword());
 
         Assert.assertEquals(msg, user, newUser);
     }

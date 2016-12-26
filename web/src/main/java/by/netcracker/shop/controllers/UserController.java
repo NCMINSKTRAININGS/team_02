@@ -40,7 +40,6 @@ public class UserController {
     protected String registrationUser(@Valid @ModelAttribute(Parameters.FIELD_USER) UserDTO user) {
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setSalt("salt");
             user.setRole(UserRole.CLIENT);
             user.setStatus(UserStatus.ONLINE);
             service.insert(user);

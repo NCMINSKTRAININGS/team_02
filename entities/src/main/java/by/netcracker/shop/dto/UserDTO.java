@@ -4,16 +4,13 @@ import by.netcracker.shop.enums.UserRole;
 import by.netcracker.shop.enums.UserStatus;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class UserDTO {
     private Long id;
-//    @Null
     @Size(max = 45)
     private String firstName;
-//    @Null
     @Size(max = 45)
     private String lastName;
     @NotBlank
@@ -22,7 +19,6 @@ public class UserDTO {
     @NotBlank
     @Size(min = 5, max = 45)
     private String password;
-    private String salt;
     private String email;
     private int discount;
     private UserStatus status;
@@ -39,7 +35,6 @@ public class UserDTO {
         this.lastName = lastName;
         this.username = username;
         this.password = password;
-        this.salt = salt;
         this.email = email;
         this.discount = discount;
         this.status = status;
@@ -85,14 +80,6 @@ public class UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
     }
 
     public String getEmail() {
