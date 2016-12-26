@@ -23,7 +23,7 @@ public class User extends AbstractEntity<Long> {
     @Column(name = "email", length = 50)
     private String email;
     @Column(name = "discount", length = 2)
-    private int discount;
+    private Double discount;
     @Column(name = "status", columnDefinition = "ENUM('ONLINE', 'OFLINE', 'REMOVED', 'BANNED')", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserStatus status;
@@ -38,7 +38,7 @@ public class User extends AbstractEntity<Long> {
     public User(){
     }
 
-    public User(String firstName, String lastName, String username, String password, String email, int discount,
+    public User(String firstName, String lastName, String username, String password, String email, Double discount,
                 UserStatus status, Date birthday, UserRole role, List<Order> orders) {
         this(null, firstName, lastName, username, password, email, discount, status, birthday, role, orders);
     }
@@ -49,7 +49,7 @@ public class User extends AbstractEntity<Long> {
     }
 
     public User(Long id, String firstName, String lastName, String username, String password,
-                String email, int discount, UserStatus status, Date birthday, UserRole role,List<Order> orders) {
+                String email, Double discount, UserStatus status, Date birthday, UserRole role,List<Order> orders) {
         super(id);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -111,11 +111,11 @@ public class User extends AbstractEntity<Long> {
         this.email = email;
     }
 
-    public int getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(int discount) {
+    public void setDiscount(Double discount) {
         this.discount = discount;
     }
 
@@ -171,7 +171,7 @@ public class User extends AbstractEntity<Long> {
         result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + discount;
+        result = 31 * result + (discount != null ? discount.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);

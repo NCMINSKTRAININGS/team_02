@@ -20,7 +20,7 @@ public class UserDTO {
     @Size(min = 5, max = 45)
     private String password;
     private String email;
-    private int discount;
+    private Double discount;
     private UserStatus status;
     private Date birthday;
     private UserRole role;
@@ -29,7 +29,7 @@ public class UserDTO {
     }
 
     public UserDTO(String firstname, String lastName, String username, String password,
-                   String salt, String email, int discount, UserStatus status, Date birthday,
+                   String email, Double discount, UserStatus status, Date birthday,
                    UserRole role) {
         this.firstName = firstname;
         this.lastName = lastName;
@@ -90,11 +90,11 @@ public class UserDTO {
         this.email = email;
     }
 
-    public int getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(int discount) {
+    public void setDiscount(Double discount) {
         this.discount = discount;
     }
 

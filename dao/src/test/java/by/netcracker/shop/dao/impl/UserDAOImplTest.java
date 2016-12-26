@@ -34,7 +34,7 @@ public class UserDAOImplTest {
 
     @Before
     public void setUp() throws Exception {
-        user = new User("test", "test", String.valueOf(counter), "test", "test", 0,
+        user = new User("test", "test", String.valueOf(counter), "test", "test", new Double(0),
                 UserStatus.OFLINE, new Date(), UserRole.CLIENT, null);
         counter += 1;
     }
@@ -70,7 +70,7 @@ public class UserDAOImplTest {
         user.setUsername("new_username");
         user.setEmail("new@email.com");
         user.setRole(UserRole.ADMIN);
-        user.setDiscount(5);
+        user.setDiscount(new Double(5));
         user.setBirthday(new Date());
         user.setPassword("new_password");
         user.setStatus(UserStatus.ONLINE);
