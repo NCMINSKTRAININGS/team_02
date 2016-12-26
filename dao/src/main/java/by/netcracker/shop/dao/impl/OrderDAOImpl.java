@@ -29,7 +29,7 @@ public class OrderDAOImpl extends AbstractDAO<Long,Order> implements OrderDAO {
 
     @Override
     public List<Object[]> getGroupedOrders() throws DAOException {
-        String hql="select user_id,username, COUNT(*) from `order` INNER JOIN user ON `order`.user_id = user.id GROUP BY user_id";
+        String hql="select user_id,username, COUNT(*) from `order` INNER JOIN user ON `order`.user_id = user.id WHERE produced=0 GROUP BY user_id";
         return getSession().createSQLQuery(hql).list();
     }
 }

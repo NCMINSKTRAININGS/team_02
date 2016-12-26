@@ -1,5 +1,6 @@
 package by.netcracker.shop.services.impl;
 
+import by.netcracker.shop.constants.ServiceConstants;
 import by.netcracker.shop.dao.OrderDAO;
 import by.netcracker.shop.dao.ProductDAO;
 import by.netcracker.shop.dao.UserDAO;
@@ -111,7 +112,7 @@ public class OrderServiceImpl implements OrderService {
             User user = userDAO.getByUsername(userDTO.getUsername());
             orders = dao.getOrdersByUser(user);
         } catch (DAOException e) {
-          //  logger.error(ServiceConstants.ERROR_SERVICE, e.getCause());
+            logger.error(ServiceConstants.ERROR_SERVICE, e.getCause());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
@@ -159,11 +160,13 @@ public class OrderServiceImpl implements OrderService {
                         Set<Long> longSet =new HashSet<>();
                         longSet.add(product.getId());
                         dto.setProductsId(longSet);
+                        dto.setProduced(false);
                         insert(dto);
                     }else {
                         if (orderDto.getProductsId().contains(product.getId())){
                             orderDto.getProductsId().add(product.getId());
                             orderDto.setPrice(orderDto.getPrice()+product.getPrice());
+                            orderDto.setProduced(false);
                             insert(orderDto);
                         }
                     }

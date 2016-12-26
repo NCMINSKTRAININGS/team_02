@@ -16,19 +16,20 @@ public class OrderDto {
 
     @NotNull
     @Min(1) @Max(999999999)
-    private Integer price;
+    private Double price;
 
     private Long userId;
     private Long deliveryId;
     private Long paymentId;
     private Set<Long> productsId = new HashSet<>();
+    private Boolean isProduced;
 
     public OrderDto() {
     }
 
-    public OrderDto(Long id, String comment, Integer price,
+    public OrderDto(Long id, String comment, Double price,
                     Long userId, Long deliveryId, Long paymentId,
-                    Set<Long> productsId) {
+                    Set<Long> productsId, Boolean isProduced) {
         this.id = id;
         this.comment = comment;
         this.price = price;
@@ -36,6 +37,7 @@ public class OrderDto {
         this.deliveryId = deliveryId;
         this.paymentId = paymentId;
         this.productsId = productsId;
+        this.isProduced = isProduced;
     }
 
     public Long getId() {
@@ -54,11 +56,11 @@ public class OrderDto {
         this.comment = comment;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -94,6 +96,14 @@ public class OrderDto {
         this.productsId = productsId;
     }
 
+    public Boolean getProduced() {
+        return isProduced;
+    }
+
+    public void setProduced(Boolean produced) {
+        isProduced = produced;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -111,7 +121,9 @@ public class OrderDto {
             return false;
         if (getPaymentId() != null ? !getPaymentId().equals(orderDto.getPaymentId()) : orderDto.getPaymentId() != null)
             return false;
-        return getProductsId() != null ? getProductsId().equals(orderDto.getProductsId()) : orderDto.getProductsId() == null;
+        if (getProductsId() != null ? !getProductsId().equals(orderDto.getProductsId()) : orderDto.getProductsId() != null)
+            return false;
+        return isProduced != null ? isProduced.equals(orderDto.isProduced) : orderDto.isProduced == null;
 
     }
 
@@ -124,6 +136,7 @@ public class OrderDto {
         result = 31 * result + (getDeliveryId() != null ? getDeliveryId().hashCode() : 0);
         result = 31 * result + (getPaymentId() != null ? getPaymentId().hashCode() : 0);
         result = 31 * result + (getProductsId() != null ? getProductsId().hashCode() : 0);
+        result = 31 * result + (isProduced != null ? isProduced.hashCode() : 0);
         return result;
     }
 
@@ -137,6 +150,7 @@ public class OrderDto {
                 ", deliveryId=" + deliveryId +
                 ", paymentId=" + paymentId +
                 ", productsId=" + productsId +
+                ", isProduced=" + isProduced +
                 '}';
     }
 }

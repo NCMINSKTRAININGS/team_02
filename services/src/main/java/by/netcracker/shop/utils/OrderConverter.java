@@ -33,10 +33,13 @@ public class OrderConverter implements Converter<Order, OrderDto> {
         if(order.getDelivery()!=null){
             orderDto.setDeliveryId(order.getDelivery().getId());
         }else {orderDto.setDeliveryId(null);}
+
         if (order.getPayment()!=null){
             orderDto.setPaymentId(order.getPayment().getId());
         }else {orderDto.setPaymentId(null);}
+
         orderDto.setPrice(order.getPrice());
+        orderDto.setProduced(order.getProduced());
 
         for (Product product: order.getProducts()) {
             orderDto.getProductsId().add(product.getId());
@@ -56,6 +59,7 @@ public class OrderConverter implements Converter<Order, OrderDto> {
             for (Long productId :orderDto.getProductsId()){
                 order.getProducts().add(productDAO.getById(productId));
             }
+            order.setProduced(orderDto.getProduced());
         } catch (DAOException e) {
             e.printStackTrace();
         }

@@ -2,6 +2,7 @@ package by.netcracker.shop.pojo;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -29,7 +30,11 @@ public class Order extends AbstractEntity<Long> {
     private String comment;
 
     @Column(name = "price", nullable = false)
-    private Integer price;
+    private Double price;
+
+    @Column(name = "produced",columnDefinition = "TINYINT",nullable = false)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private Boolean isProduced;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},targetEntity = Product.class)
     @JoinTable(name = "order_product",
@@ -41,13 +46,14 @@ public class Order extends AbstractEntity<Long> {
     }
 
     public Order(User user, Payment payment, Delivery delivery,
-                 String comment, Integer price, Set<Product> products) {
+                 String comment, Double price, Set<Product> products, Boolean isProduced) {
         this.user = user;
         this.payment = payment;
         this.delivery = delivery;
         this.comment = comment;
         this.price = price;
         this.products = products;
+        this.isProduced = isProduced;
     }
 
     public User getUser() {
@@ -82,11 +88,11 @@ public class Order extends AbstractEntity<Long> {
         this.comment = comment;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -98,8 +104,17 @@ public class Order extends AbstractEntity<Long> {
         this.products = products;
     }
 
+    public Boolean getProduced() {
+        return isProduced;
+    }
+
+    public void setProduced(Boolean produced) {
+        isProduced = produced;
+    }
+
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (!(o instanceof Order)) return false;
         if (!super.equals(o)) return false;
@@ -112,6 +127,7 @@ public class Order extends AbstractEntity<Long> {
             return false;
         if (getComment() != null ? !getComment().equals(order.getComment()) : order.getComment() != null) return false;
         if (getPrice() != null ? !getPrice().equals(order.getPrice()) : order.getPrice() != null) return false;
+        if (isProduced != null ? !isProduced.equals(order.isProduced) : order.isProduced != null) return false;
         return getProducts() != null ? getProducts().equals(order.getProducts()) : order.getProducts() == null;
 
     }
@@ -124,6 +140,7 @@ public class Order extends AbstractEntity<Long> {
         result = 31 * result + (getDelivery() != null ? getDelivery().hashCode() : 0);
         result = 31 * result + (getComment() != null ? getComment().hashCode() : 0);
         result = 31 * result + (getPrice() != null ? getPrice().hashCode() : 0);
+        result = 31 * result + (isProduced != null ? isProduced.hashCode() : 0);
         result = 31 * result + (getProducts() != null ? getProducts().hashCode() : 0);
         return result;
     }

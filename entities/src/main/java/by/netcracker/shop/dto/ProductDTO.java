@@ -21,7 +21,7 @@ public class ProductDTO {
     private String description;
 
     @NotNull
-    private Integer price;
+    private Double price;
 
     private String keywords;
 
@@ -32,7 +32,7 @@ public class ProductDTO {
     }
 
     public ProductDTO(Long id, Category category, Manufacturer manufacturer, String name, String description,
-                      Integer price, String keywords, Integer quantityInStock) {
+                      Double price, String keywords, Integer quantityInStock) {
         this.id = id;
         this.category = category;
         this.manufacturer = manufacturer;
@@ -83,11 +83,11 @@ public class ProductDTO {
         this.description = description;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

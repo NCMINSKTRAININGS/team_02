@@ -23,7 +23,7 @@ public class Product extends AbstractEntity<Long> {
     private String description;
 
     @Column(name = "price", nullable = false)
-    private Integer price;
+    private Double price;
 
     @Column(name = "keywords", nullable = false)
     private String keywords;
@@ -40,7 +40,7 @@ public class Product extends AbstractEntity<Long> {
     }
 
     public Product(Category category, Manufacturer manufacturer, String name,
-                   String description, Integer price, String keywords, Integer quantityInStock) {
+                   String description, Double price, String keywords, Integer quantityInStock) {
         this.category = category;
         this.manufacturer = manufacturer;
         this.name = name;
@@ -83,11 +83,11 @@ public class Product extends AbstractEntity<Long> {
         this.description = description;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
