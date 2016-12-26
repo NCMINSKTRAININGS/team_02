@@ -21,6 +21,8 @@
         <csrf />
     </http>
 
+    <global-method-security pre-post-annotations="enabled"/>
+
     <authentication-manager>
         <authentication-provider user-service-ref="customUserDetailsService" >
             <password-encoder ref="passwordEncoder" />
