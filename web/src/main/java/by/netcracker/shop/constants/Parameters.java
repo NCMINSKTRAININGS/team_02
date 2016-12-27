@@ -34,6 +34,7 @@ public class Parameters {
     public static final String FIELD_ORDERS = "orders";
     public static final String FIELD_PRODUCTS = "products";
     public static final String FIELD_PRODUCT = "product";
+    public static final String FIELD_PRODUCT_DTO = "dto";
     public static final String FIELD_USER = "user";
     public static final String FIELD_PRODUCT_IMAGES = "images";
     public static final String FIELD_PRODUCT_IMAGE = "image";

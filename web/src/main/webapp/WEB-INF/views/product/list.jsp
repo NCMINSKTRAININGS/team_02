@@ -12,8 +12,8 @@
             <table class="table table-hover" id="productList">
                 <thead>
                 <tr>
-                    <th><spring:message code="label.product.field.category"/></th>
-                    <th><spring:message code="label.product.field.manufacturer"/></th>
+                    <th><spring:message code="label.product.field.categoryId"/></th>
+                    <th><spring:message code="label.product.field.manufacturerId"/></th>
                     <th><spring:message code="label.product.field.name"/></th>
                     <th><spring:message code="label.product.field.description"/></th>
                     <th><spring:message code="label.product.field.price"/></th>
@@ -24,8 +24,8 @@
                 <tbody>
                 <c:forEach items="${products}" var="product">
                     <tr>
-                        <td>${product.category.name}</td>
-                        <td>${product.manufacturer.name}</td>
+                        <td>${product.categoryName}</td>
+                        <td>${product.manufacturerName}</td>
                         <td>${product.name}</td>
                         <td>${product.description}</td>
                         <td>${product.price}</td>
@@ -61,8 +61,8 @@
         <div class="item">
             <img src="${product.image}">
             <br>
-            <spring:message code="label.product.field.category"/> ${product.category.name} <br>
-            <spring:message code="label.product.field.manufacturer"/> ${product.manufacturer.name} <br>
+            <spring:message code="label.product.field.categoryId"/> ${product.categoryName} <br>
+            <spring:message code="label.product.field.manufacturerId"/> ${product.manufacturerName} <br>
             <spring:message code="label.product.field.name"/> ${product.name} <br>
             <spring:message code="label.product.field.description"/> ${product.description} <br>
             <spring:message code="label.product.field.price"/> ${product.price} <br>
