@@ -7,7 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderConverter {
     public OrderDTO toOrderDTO(Order order) {
-        OrderDTO orderDTO = new OrderDTO();
+        OrderDTO orderDTO;
+        if (order == null)
+            return null;
+        orderDTO = new OrderDTO();
         orderDTO.setId(order.getId());
         orderDTO.setUser(order.getUser());
         orderDTO.setComment(order.getComment());
@@ -22,6 +25,8 @@ public class OrderConverter {
     }
 
     public Order toOrderPOJO(OrderDTO orderDTO, Order order) {
+        if (orderDTO == null || order == null)
+            return null;
         order.setUser(orderDTO.getUser());
         order.setPrice(orderDTO.getPrice());
         order.setPayment(orderDTO.getPayment());
