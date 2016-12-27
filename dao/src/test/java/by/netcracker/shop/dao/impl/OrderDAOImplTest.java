@@ -60,7 +60,7 @@ public class OrderDAOImplTest {
         delivery = new Delivery("test", "test");
         deliveryDAO.insert(delivery);
 
-        order = new Order(user, payment, delivery, "test", 0d, products);
+        order = new Order(user, payment, delivery, "test", 0d, false);
         orderDao.insert(order);
         expectedOrders.add(0, order);
 

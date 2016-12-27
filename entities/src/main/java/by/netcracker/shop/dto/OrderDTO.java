@@ -1,10 +1,5 @@
 package by.netcracker.shop.dto;
 
-import by.netcracker.shop.pojo.Delivery;
-import by.netcracker.shop.pojo.Payment;
-import by.netcracker.shop.pojo.Product;
-import by.netcracker.shop.pojo.User;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -32,7 +27,7 @@ public class OrderDTO {
     public OrderDTO() {
     }
 
-    public OrderDto(Long id, String comment, Double price,
+    public OrderDTO(Long id, String comment, Double price,
                     Long userId, Long deliveryId, Long paymentId,
                     Set<Long> productsId, Boolean isProduced) {
         this.id = id;
@@ -112,23 +107,23 @@ public class OrderDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof OrderDto)) return false;
+        if (!(o instanceof OrderDTO)) return false;
 
-        OrderDto orderDto = (OrderDto) o;
+        OrderDTO orderDTO = (OrderDTO) o;
 
-        if (getId() != null ? !getId().equals(orderDto.getId()) : orderDto.getId() != null) return false;
-        if (getComment() != null ? !getComment().equals(orderDto.getComment()) : orderDto.getComment() != null)
+        if (getId() != null ? !getId().equals(orderDTO.getId()) : orderDTO.getId() != null) return false;
+        if (getComment() != null ? !getComment().equals(orderDTO.getComment()) : orderDTO.getComment() != null)
             return false;
-        if (getPrice() != null ? !getPrice().equals(orderDto.getPrice()) : orderDto.getPrice() != null) return false;
-        if (getUserId() != null ? !getUserId().equals(orderDto.getUserId()) : orderDto.getUserId() != null)
+        if (getPrice() != null ? !getPrice().equals(orderDTO.getPrice()) : orderDTO.getPrice() != null) return false;
+        if (getUserId() != null ? !getUserId().equals(orderDTO.getUserId()) : orderDTO.getUserId() != null)
             return false;
-        if (getDeliveryId() != null ? !getDeliveryId().equals(orderDto.getDeliveryId()) : orderDto.getDeliveryId() != null)
+        if (getDeliveryId() != null ? !getDeliveryId().equals(orderDTO.getDeliveryId()) : orderDTO.getDeliveryId() != null)
             return false;
-        if (getPaymentId() != null ? !getPaymentId().equals(orderDto.getPaymentId()) : orderDto.getPaymentId() != null)
+        if (getPaymentId() != null ? !getPaymentId().equals(orderDTO.getPaymentId()) : orderDTO.getPaymentId() != null)
             return false;
-        if (getProductsId() != null ? !getProductsId().equals(orderDto.getProductsId()) : orderDto.getProductsId() != null)
+        if (getProductsId() != null ? !getProductsId().equals(orderDTO.getProductsId()) : orderDTO.getProductsId() != null)
             return false;
-        return isProduced != null ? isProduced.equals(orderDto.isProduced) : orderDto.isProduced == null;
+        return isProduced != null ? isProduced.equals(orderDTO.isProduced) : orderDTO.isProduced == null;
 
     }
 

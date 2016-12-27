@@ -50,7 +50,7 @@ public class OrderProductConverter {
 
     public OrderProduct convertToLocal(OrderProductDTO orderProductDTO, OrderProduct orderProduct) throws ServiceException {
         orderProduct.setOrder(orderConverter.convertToLocal(orderService.getById(orderProductDTO.getOrderId()),orderProduct.getOrder()));
-        orderProduct.setProduct(productConverter.convertToLocal(productService.getById(orderProductDTO.getProductId()),orderProduct.getProduct()));
+        orderProduct.setProduct(productConverter.toProductPOJO(productService.getById(orderProductDTO.getProductId()),orderProduct.getProduct()));
         orderProduct.setPruductQuantity(orderProductDTO.getProductQuantityInOrder());
         orderProduct.setPrice(orderProductDTO.getProductPrice());
         return orderProduct;
