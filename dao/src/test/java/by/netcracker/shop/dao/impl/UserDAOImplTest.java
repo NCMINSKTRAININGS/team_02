@@ -190,14 +190,14 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void getUserByLogin() throws Exception {
+    public void getByUsernamePassword() throws Exception {
         String msg = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMsg;
         User newUser;
         Long id;
 
         id = userDAO.insert(user);
         user.setId(id);
-        newUser = userDAO.getByUsernamePasswordSalt(user.getUsername(), user.getPassword());
+        newUser = userDAO.getByUsernamePassword(user.getUsername(), user.getPassword());
 
         Assert.assertEquals(msg, user, newUser);
     }
@@ -206,10 +206,8 @@ public class UserDAOImplTest {
     public void getByUsername() throws Exception {
         String msg = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMsg;
         User newUser;
-        Long id;
 
-        id = userDAO.insert(user);
-        user.setId(id);
+        userDAO.insert(user);
         newUser = userDAO.getByUsername(user.getUsername());
 
         Assert.assertEquals(msg, user, newUser);

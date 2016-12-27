@@ -96,6 +96,9 @@ public class UserController {
                 //todo
                 return "redirect:" + Parameters.CONTROLLER_INDEX;
             }
+//            return "redirect:" + Parameters.CONTROLLER_USER +
+//                    Parameters.REQUEST_USER_PROFILE + "?" +
+//                    Parameters.PARAMETER_ID + "=" + user.getId();
             model.addAttribute(Parameters.FIELD_USER, user);
         } else {
 //            try {

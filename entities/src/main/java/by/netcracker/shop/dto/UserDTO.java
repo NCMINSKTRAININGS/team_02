@@ -28,10 +28,10 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(String firstname, String lastName, String username, String password,
+    public UserDTO(String firstName, String lastName, String username, String password,
                    String email, Double discount, UserStatus status, Date birthday,
                    UserRole role) {
-        this.firstName = firstname;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
@@ -120,5 +120,56 @@ public class UserDTO {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserDTO userDTO = (UserDTO) o;
+
+        if (id != null ? !id.equals(userDTO.id) : userDTO.id != null) return false;
+        if (firstName != null ? !firstName.equals(userDTO.firstName) : userDTO.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(userDTO.lastName) : userDTO.lastName != null) return false;
+        if (username != null ? !username.equals(userDTO.username) : userDTO.username != null) return false;
+        if (password != null ? !password.equals(userDTO.password) : userDTO.password != null) return false;
+        if (email != null ? !email.equals(userDTO.email) : userDTO.email != null) return false;
+        if (discount != null ? !discount.equals(userDTO.discount) : userDTO.discount != null) return false;
+        if (status != userDTO.status) return false;
+        if (birthday != null ? !birthday.equals(userDTO.birthday) : userDTO.birthday != null) return false;
+        return role == userDTO.role;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (discount != null ? discount.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", discount=" + discount +
+                ", status=" + status +
+                ", birthday=" + birthday +
+                ", role=" + role +
+                '}';
     }
 }

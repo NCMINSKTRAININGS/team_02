@@ -3,12 +3,14 @@ package by.netcracker.shop.controllers;
 import by.netcracker.shop.constants.Parameters;
 import by.netcracker.shop.dto.OrderDto;
 import by.netcracker.shop.dto.ProductDTO;
+import by.netcracker.shop.dto.UserDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.User;
 import by.netcracker.shop.services.OrderService;
 import by.netcracker.shop.services.ProductService;
 import by.netcracker.shop.services.UserService;
+import by.netcracker.shop.utils.UserConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,6 +33,9 @@ public class OrderController {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    private UserConverter userConverter;
+
     @RequestMapping(value = Parameters.REQUEST_ORDER_LIST, method = RequestMethod.GET)
     public String listOrders(ModelMap modelMap){
         List orders= null;
@@ -47,8 +52,10 @@ public class OrderController {
     public String showOrder(@PathVariable Long id, ModelMap modelMap){
         List<OrderDto> dtoList = null;
         User user;
+        UserDTO userDTO;//todo fixed
         try {
-            user= userService.getById(id);
+            userDTO = userService.getById(id);
+            user = userConverter.convertToLocal(userDTO, new User());
             dtoList = orderService.getOrdersByUser(user);
         } catch (ServiceException e) {
             //todo
