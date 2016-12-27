@@ -19,12 +19,11 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional(transactionManager = "transactionManager")
 public class UserDAOImplTest {
+    private static String assertMsg;
+    private static int counter;
     @Autowired
     private UserDAO userDAO;
-
-    private static String assertMsg;
     private User user;
-    private static int counter;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
