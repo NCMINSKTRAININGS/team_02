@@ -21,7 +21,7 @@ public class OrderDTO {
 
     @NotNull
     @Min(1) @Max(999999999)
-    private Integer price;
+    private Double price;
 
     private User user;
     private Delivery delivery;
@@ -31,7 +31,7 @@ public class OrderDTO {
     public OrderDTO() {
     }
 
-    public OrderDTO(Long id, String comment, Integer price,
+    public OrderDTO(Long id, String comment, Double price,
                     User user, Delivery delivery, Payment payment,
                     Set<Product> products) {
         this.id = id;
@@ -59,11 +59,11 @@ public class OrderDTO {
         this.comment = comment;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
