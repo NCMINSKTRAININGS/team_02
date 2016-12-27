@@ -39,7 +39,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        return converter.convertToFront(manufacturerPOJO);
+        return converter.toManufacturerDTO(manufacturerPOJO);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
             }
             if (manufacturerPOJO == null)
                 manufacturerPOJO = new Manufacturer();
-            dao.insert(converter.convertToLocal(manufacturerDTO, manufacturerPOJO));
+            dao.insert(converter.toManufacturerPOJO(manufacturerDTO, manufacturerPOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -72,7 +72,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         }
         manufacturerDTOs = new ArrayList<>(manufacturerPOJOs.size());
         for (Manufacturer manufacturer: manufacturerPOJOs){
-            manufacturerDTOs.add(converter.convertToFront(manufacturer));
+            manufacturerDTOs.add(converter.toManufacturerDTO(manufacturer));
         }
         return manufacturerDTOs;
     }

@@ -54,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
             }
             if (orderPOJO == null)
                 orderPOJO = new Order();
-            dao.insert(orderConverter.convertToLocal(orderDTO, orderPOJO));
+            dao.insert(orderConverter.toOrderPOJO(orderDTO, orderPOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -72,7 +72,7 @@ public class OrderServiceImpl implements OrderService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        return orderConverter.convertToFront(orderPOJO);
+        return orderConverter.toOrderDTO(orderPOJO);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class OrderServiceImpl implements OrderService {
         }
         orderDTOs = new ArrayList<>(orderPOJOs.size());
         for (Order order : orderPOJOs) {
-            orderDTOs.add(orderConverter.convertToFront(order));
+            orderDTOs.add(orderConverter.toOrderDTO(order));
         }
         return orderDTOs;
     }
@@ -117,7 +117,7 @@ public class OrderServiceImpl implements OrderService {
         }
         orderDTOs = new ArrayList<>(orderPOJOs.size());
         for (Order order : orderPOJOs) {
-            orderDTOs.add(orderConverter.convertToFront(order));
+            orderDTOs.add(orderConverter.toOrderDTO(order));
         }
         return orderDTOs;
     }
@@ -156,7 +156,7 @@ public class OrderServiceImpl implements OrderService {
             //todo
             e.printStackTrace();
         }
-        Product productConverted=productConverter.convertToLocal(product, entityProd, categoryPOJO, manufacturerPOJO);
+        Product productConverted=productConverter.toProductPOJO(product, entityProd, categoryPOJO, manufacturerPOJO);
 
         if(!order.getProducts().contains(productConverted)){
             order.getProducts().add(productConverted);

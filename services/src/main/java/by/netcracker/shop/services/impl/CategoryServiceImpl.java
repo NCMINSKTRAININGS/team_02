@@ -39,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        return converter.convertToFront(categoryPOJO);
+        return converter.toCategoryDTO(categoryPOJO);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
             }
             if (categoryPOJO == null)
                 categoryPOJO = new Category();
-            dao.insert(converter.convertToLocal(categoryDTO, categoryPOJO));
+            dao.insert(converter.toCategoryPOJO(categoryDTO, categoryPOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -72,7 +72,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
         categoryDTOs = new ArrayList<>(categoryPOJOs.size());
         for (Category category : categoryPOJOs) {
-            categoryDTOs.add(converter.convertToFront(category));
+            categoryDTOs.add(converter.toCategoryDTO(category));
         }
         return categoryDTOs;
     }

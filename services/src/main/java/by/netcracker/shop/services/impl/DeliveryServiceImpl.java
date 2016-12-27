@@ -37,7 +37,7 @@ public class DeliveryServiceImpl implements DeliveryService {
             }
             if (deliveryPOJO == null)
                 deliveryPOJO = new Delivery();
-            deliveryDAO.insert(converter.convertToLocal(deliveryDTO, deliveryPOJO));
+            deliveryDAO.insert(converter.toDeliveryPOJO(deliveryDTO, deliveryPOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -55,7 +55,7 @@ public class DeliveryServiceImpl implements DeliveryService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        return converter.convertToFront(deliveryPOJO);
+        return converter.toDeliveryDTO(deliveryPOJO);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         }
         deliveryDTOs = new ArrayList<>(deliveryPOJOs.size());
         for (Delivery delivery : deliveryPOJOs) {
-            deliveryDTOs.add(converter.convertToFront(delivery));
+            deliveryDTOs.add(converter.toDeliveryDTO(delivery));
         }
         return deliveryDTOs;
     }

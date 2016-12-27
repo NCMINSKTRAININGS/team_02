@@ -4,7 +4,6 @@ import by.netcracker.shop.constants.Parameters;
 import by.netcracker.shop.dto.OrderDTO;
 import by.netcracker.shop.dto.ProductDTO;
 import by.netcracker.shop.dto.UserDTO;
-import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.User;
 import by.netcracker.shop.services.OrderService;
@@ -55,7 +54,7 @@ public class OrderController {
         UserDTO userDTO;//todo fixed
         try {
             userDTO = userService.getById(id);
-            user = userConverter.convertToLocal(userDTO, new User());
+            user = userConverter.toUserPOJO(userDTO, new User(), null);
             dtoList = orderService.getOrdersByUser(user);
         } catch (ServiceException e) {
             //todo

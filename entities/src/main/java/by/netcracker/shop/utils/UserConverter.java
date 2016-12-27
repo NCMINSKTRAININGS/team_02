@@ -1,13 +1,15 @@
 package by.netcracker.shop.utils;
 
 import by.netcracker.shop.dto.UserDTO;
+import by.netcracker.shop.pojo.Order;
 import by.netcracker.shop.pojo.User;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
-public class UserConverter implements Converter<User,UserDTO> {
-    @Override
-    public UserDTO convertToFront(User user) {
+public class UserConverter {
+    public UserDTO toUserDTO(User user) {
         UserDTO dto = new UserDTO();
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
@@ -22,8 +24,7 @@ public class UserConverter implements Converter<User,UserDTO> {
         return dto;
     }
 
-    @Override
-    public User convertToLocal(UserDTO userDTO, User user) {
+    public User toUserPOJO(UserDTO userDTO, User user, List<Order> orders) {
         user.setId(userDTO.getId());
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
@@ -34,6 +35,7 @@ public class UserConverter implements Converter<User,UserDTO> {
         user.setRole(userDTO.getRole());
         user.setStatus(userDTO.getStatus());
         user.setPassword(userDTO.getPassword());
+        user.setOrders(orders);
         return user;
     }
 }

@@ -5,6 +5,7 @@ import by.netcracker.shop.dao.UserDAO;
 import by.netcracker.shop.dto.UserDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
+import by.netcracker.shop.pojo.Order;
 import by.netcracker.shop.pojo.User;
 import by.netcracker.shop.services.UserService;
 import by.netcracker.shop.utils.UserConverter;
@@ -31,13 +32,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public Long insert(UserDTO userDTO) throws ServiceException {
         User userPOJO = null;
+        List<Order> orderPOJOs = null;
         Long id;
         try {
             if (userDTO.getId() != null)
                 userPOJO = dao.getById(userDTO.getId());
-            if (userPOJO == null)
+            if (userPOJO == null) {
                 userPOJO = new User();
-            userPOJO = userConverter.convertToLocal(userDTO, userPOJO);
+            } else orderPOJOs = userPOJO.getOrders();
+            userPOJO = userConverter.toUserPOJO(userDTO, userPOJO, orderPOJOs);
             id = dao.insert(userPOJO);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
@@ -58,7 +61,7 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(e);
         }
         if (userPOJO != null)
-            userDTO = userConverter.convertToFront(userPOJO);
+            userDTO = userConverter.toUserDTO(userPOJO);
         return userDTO;
     }
 
@@ -71,7 +74,7 @@ public class UserServiceImpl implements UserService {
             if (userPOJO == null) {
                 throw new ServiceException();
             }
-            userPOJO = userConverter.convertToLocal(userDTO, userPOJO);
+            userPOJO = userConverter.toUserPOJO(userDTO, userPOJO, userPOJO.getOrders());
             dao.update(userPOJO);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
@@ -100,7 +103,7 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(e);
         }
         for (User userPOJO : userPOJOs) {
-            userDTOs.add(userConverter.convertToFront(userPOJO));
+            userDTOs.add(userConverter.toUserDTO(userPOJO));
         }
         return userDTOs;
     }
@@ -114,7 +117,7 @@ public class UserServiceImpl implements UserService {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
-        return userConverter.convertToFront(userPOJO);
+        return userConverter.toUserDTO(userPOJO);
     }
 
     @Override
@@ -126,7 +129,7 @@ public class UserServiceImpl implements UserService {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
-        return userConverter.convertToFront(userPOJO);
+        return userConverter.toUserDTO(userPOJO);
     }
 
     @Override
@@ -152,7 +155,7 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(e);
         }
         for (User userPOJO : userPOJOs) {
-            userDTOs.add(userConverter.convertToFront(userPOJO));
+            userDTOs.add(userConverter.toUserDTO(userPOJO));
         }
         return userDTOs;
     }

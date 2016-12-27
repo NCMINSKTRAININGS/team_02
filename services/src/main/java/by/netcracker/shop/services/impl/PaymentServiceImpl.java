@@ -38,7 +38,7 @@ public class PaymentServiceImpl implements PaymentService {
             }
             if (paymentPOJO == null)
                 paymentPOJO = new Payment();
-            paymentDAO.insert(converter.convertToLocal(paymentDTO, paymentPOJO));
+            paymentDAO.insert(converter.toPaymentPOJO(paymentDTO, paymentPOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -56,7 +56,7 @@ public class PaymentServiceImpl implements PaymentService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException();
         }
-        return converter.convertToFront(paymentPOJO);
+        return converter.toPaymentDTO(paymentPOJO);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class PaymentServiceImpl implements PaymentService {
         }
         paymentDTOs = new ArrayList<>(paymentPOJOs.size());
         for (Payment payment: paymentPOJOs) {
-            paymentDTOs.add(converter.convertToFront(payment));
+            paymentDTOs.add(converter.toPaymentDTO(payment));
         }
         return paymentDTOs;
     }

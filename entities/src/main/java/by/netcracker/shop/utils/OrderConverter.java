@@ -5,9 +5,8 @@ import by.netcracker.shop.pojo.Order;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OrderConverter implements Converter<Order, OrderDTO> {
-    @Override
-    public OrderDTO convertToFront(Order order) {
+public class OrderConverter {
+    public OrderDTO toOrderDTO(Order order) {
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setId(order.getId());
         orderDTO.setUser(order.getUser());
@@ -22,8 +21,7 @@ public class OrderConverter implements Converter<Order, OrderDTO> {
         return orderDTO;
     }
 
-    @Override
-    public Order convertToLocal(OrderDTO orderDTO, Order order) {
+    public Order toOrderPOJO(OrderDTO orderDTO, Order order) {
         order.setUser(orderDTO.getUser());
         order.setPrice(orderDTO.getPrice());
         order.setPayment(orderDTO.getPayment());
