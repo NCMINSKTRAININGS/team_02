@@ -12,13 +12,14 @@
             <table class="table table-hover" id="productList">
                 <thead>
                 <tr>
-                    <th><spring:message code="label.product.field.categoryId"/></th>
-                    <th><spring:message code="label.product.field.manufacturerId"/></th>
+                    <th><spring:message code="label.product.field.category"/></th>
+                    <th><spring:message code="label.product.field.manufacturer"/></th>
                     <th><spring:message code="label.product.field.name"/></th>
                     <th><spring:message code="label.product.field.description"/></th>
                     <th><spring:message code="label.product.field.price"/></th>
                     <th><spring:message code="label.product.field.key"/></th>
                     <th><spring:message code="label.product.field.quantity"/></th>
+                    <%--<th><spring:message code="label.image.field.image"/></th>--%>
                 </tr>
                 </thead>
                 <tbody>
@@ -31,6 +32,7 @@
                         <td>${product.price}</td>
                         <td>${product.keywords}</td>
                         <td>${product.quantityInStock}</td>
+                        <%--<td>${product.image}</td>--%>
 
                         <spring:message var="editButton" code="label.button.edit"/>
                         <spring:message var="deleteButton" code="label.button.delete"/>
@@ -62,8 +64,8 @@
         <div class="item">
             <img src="${product.image}">
             <br>
-            <spring:message code="label.product.field.categoryId"/> ${product.categoryName} <br>
-            <spring:message code="label.product.field.manufacturerId"/> ${product.manufacturerName} <br>
+            <spring:message code="label.product.field.category"/> ${product.categoryName} <br>
+            <spring:message code="label.product.field.manufacturer"/> ${product.manufacturerName} <br>
             <spring:message code="label.product.field.name"/> ${product.name} <br>
             <spring:message code="label.product.field.description"/> ${product.description} <br>
             <spring:message code="label.product.field.price"/> ${product.price} <br>
@@ -73,6 +75,7 @@
         </div>
     </c:forEach>
 </div>
+</div>
 </sec:authorize>
 
 <sec:authorize access="isAnonymous()">
@@ -81,12 +84,11 @@
         <div class="item">
             <img src="${product.image}">
             <br>
-            <spring:message code="label.product.field.categoryId"/> ${product.categoryName} <br>
-            <spring:message code="label.product.field.manufacturerId"/> ${product.manufacturerName} <br>
+            <spring:message code="label.product.field.category"/> ${product.categoryName} <br>
+            <spring:message code="label.product.field.manufacturer"/> ${product.manufacturerName} <br>
             <spring:message code="label.product.field.name"/> ${product.name} <br>
             <spring:message code="label.product.field.description"/> ${product.description} <br>
             <spring:message code="label.product.field.price"/> ${product.price} <br>
-            <spring:message var="addButton" code="label.button.add"/> <br>
         </div>
     </c:forEach>
 </div>

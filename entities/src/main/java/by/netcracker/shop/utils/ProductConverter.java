@@ -4,11 +4,12 @@ import by.netcracker.shop.dto.ProductDTO;
 import by.netcracker.shop.pojo.Category;
 import by.netcracker.shop.pojo.Manufacturer;
 import by.netcracker.shop.pojo.Product;
+import by.netcracker.shop.pojo.ProductImage;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProductConverter {
-    public ProductDTO toProductDTO(Product product) {
+    public ProductDTO toProductDTO(Product product, ProductImage image) {
         ProductDTO dto = new ProductDTO();
         dto.setId(product.getId());
         dto.setCategoryId(product.getCategory().getId());
@@ -20,6 +21,7 @@ public class ProductConverter {
         dto.setPrice(product.getPrice());
         dto.setKeywords(product.getKeywords());
         dto.setQuantityInStock(product.getQuantityInStock());
+        dto.setImage(image.getImage());
         return dto;
     }
 

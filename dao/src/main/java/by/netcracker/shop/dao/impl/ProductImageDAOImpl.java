@@ -18,11 +18,15 @@ public class ProductImageDAOImpl extends AbstractDAO<Long, ProductImage> impleme
     }
 
     @Override
-    public List<ProductImage> getImagesByProduct(Product product) throws DAOException {
+    public ProductImage getImagesByProduct(Product product) throws DAOException {
         List<ProductImage> images;
+        ProductImage image = new ProductImage();
         Criteria criteria = getSession().createCriteria(ProductImage.class);
         criteria.add(Restrictions.eq("product", product));
         images = criteria.list();
-        return images;
+        if (images.iterator().hasNext()){
+            image = images.iterator().next();
+        }
+        return image;
     }
 }

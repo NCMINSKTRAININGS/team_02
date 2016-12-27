@@ -4,12 +4,14 @@ import by.netcracker.shop.constants.ServiceConstants;
 import by.netcracker.shop.dao.CategoryDAO;
 import by.netcracker.shop.dao.ManufacturerDAO;
 import by.netcracker.shop.dao.ProductDAO;
+import by.netcracker.shop.dao.ProductImageDAO;
 import by.netcracker.shop.dto.ProductDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.Category;
 import by.netcracker.shop.pojo.Manufacturer;
 import by.netcracker.shop.pojo.Product;
+import by.netcracker.shop.pojo.ProductImage;
 import by.netcracker.shop.services.ProductService;
 import by.netcracker.shop.utils.ProductConverter;
 import org.apache.log4j.Logger;
@@ -36,6 +38,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ManufacturerDAO manufacturerDAO;
+
+    @Autowired
+    private ProductImageDAO imageDAO;
 
     private static Logger logger = Logger.getLogger(ProductServiceImpl.class);
 
@@ -64,13 +69,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO getById(Long id) throws ServiceException {
         Product productPOJO;
+        ProductImage imagePOJO;
         try {
             productPOJO = dao.getById(id);
+            imagePOJO = imageDAO.getImagesByProduct(productPOJO);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
-        return productConverter.toProductDTO(productPOJO);
+        return productConverter.toProductDTO(productPOJO, imagePOJO);
     }
 
     @Override
@@ -88,16 +95,18 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDTO> getAll() throws ServiceException {
         List<Product> productPOJOs;
         List<ProductDTO> productDTOs;
+        ProductImage imagePOJO;
         try {
             productPOJOs = dao.getAll();
+            productDTOs = new ArrayList<>(productPOJOs.size());
+            for (Product product : productPOJOs) {
+                imagePOJO = imageDAO.getImagesByProduct(product);
+                productDTOs.add(productConverter.toProductDTO(product, imagePOJO));
+            }
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
-        }
-        productDTOs = new ArrayList<>(productPOJOs.size());
-        for (Product product : productPOJOs) {
-            productDTOs.add(productConverter.toProductDTO(product));
         }
         return productDTOs;
     }
