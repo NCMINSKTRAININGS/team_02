@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getById(Long id) throws ServiceException {
         User userPOJO;
-        UserDTO userDTO;
+        UserDTO userDTO = null;
         try {
             userPOJO = dao.getById(id);
         } catch (DAOException e) {
@@ -52,14 +52,20 @@ public class UserServiceImpl implements UserService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        userDTO = userConverter.convertToFront(userPOJO);
+        if (userPOJO != null)
+            userDTO = userConverter.convertToFront(userPOJO);
         return userDTO;
     }
 
     @Override
     public void update(UserDTO userDTO) throws ServiceException {
-        User userPOJO = userConverter.convertToLocal(userDTO, new User());
+        User userPOJO;
         try {
+            userPOJO = dao.getById(userDTO.getId());
+            if (userPOJO == null) {
+                throw new ServiceException();
+            }
+            userPOJO = userConverter.convertToLocal(userDTO, userPOJO);
             dao.update(userPOJO);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
@@ -115,5 +121,33 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(e);
         }
         return userConverter.convertToFront(user);
+    }
+
+    @Override
+    public Long getCount() throws ServiceException {
+        Long count;
+        try {
+            count = dao.getCount();
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+        return count;
+    }
+
+    @Override
+    public List<UserDTO> getByGap(int offset, int quantity) throws ServiceException {
+        List<User> usersPOJO;
+        List<UserDTO> usersDTO = new LinkedList<>();
+        try {
+            usersPOJO = dao.getByGap(offset, quantity);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+        for (User userPOJO : usersPOJO) {
+            usersDTO.add(userConverter.convertToFront(userPOJO));
+        }
+        return usersDTO;
     }
 }

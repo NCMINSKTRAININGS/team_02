@@ -28,9 +28,15 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(String firstName, String lastName, String username, String password,
+    public UserDTO(UserDTO user) {
+        this(user.getId(), user.getFirstName(), user.getLastName(), user.getUsername(), user.getPassword(),
+                user.getEmail(), user.getDiscount(), user.getStatus(), user.getBirthday(), user.getRole());
+    }
+
+    public UserDTO(Long id, String firstName, String lastName, String username, String password,
                    String email, Double discount, UserStatus status, Date birthday,
                    UserRole role) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
