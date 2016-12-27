@@ -41,9 +41,6 @@ public class OrderController {
     private OrderProductConverter orderProductConverter;
 
 
-    @Autowired
-    private UserConverter userConverter;
-
     @RequestMapping(value = Parameters.REQUEST_ORDER_LIST, method = RequestMethod.GET)
     public String listOrders(ModelMap modelMap){
         List<OrderProductDTO> orders= new ArrayList<>();
