@@ -11,4 +11,5 @@ public interface OrderDAO extends DAO<Order, Long> {
     List<Order> getOrdersByUser(User user) throws DAOException;
 
     List<Object[]> getGroupedOrders() throws DAOException;
+
 }

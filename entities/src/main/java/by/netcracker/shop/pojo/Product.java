@@ -1,6 +1,8 @@
 package by.netcracker.shop.pojo;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -30,6 +32,10 @@ public class Product extends AbstractEntity<Long> {
 
     @Column(name = "quantity_in_stock", nullable = false)
     private Integer quantityInStock;
+
+    @OneToMany(mappedBy = "primaryKey.product",
+    cascade = CascadeType.ALL)
+    private Set<OrderProduct> orderProducts = new HashSet<>();
 
     public Product() {
     }
@@ -107,6 +113,13 @@ public class Product extends AbstractEntity<Long> {
         this.quantityInStock = quantityInStock;
     }
 
+    public Set<OrderProduct> getOrderProducts() {
+        return orderProducts;
+    }
+
+    public void setOrderProducts(Set<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
+    }
 
     @Override
     public boolean equals(Object o) {

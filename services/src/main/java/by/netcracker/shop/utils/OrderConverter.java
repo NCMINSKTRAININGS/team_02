@@ -7,7 +7,6 @@ import by.netcracker.shop.dao.UserDAO;
 import by.netcracker.shop.dto.OrderDto;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.pojo.Order;
-import by.netcracker.shop.pojo.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,10 +40,6 @@ public class OrderConverter implements Converter<Order, OrderDto> {
         orderDto.setPrice(order.getPrice());
         orderDto.setProduced(order.getProduced());
 
-        for (Product product: order.getProducts()) {
-            orderDto.getProductsId().add(product.getId());
-        }
-
         return orderDto;
     }
 
@@ -56,9 +51,7 @@ public class OrderConverter implements Converter<Order, OrderDto> {
             order.setPayment(paymentDAO.getById(orderDto.getPaymentId()));
             order.setDelivery(deliveryDAO.getById(orderDto.getDeliveryId()));
             order.setComment(orderDto.getComment());
-            for (Long productId :orderDto.getProductsId()){
-                order.getProducts().add(productDAO.getById(productId));
-            }
+
             order.setProduced(orderDto.getProduced());
         } catch (DAOException e) {
             e.printStackTrace();

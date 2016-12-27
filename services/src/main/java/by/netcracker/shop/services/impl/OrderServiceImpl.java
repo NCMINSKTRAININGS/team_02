@@ -123,27 +123,7 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
-    @Override
-    public List<ProductDTO> getProductsByOrders(List<OrderDto> orderDtos) throws ServiceException {
-        List<ProductDTO> result = new ArrayList<>();
-        for (OrderDto orderDto:orderDtos){
-            for (Long id:orderDto.getProductsId()){
-                result.add(productService.getById(id));
-            }
-        }
-        return result;
-    }
 
-    @Override
-    public List<Object[]> getGroupedOrders() throws ServiceException {
-        List<Object[]> mapList= new ArrayList<>();
-        try {
-            mapList = dao.getGroupedOrders();
-        } catch (DAOException e) {
-            e.printStackTrace();
-        }
-        return mapList;
-    }
 
     @Override
     public void addProdToOrder(UserDTO user, ProductDTO product) throws ServiceException, DAOException {

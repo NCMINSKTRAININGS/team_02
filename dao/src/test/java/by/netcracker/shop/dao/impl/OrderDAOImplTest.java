@@ -60,7 +60,7 @@ public class OrderDAOImplTest {
         delivery = new Delivery("test", "test");
         deliveryDAO.insert(delivery);
 
-        order = new Order(user, payment, delivery, "test", 0, products);
+       // order = new Order(user, payment, delivery, "test", 0.1, products,false);
         orderDao.insert(order);
         expectedOrders.add(0, order);
 
@@ -116,8 +116,8 @@ public class OrderDAOImplTest {
         order.setPayment(payment);
         order.setComment("comment");
         order.setDelivery(delivery);
-      //  order.setProducts(products);
-        order.setPrice(90);
+       // order.setProducts(products);
+        order.setPrice(0.0);
         orderDao.update(order);
         Assert.assertEquals(this.order, order);
 

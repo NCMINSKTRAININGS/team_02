@@ -25,6 +25,7 @@ public class ProductDAOImplTest {
     private ProductDAO dao;
 
     private static String assertMess;
+
     private Product product;
 
     @Autowired
@@ -37,7 +38,6 @@ public class ProductDAOImplTest {
 
     private Manufacturer manufacturer;
 
-    //private static String assertMess;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -46,7 +46,7 @@ public class ProductDAOImplTest {
 
     @Before
     public void setUp() throws Exception {
-        product = new Product(null, null, "test", "test", 0, "test", 0);
+        product = new Product(null, null, "test", "test", 0.0, "test", 0);
         category = new Category("test", "test", "test");
         categoryDAO.insert(category);
         manufacturer = new Manufacturer("test", "test", "test");
@@ -94,7 +94,7 @@ public class ProductDAOImplTest {
 
         product.setName("newname");
         product.setDescription("newdescr");
-        product.setPrice(1);
+        product.setPrice(1.0);
         product.setKeywords("newkeywords");
         product.setQuantityInStock(1);
 

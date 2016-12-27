@@ -20,10 +20,6 @@ public interface OrderService {
 
     List<OrderDto> getOrdersByUser(UserDTO user) throws ServiceException;
 
-    List<ProductDTO> getProductsByOrders(List<OrderDto> orderDtos) throws  ServiceException;
-
-    List<Object[]> getGroupedOrders() throws  ServiceException;
-
     void addProdToOrder(UserDTO user, ProductDTO product) throws ServiceException, DAOException;
 
     void removeProdFromOrder(Long id, UserDTO user) throws ServiceException;
