@@ -5,10 +5,8 @@ import by.netcracker.shop.pojo.ProductImage;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductImageConverter implements Converter<ProductImage, ProductImageDTO> {
-
-    @Override
-    public ProductImageDTO convertToFront(ProductImage image) {
+public class ProductImageConverter {
+    public ProductImageDTO toImageDTO(ProductImage image) {
         ProductImageDTO dto = new ProductImageDTO();
         dto.setId(image.getId());
         dto.setProduct(image.getProduct());
@@ -16,8 +14,7 @@ public class ProductImageConverter implements Converter<ProductImage, ProductIma
         return dto;
     }
 
-    @Override
-    public ProductImage convertToLocal(ProductImageDTO productImageDTO, ProductImage image) {
+    public ProductImage toImagePOJO(ProductImageDTO productImageDTO, ProductImage image) {
         image.setId(productImageDTO.getId());
         image.setProduct(productImageDTO.getProduct());
         image.setImage(productImageDTO.getImage());

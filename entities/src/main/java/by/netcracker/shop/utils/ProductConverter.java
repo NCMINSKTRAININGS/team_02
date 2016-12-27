@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProductConverter {
-    public ProductDTO convertToFront(Product product) {
+    public ProductDTO toProductDTO(Product product) {
         ProductDTO dto = new ProductDTO();
         dto.setId(product.getId());
         dto.setCategoryId(product.getCategory().getId());
@@ -23,8 +23,8 @@ public class ProductConverter {
         return dto;
     }
 
-    public Product convertToLocal(ProductDTO productDTO, Product product,
-                                  Category category, Manufacturer manufacturer) {
+    public Product toProductPOJO(ProductDTO productDTO, Product product,
+                                 Category category, Manufacturer manufacturer) {
         product.setId(productDTO.getId());
         product.setCategory(category);
         product.setManufacturer(manufacturer);

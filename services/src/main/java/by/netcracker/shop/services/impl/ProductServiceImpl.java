@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
                 productPOJO = new Product();
             categoryPOJO = categoryDAO.getById(productDTO.getCategoryId());
             manufacturerPOJO = manufacturerDAO.getById(productDTO.getManufacturerId());
-            productPOJO = productConverter.convertToLocal(productDTO, productPOJO, categoryPOJO, manufacturerPOJO);
+            productPOJO = productConverter.toProductPOJO(productDTO, productPOJO, categoryPOJO, manufacturerPOJO);
             dao.insert(productPOJO);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
@@ -70,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
-        return productConverter.convertToFront(productPOJO);
+        return productConverter.toProductDTO(productPOJO);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class ProductServiceImpl implements ProductService {
         }
         productDTOs = new ArrayList<>(productPOJOs.size());
         for (Product product : productPOJOs) {
-            productDTOs.add(productConverter.convertToFront(product));
+            productDTOs.add(productConverter.toProductDTO(product));
         }
         return productDTOs;
     }

@@ -5,10 +5,8 @@ import by.netcracker.shop.pojo.Category;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CategoryConverter implements Converter<Category, CategoryDTO> {
-
-    @Override
-    public CategoryDTO convertToFront(Category category) {
+public class CategoryConverter {
+    public CategoryDTO toCategoryDTO(Category category) {
         CategoryDTO dto = new CategoryDTO();
         dto.setId(category.getId());
         dto.setName(category.getName());
@@ -17,8 +15,7 @@ public class CategoryConverter implements Converter<Category, CategoryDTO> {
         return dto;
     }
 
-    @Override
-    public Category convertToLocal(CategoryDTO categoryDTO, Category category) {
+    public Category toCategoryPOJO(CategoryDTO categoryDTO, Category category) {
         category.setId(categoryDTO.getId());
         category.setName(categoryDTO.getName());
         category.setDescription(categoryDTO.getDescription());

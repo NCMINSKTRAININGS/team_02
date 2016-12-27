@@ -38,7 +38,7 @@ public class ProductImageServiceImpl implements ProductImageService {
             }
             if (imagePOJO == null)
                 imagePOJO = new ProductImage();
-            dao.insert(converter.convertToLocal(imageDTO, imagePOJO));
+            dao.insert(converter.toImagePOJO(imageDTO, imagePOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -56,7 +56,7 @@ public class ProductImageServiceImpl implements ProductImageService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        return converter.convertToFront(imagePOJO);
+        return converter.toImageDTO(imagePOJO);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class ProductImageServiceImpl implements ProductImageService {
         }
         imageDTOs = new ArrayList<>(imagePOJOs.size());
         for (ProductImage image : imagePOJOs) {
-            imageDTOs.add(converter.convertToFront(image));
+            imageDTOs.add(converter.toImageDTO(image));
         }
         return imageDTOs;
     }
