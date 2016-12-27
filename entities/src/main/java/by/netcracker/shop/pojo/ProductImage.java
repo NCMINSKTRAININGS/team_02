@@ -15,9 +15,19 @@ public class ProductImage  extends AbstractEntity<Long> {
     private String image;
 
     public ProductImage() {
+        super();
     }
 
     public ProductImage(Product product, String image) {
+        this(null, product, image);
+    }
+
+    public ProductImage(ProductImage image) {
+        this(image.getId(), image.getProduct(), image.getImage());
+    }
+
+    public ProductImage(Long id, Product product, String image) {
+        super(id);
         this.product = product;
         this.image = image;
     }

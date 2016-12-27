@@ -9,24 +9,29 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProductConverter {
-    public ProductDTO toProductDTO(Product product, ProductImage image) {
-        ProductDTO dto = new ProductDTO();
-        dto.setId(product.getId());
-        dto.setCategoryId(product.getCategory().getId());
-        dto.setManufacturerId(product.getManufacturer().getId());
-        dto.setCategoryName(product.getCategory().getName());
-        dto.setManufacturerName(product.getManufacturer().getName());
-        dto.setName(product.getName());
-        dto.setDescription(product.getDescription());
-        dto.setPrice(product.getPrice());
-        dto.setKeywords(product.getKeywords());
-        dto.setQuantityInStock(product.getQuantityInStock());
-        dto.setImage(image.getImage());
-        return dto;
+    public ProductDTO toProductDTO(Product product) {
+        ProductDTO productDTO;
+        if (product == null)
+            return null;
+        productDTO = new ProductDTO();
+        productDTO.setId(product.getId());
+        productDTO.setCategoryId(product.getCategory().getId());
+        productDTO.setManufacturerId(product.getManufacturer().getId());
+        productDTO.setCategoryName(product.getCategory().getName());
+        productDTO.setManufacturerName(product.getManufacturer().getName());
+        productDTO.setName(product.getName());
+        productDTO.setDescription(product.getDescription());
+        productDTO.setPrice(product.getPrice());
+        productDTO.setKeywords(product.getKeywords());
+        productDTO.setQuantityInStock(product.getQuantityInStock());
+        productDTO.setImage(image.getImage());
+        return productDTO;
     }
 
     public Product toProductPOJO(ProductDTO productDTO, Product product,
                                  Category category, Manufacturer manufacturer) {
+        if (productDTO == null || product == null)
+            return null;
         product.setId(productDTO.getId());
         product.setCategory(category);
         product.setManufacturer(manufacturer);

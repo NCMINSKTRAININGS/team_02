@@ -25,6 +25,16 @@ public class Manufacturer extends AbstractEntity<Long> {
     }
 
     public Manufacturer(String name, String description, String logo) {
+        this(null, name, description, logo);
+    }
+
+    public Manufacturer(Manufacturer manufacturer) {
+        this(manufacturer.getId(), manufacturer.getName(),
+                manufacturer.getDescription(), manufacturer.getLogo());
+    }
+
+    public Manufacturer(Long id, String name, String description, String logo) {
+        super(id);
         this.name = name;
         this.description = description;
         this.logo = logo;

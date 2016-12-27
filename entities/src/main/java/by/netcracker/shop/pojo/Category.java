@@ -22,6 +22,16 @@ public class Category extends AbstractEntity<Long> {
     }
 
     public Category(String name, String description, String image) {
+        this(null, name, description, image);
+    }
+
+    public Category(Category category) {
+        this(category.getId(), category.getName(),
+                category.getDescription(), category.getImage());
+    }
+
+    public Category(Long id, String name, String description, String image) {
+        super(id);
         this.name = name;
         this.description = description;
         this.image = image;
