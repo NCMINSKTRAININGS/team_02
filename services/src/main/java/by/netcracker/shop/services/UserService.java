@@ -6,11 +6,11 @@ import by.netcracker.shop.exceptions.ServiceException;
 import java.util.List;
 
 public interface UserService {
-    Long insert(UserDTO user) throws ServiceException;
+    Long insert(UserDTO userDTO) throws ServiceException;
 
     UserDTO getById(Long id) throws ServiceException;
 
-    void update(UserDTO user) throws ServiceException;
+    void update(UserDTO userDTO) throws ServiceException;
 
     void deleteById(Long id) throws ServiceException;
 

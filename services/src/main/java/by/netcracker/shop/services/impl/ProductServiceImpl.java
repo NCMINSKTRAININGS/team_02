@@ -30,14 +30,15 @@ public class ProductServiceImpl implements ProductService {
     private static Logger logger = Logger.getLogger(ProductServiceImpl.class);
 
     @Override
-    public void insert(ProductDTO product) throws ServiceException {
+    public void insert(ProductDTO productDTO) throws ServiceException {
+        Product productPOJO = null;
         try {
-            if (product.getId() != null) {
-                Product product1 = dao.getById(product.getId());
-                dao.insert(productConverter.convertToLocal(product, product1));
-            } else {
-                dao.insert(productConverter.convertToLocal(product, new Product()));
+            if (productDTO.getId() != null) {
+                productPOJO = dao.getById(productDTO.getId());
             }
+            if (productPOJO == null)
+                productPOJO = new Product();
+            dao.insert(productConverter.convertToLocal(productDTO, productPOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -47,14 +48,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO getById(Long id) throws ServiceException {
-        Product product;
+        Product productPOJO;
         try {
-            product = dao.getById(id);
+            productPOJO = dao.getById(id);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
-        return productConverter.convertToFront(product);
+        return productConverter.convertToFront(productPOJO);
     }
 
     @Override
@@ -70,19 +71,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> getAll() throws ServiceException {
-        List<Product> products;
+        List<Product> productPOJOs;
+        List<ProductDTO> productDTOs;
         try {
-            products = dao.getAll();
+            productPOJOs = dao.getAll();
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        List<ProductDTO> dtoList = new ArrayList<>(products.size());
-        for (Product product : products) {
-            dtoList.add(productConverter.convertToFront(product));
+        productDTOs = new ArrayList<>(productPOJOs.size());
+        for (Product product : productPOJOs) {
+            productDTOs.add(productConverter.convertToFront(product));
         }
-        return dtoList;
+        return productDTOs;
     }
 
 }

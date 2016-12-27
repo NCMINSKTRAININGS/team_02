@@ -2,7 +2,7 @@ package by.netcracker.shop.services.impl;
 
 import by.netcracker.shop.constants.ServiceConstants;
 import by.netcracker.shop.dao.PaymentDAO;
-import by.netcracker.shop.dto.PaymentDto;
+import by.netcracker.shop.dto.PaymentDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.Payment;
@@ -30,14 +30,15 @@ public class PaymentServiceImpl implements PaymentService {
     private static Logger logger = Logger.getLogger(PaymentServiceImpl.class);
 
     @Override
-    public void insert(PaymentDto payment) throws ServiceException {
+    public void insert(PaymentDTO paymentDTO) throws ServiceException {
+        Payment paymentPOJO = null;
         try {
-            if (payment.getId() != null) {
-                Payment entity = paymentDAO.getById(payment.getId());
-                paymentDAO.insert(converter.convertToLocal(payment, entity));
-            } else {
-                paymentDAO.insert(converter.convertToLocal(payment, new Payment()));
+            if (paymentDTO.getId() != null) {
+                paymentPOJO = paymentDAO.getById(paymentDTO.getId());
             }
+            if (paymentPOJO == null)
+                paymentPOJO = new Payment();
+            paymentDAO.insert(converter.convertToLocal(paymentDTO, paymentPOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -46,16 +47,16 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PaymentDto getById(Long id) throws ServiceException {
-        Payment payment;
+    public PaymentDTO getById(Long id) throws ServiceException {
+        Payment paymentPOJO;
         try {
-            payment = paymentDAO.getById(id);
+            paymentPOJO = paymentDAO.getById(id);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e.getCause());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException();
         }
-        return converter.convertToFront(payment);
+        return converter.convertToFront(paymentPOJO);
     }
 
     @Override
@@ -70,19 +71,20 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<PaymentDto> getAll() throws ServiceException {
-        List<Payment> payments;
+    public List<PaymentDTO> getAll() throws ServiceException {
+        List<Payment> paymentPOJOs;
+        List<PaymentDTO> paymentDTOs;
         try {
-            payments = paymentDAO.getAll();
+            paymentPOJOs = paymentDAO.getAll();
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e.getCause());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        List<PaymentDto> result = new ArrayList<>(payments.size());
-        for (Payment payment: payments) {
-            result.add(converter.convertToFront(payment));
+        paymentDTOs = new ArrayList<>(paymentPOJOs.size());
+        for (Payment payment: paymentPOJOs) {
+            paymentDTOs.add(converter.convertToFront(payment));
         }
-        return result;
+        return paymentDTOs;
     }
 }

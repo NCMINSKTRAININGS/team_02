@@ -1,7 +1,7 @@
 package by.netcracker.shop.controllers;
 
 import by.netcracker.shop.constants.Parameters;
-import by.netcracker.shop.dto.OrderDto;
+import by.netcracker.shop.dto.OrderDTO;
 import by.netcracker.shop.dto.ProductDTO;
 import by.netcracker.shop.dto.UserDTO;
 import by.netcracker.shop.exceptions.DAOException;
@@ -50,7 +50,7 @@ public class OrderController {
 
     @RequestMapping(value = Parameters.REQUEST_ORDER_SHOW, method = RequestMethod.GET)
     public String showOrder(@PathVariable Long id, ModelMap modelMap){
-        List<OrderDto> dtoList = null;
+        List<OrderDTO> dtoList = null;
         User user;
         UserDTO userDTO;//todo fixed
         try {
@@ -75,7 +75,7 @@ public class OrderController {
         }else {
             try {
                 orderService.addProdToOrder(user,product);
-            } catch (DAOException e) {
+            } catch (ServiceException e) {
                 e.printStackTrace();
             }
         }

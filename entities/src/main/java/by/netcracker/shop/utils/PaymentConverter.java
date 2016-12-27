@@ -1,29 +1,29 @@
 package by.netcracker.shop.utils;
 
-import by.netcracker.shop.dto.PaymentDto;
+import by.netcracker.shop.dto.PaymentDTO;
 import by.netcracker.shop.pojo.Payment;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PaymentConverter  implements Converter<Payment,PaymentDto> {
+public class PaymentConverter  implements Converter<Payment,PaymentDTO> {
     @Override
-    public PaymentDto convertToFront(Payment payment) {
-        PaymentDto paymentDto;
+    public PaymentDTO convertToFront(Payment payment) {
+        PaymentDTO paymentDTO;
         if (payment==null){
              return null;
         }else {
-            paymentDto = new PaymentDto();
-            paymentDto.setId(payment.getId());
-            paymentDto.setName(payment.getName());
-            paymentDto.setDescription(payment.getDescription());
-            return paymentDto;
+            paymentDTO = new PaymentDTO();
+            paymentDTO.setId(payment.getId());
+            paymentDTO.setName(payment.getName());
+            paymentDTO.setDescription(payment.getDescription());
+            return paymentDTO;
         }
     }
 
     @Override
-    public Payment convertToLocal(PaymentDto paymentDto, Payment payment) {
-        payment.setName(paymentDto.getName());
-        payment.setDescription(paymentDto.getDescription());
+    public Payment convertToLocal(PaymentDTO paymentDTO, Payment payment) {
+        payment.setName(paymentDTO.getName());
+        payment.setDescription(paymentDTO.getDescription());
         return payment;
     }
 }

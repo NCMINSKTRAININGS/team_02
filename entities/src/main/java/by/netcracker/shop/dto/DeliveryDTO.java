@@ -4,7 +4,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Size;
 
-public class DeliveryDto {
+public class DeliveryDTO {
     private Long id;
 
     @NotBlank
@@ -13,10 +13,10 @@ public class DeliveryDto {
 
     private String description;
 
-    public DeliveryDto() {
+    public DeliveryDTO() {
     }
 
-    public DeliveryDto(Long id, String name, String description) {
+    public DeliveryDTO(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -49,9 +49,9 @@ public class DeliveryDto {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DeliveryDto)) return false;
+        if (!(o instanceof DeliveryDTO)) return false;
 
-        DeliveryDto that = (DeliveryDto) o;
+        DeliveryDTO that = (DeliveryDTO) o;
 
         if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) return false;
         if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
@@ -69,7 +69,7 @@ public class DeliveryDto {
 
     @Override
     public String toString() {
-        return "DeliveryDto{" +
+        return "DeliveryDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

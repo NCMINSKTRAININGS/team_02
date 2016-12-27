@@ -1,26 +1,26 @@
 package by.netcracker.shop.utils;
 
 
-import by.netcracker.shop.dto.DeliveryDto;
+import by.netcracker.shop.dto.DeliveryDTO;
 import by.netcracker.shop.pojo.Delivery;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DeliveryConverter implements Converter<Delivery,DeliveryDto>{
+public class DeliveryConverter implements Converter<Delivery,DeliveryDTO>{
     @Override
-    public DeliveryDto convertToFront(Delivery delivery) {
-        DeliveryDto deliveryDto= new DeliveryDto();
-        deliveryDto.setId(delivery.getId());
-        deliveryDto.setName(delivery.getName());
-        deliveryDto.setDescription(delivery.getDescription());
+    public DeliveryDTO convertToFront(Delivery delivery) {
+        DeliveryDTO deliveryDTO = new DeliveryDTO();
+        deliveryDTO.setId(delivery.getId());
+        deliveryDTO.setName(delivery.getName());
+        deliveryDTO.setDescription(delivery.getDescription());
 
-        return deliveryDto;
+        return deliveryDTO;
     }
 
     @Override
-    public Delivery convertToLocal(DeliveryDto deliveryDto, Delivery delivery) {
-        delivery.setName(deliveryDto.getName());
-        delivery.setDescription(deliveryDto.getDescription());
+    public Delivery convertToLocal(DeliveryDTO deliveryDTO, Delivery delivery) {
+        delivery.setName(deliveryDTO.getName());
+        delivery.setDescription(deliveryDTO.getDescription());
         return delivery;
     }
 }

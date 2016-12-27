@@ -29,10 +29,15 @@ public class UserServiceImpl implements UserService {
     private static Logger logger = Logger.getLogger(UserServiceImpl.class);
 
     @Override
-    public Long insert(UserDTO user) throws ServiceException {
+    public Long insert(UserDTO userDTO) throws ServiceException {
+        User userPOJO = null;
         Long id;
-        User userPOJO = userConverter.convertToLocal(user, new User());
         try {
+            if (userDTO.getId() != null)
+                userPOJO = dao.getById(userDTO.getId());
+            if (userPOJO == null)
+                userPOJO = new User();
+            userPOJO = userConverter.convertToLocal(userDTO, userPOJO);
             id = dao.insert(userPOJO);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
@@ -59,9 +64,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(UserDTO userDTO) throws ServiceException {
-        User userPOJO;
+        User userPOJO = null;
         try {
-            userPOJO = dao.getById(userDTO.getId());
+            if (userDTO.getId() != null)
+                userPOJO = dao.getById(userDTO.getId());
             if (userPOJO == null) {
                 throw new ServiceException();
             }
@@ -85,42 +91,42 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getAll() throws ServiceException {
-        List<User> usersPOJO;
-        List<UserDTO> usersDTO = new LinkedList<>();
+        List<User> userPOJOs;
+        List<UserDTO> userDTOs = new LinkedList<>();
         try {
-            usersPOJO = dao.getAll();
+            userPOJOs = dao.getAll();
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
-        for (User userPOJO : usersPOJO) {
-            usersDTO.add(userConverter.convertToFront(userPOJO));
+        for (User userPOJO : userPOJOs) {
+            userDTOs.add(userConverter.convertToFront(userPOJO));
         }
-        return usersDTO;
+        return userDTOs;
     }
 
     @Override
     public UserDTO getByUsername(String username) throws ServiceException {
-        User user;
+        User userPOJO;
         try {
-            user = dao.getByUsername(username);
+            userPOJO = dao.getByUsername(username);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
-        return userConverter.convertToFront(user);
+        return userConverter.convertToFront(userPOJO);
     }
 
     @Override
     public UserDTO getByUsernamePassword(String username, String password) throws ServiceException {
-        User user;
+        User userPOJO;
         try {
-            user = dao.getByUsernamePassword(username, password);
+            userPOJO = dao.getByUsernamePassword(username, password);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
-        return userConverter.convertToFront(user);
+        return userConverter.convertToFront(userPOJO);
     }
 
     @Override
@@ -137,17 +143,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getByGap(int offset, int quantity) throws ServiceException {
-        List<User> usersPOJO;
-        List<UserDTO> usersDTO = new LinkedList<>();
+        List<User> userPOJOs;
+        List<UserDTO> userDTOs = new LinkedList<>();
         try {
-            usersPOJO = dao.getByGap(offset, quantity);
+            userPOJOs = dao.getByGap(offset, quantity);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
-        for (User userPOJO : usersPOJO) {
-            usersDTO.add(userConverter.convertToFront(userPOJO));
+        for (User userPOJO : userPOJOs) {
+            userDTOs.add(userConverter.convertToFront(userPOJO));
         }
-        return usersDTO;
+        return userDTOs;
     }
 }
