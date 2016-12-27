@@ -38,10 +38,22 @@ public class Order extends AbstractEntity<Long> {
     private Set<Product> products = new HashSet<>();
 
     public Order() {
+        super();
     }
 
     public Order(User user, Payment payment, Delivery delivery,
                  String comment, Double price, Set<Product> products) {
+        this(null, user, payment, delivery, comment, price, products);
+    }
+
+    public Order(Order order) {
+        this(order.getId(), order.getUser(), order.getPayment(), order.getDelivery(),
+                order.getComment(), order.getPrice(), order.getProducts());
+    }
+
+    public Order(Long id, User user, Payment payment, Delivery delivery,
+                 String comment, Double price, Set<Product> products) {
+        super(id);
         this.user = user;
         this.payment = payment;
         this.delivery = delivery;

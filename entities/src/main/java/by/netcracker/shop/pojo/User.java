@@ -36,6 +36,7 @@ public class User extends AbstractEntity<Long> {
     private List<Order> orders;
 
     public User(){
+        super();
     }
 
     public User(String firstName, String lastName, String username, String password, String email, Double discount,

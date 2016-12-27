@@ -14,9 +14,19 @@ public class Payment extends AbstractEntity<Long> {
     private String description;
 
     public Payment() {
+        super();
     }
 
     public Payment(String name, String description) {
+        this(null, name, description);
+    }
+
+    public Payment(Payment payment) {
+        this(payment.getId(), payment.getName(), payment.getDescription());
+    }
+
+    public Payment(Long id, String name, String description) {
+        super(id);
         this.name = name;
         this.description = description;
     }

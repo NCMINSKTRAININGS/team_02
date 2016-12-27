@@ -31,15 +31,24 @@ public class Product extends AbstractEntity<Long> {
     private Integer quantityInStock;
 
     public Product() {
+        super();
     }
 
     public Product(Product product) {
-        this(product.getCategory(), product.getManufacturer(), product.getName(), product.getDescription(),
+        this(product.getId(), product.getCategory(), product.getManufacturer(), product.getName(), product.getDescription(),
                 product.getPrice(), product.getKeywords(), product.getQuantityInStock());
     }
 
     public Product(Category category, Manufacturer manufacturer, String name,
                    String description, Double price, String keywords, Integer quantityInStock) {
+        this(null, category, manufacturer, name,description, price, keywords, quantityInStock);
+    }
+
+
+
+    public Product(Long id, Category category, Manufacturer manufacturer, String name,
+                   String description, Double price, String keywords, Integer quantityInStock) {
+        super(id);
         this.category = category;
         this.manufacturer = manufacturer;
         this.name = name;
@@ -47,7 +56,6 @@ public class Product extends AbstractEntity<Long> {
         this.price = price;
         this.keywords = keywords;
         this.quantityInStock = quantityInStock;
-
     }
 
     public Category getCategory() {
