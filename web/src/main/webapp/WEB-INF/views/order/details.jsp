@@ -20,7 +20,7 @@
                             <td>${product.name}</td>
                             <td>${product.description}</td>
                             <td>${product.price}</td>
-                            <td>${product.manufacturer}</td>
+                            <td>${product.manufacturerId}</td>
                         </tr>
                     </c:forEach>
                 </c:forEach>

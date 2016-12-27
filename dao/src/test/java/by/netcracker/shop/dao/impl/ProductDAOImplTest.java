@@ -46,7 +46,7 @@ public class ProductDAOImplTest {
 
     @Before
     public void setUp() throws Exception {
-        product = new Product(null, null, "test", "test", 0, "test", 0);
+        product = new Product(null, null, "test", "test", 0.0, "test", 0);
         category = new Category("test", "test", "test");
         categoryDAO.insert(category);
         manufacturer = new Manufacturer("test", "test", "test");

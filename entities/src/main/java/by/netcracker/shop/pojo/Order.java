@@ -29,7 +29,7 @@ public class Order extends AbstractEntity<Long> {
     private String comment;
 
     @Column(name = "price", nullable = false)
-    private Integer price;
+    private Double price;
 
     @ManyToMany(cascade = CascadeType.ALL, targetEntity = Product.class)
     @JoinTable(name = "order_product",
@@ -41,7 +41,7 @@ public class Order extends AbstractEntity<Long> {
     }
 
     public Order(User user, Payment payment, Delivery delivery,
-                 String comment, Integer price, Set<Product> products) {
+                 String comment, Double price, Set<Product> products) {
         this.user = user;
         this.payment = payment;
         this.delivery = delivery;
@@ -82,11 +82,11 @@ public class Order extends AbstractEntity<Long> {
         this.comment = comment;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

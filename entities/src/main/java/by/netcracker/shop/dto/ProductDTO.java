@@ -1,18 +1,21 @@
 package by.netcracker.shop.dto;
 
-import by.netcracker.shop.pojo.Category;
-import by.netcracker.shop.pojo.Manufacturer;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class ProductDTO {
 
     private Long id;
 
-    private Category category;
+    private Long categoryId;
 
-    private Manufacturer manufacturer;
+    private Long manufacturerId;
+
+    private String manufacturerName;
+
+    private String categoryName;
 
     @NotBlank
     @Size(max = 45)
@@ -21,26 +24,31 @@ public class ProductDTO {
     private String description;
 
     @NotNull
-    private Integer price;
+    private Double price;
 
     private String keywords;
 
     @NotNull
     private Integer quantityInStock;
 
+    private String image;
+
     public ProductDTO() {
     }
 
-    public ProductDTO(Long id, Category category, Manufacturer manufacturer, String name, String description,
-                      Integer price, String keywords, Integer quantityInStock) {
+    public ProductDTO(Long id, Long categoryId, Long manufacturerId, String manufacturerName, String categoryName,
+                      String name, String description, Double price, String keywords, Integer quantityInStock, String image) {
         this.id = id;
-        this.category = category;
-        this.manufacturer = manufacturer;
+        this.categoryId = categoryId;
+        this.manufacturerId = manufacturerId;
+        this.manufacturerName = manufacturerName;
+        this.categoryName = categoryName;
         this.name = name;
         this.description = description;
         this.price = price;
         this.keywords = keywords;
         this.quantityInStock = quantityInStock;
+        this.image = image;
     }
 
     public Long getId() {
@@ -51,20 +59,36 @@ public class ProductDTO {
         this.id = id;
     }
 
-    public Category getCategory() {
-        return category;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public Manufacturer getManufacturer() {
-        return manufacturer;
+    public Long getManufacturerId() {
+        return manufacturerId;
     }
 
-    public void setManufacturer(Manufacturer manufacturer) {
-        this.manufacturer = manufacturer;
+    public void setManufacturerId(Long manufacturerId) {
+        this.manufacturerId = manufacturerId;
+    }
+
+    public String getManufacturerName() {
+        return manufacturerName;
+    }
+
+    public void setManufacturerName(String manufacturerName) {
+        this.manufacturerName = manufacturerName;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getName() {
@@ -83,11 +107,11 @@ public class ProductDTO {
         this.description = description;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -107,6 +131,14 @@ public class ProductDTO {
         this.quantityInStock = quantityInStock;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -115,8 +147,8 @@ public class ProductDTO {
         ProductDTO dto = (ProductDTO) o;
 
         if (!id.equals(dto.id)) return false;
-        if (category != null ? !category.equals(dto.category) : dto.category != null) return false;
-        if (manufacturer != null ? !manufacturer.equals(dto.manufacturer) : dto.manufacturer != null) return false;
+        if (categoryId != null ? !categoryId.equals(dto.categoryId) : dto.categoryId != null) return false;
+        if (manufacturerId != null ? !manufacturerId.equals(dto.manufacturerId) : dto.manufacturerId != null) return false;
         if (!name.equals(dto.name)) return false;
         if (description != null ? !description.equals(dto.description) : dto.description != null) return false;
         if (!price.equals(dto.price)) return false;
@@ -128,8 +160,8 @@ public class ProductDTO {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (category != null ? category.hashCode() : 0);
-        result = 31 * result + (manufacturer != null ? manufacturer.hashCode() : 0);
+        result = 31 * result + (categoryId != null ? categoryId.hashCode() : 0);
+        result = 31 * result + (manufacturerId != null ? manufacturerId.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
@@ -142,8 +174,8 @@ public class ProductDTO {
     public String toString() {
         return "ProductDTO{" +
                 "id=" + id +
-                ", category=" + category +
-                ", manufacturer=" + manufacturer +
+                ", categoryId=" + categoryId +
+                ", manufacturerId=" + manufacturerId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
