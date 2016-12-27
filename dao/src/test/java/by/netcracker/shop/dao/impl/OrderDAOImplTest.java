@@ -12,10 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Date;
+import java.util.*;
 
 @ContextConfiguration("/test-dao-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -45,17 +42,16 @@ public class OrderDAOImplTest {
     private Payment payment;
     private Delivery delivery;
     private Order order;
-    private List<Product> products = new ArrayList<>();
+    private Set<Product> products = new HashSet<>();
     private List<Order> expectedOrders = new ArrayList<>();
     private Object[] expectedGroupedOrder = new Object[3];
 
 
     @Before
     public void setUp() throws Exception {
-        user = new User("test", "test", "test", "test", "test", "test", 0,
-                UserStatus.OFLINE, new Date(), UserRole.CLIENT);
+       user = new User("test", "test", "test", "test", "test", new Double(0),
+                UserStatus.OFLINE, new Date(), UserRole.CLIENT, null);
         userDAO.insert(user);
-
 
 
         payment = new Payment("test", "test");
@@ -68,6 +64,8 @@ public class OrderDAOImplTest {
         orderDao.insert(order);
         expectedOrders.add(0, order);
 
+
+        expectedOrders.get(0);
         expectedGroupedOrder[0] = 1;
         expectedGroupedOrder[1] = "test";
         expectedGroupedOrder[2] = BigInteger.valueOf(1);
@@ -118,7 +116,7 @@ public class OrderDAOImplTest {
         order.setPayment(payment);
         order.setComment("comment");
         order.setDelivery(delivery);
-        order.setProducts(products);
+      //  order.setProducts(products);
         order.setPrice(90);
         orderDao.update(order);
         Assert.assertEquals(this.order, order);

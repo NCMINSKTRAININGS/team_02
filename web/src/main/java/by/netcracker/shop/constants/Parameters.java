@@ -12,6 +12,7 @@ public class Parameters {
     public static final String REQUEST_USER_LOGIN = "/login";
     public static final String REQUEST_USER_REGISTRATION = "/registration";
     public static final String REQUEST_USER_LOGOUT = "/logout";
+    public static final String REQUEST_USER_PROFILE = "/profile";
     public static final String REQUEST_ORDER_LIST = "/list";
     public static final String REQUEST_ORDER_SHOW = "/show-order-{id}";
     public static final String REQUEST_PRODUCT_LIST = "/list";
@@ -24,12 +25,15 @@ public class Parameters {
     public static final String REQUEST_PRODUCT_IMAGE_DELETE = "/delete-image-{id}";
 
 //    Parameters
-    public static final String PARAMETERS_USER_LOGOUT = "logout";
+    public static final String PARAMETER_LOGOUT = "logout";
+    public static final String PARAMETER_ERROR = "error";
+    public static final String PARAMETER_ID = "id";
 
 //    Sessions
     public static final String ENTITY_USER = "user";
 
 //    Fields
+    public static final String FIELD_MESSAGE = "msg";
     public static final String FIELD_ERROR_MESSAGE = "errorMessage";
     public static final String FIELD_ORDERS = "orders";
     public static final String FIELD_PRODUCTS = "products";
@@ -39,13 +43,15 @@ public class Parameters {
     public static final String FIELD_PRODUCT_IMAGE = "image";
 
 //    Messages
-    public static final String MESSAGE_LOGIN_ERROR = "Invalid username or password";
+    public static final String MESSAGE_LOGIN_ERROR = "Invalid username or password!";
+    public static final String MESSAGE_LOGOUT = "You've been logged out successfully.";
     public static final String MESSAGE_WRONG_DATA_ERROR = "Wrong data";
     public static final String MESSAGE_USERNAME_EXIST_ERROR = "Username already exist";
 
 //    Tiles
     public static final String TILES_LOGIN = "user/login";
     public static final String TILES_REGISTRATION = "user/registration";
+    public static final String TILES_USER_PROFILE = "user/profile";
     public static final String TILES_ORDER_LIST = "order/list";
     public static final String TILES_ORDER_DETAILS = "order/details";
     public static final String TILES_PRODUCT_LIST = "product/list";

@@ -22,5 +22,9 @@
         <form:input type="password" cssClass="form-control" path="password" id="password" placeholder="Password *"/>
         <form:errors path="password" cssStyle="line-height: 3" cssClass="label label-danger"/>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Create an account</button>
+        <br/>
+        <tr>
+            <td>Already exists? <a href="/login">Log in</a></td>
+        </tr>
     </form:form>
 </div>

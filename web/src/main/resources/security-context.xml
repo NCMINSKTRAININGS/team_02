@@ -11,16 +11,19 @@
         <intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/login" access="isAnonymous()" />
         <intercept-url pattern="/registration" access="isAnonymous()" />
+        <intercept-url pattern="/profile**" access="isAnonymous() == false " />
 
         <!-- access denied page -->
         <access-denied-handler error-page="/403" />
         <form-login
                 login-page="/login"
                 default-target-url="/"
+                authentication-failure-url="/login?error"
                 username-parameter="username"
                 password-parameter="password"
                 login-processing-url="/auth/login_check" />
         <logout logout-success-url="/login?logout" delete-cookies="JSESSIONID" />
+
         <!-- enable csrf protection -->
         <!--<csrf disabled="true" />-->
         <csrf />
