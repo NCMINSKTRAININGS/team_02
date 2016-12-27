@@ -1,10 +1,14 @@
 package by.netcracker.shop.services.impl;
 
 import by.netcracker.shop.constants.ServiceConstants;
+import by.netcracker.shop.dao.CategoryDAO;
+import by.netcracker.shop.dao.ManufacturerDAO;
 import by.netcracker.shop.dao.ProductDAO;
 import by.netcracker.shop.dto.ProductDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
+import by.netcracker.shop.pojo.Category;
+import by.netcracker.shop.pojo.Manufacturer;
 import by.netcracker.shop.pojo.Product;
 import by.netcracker.shop.services.ProductService;
 import by.netcracker.shop.utils.ProductConverter;
@@ -27,17 +31,29 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductConverter productConverter;
 
+    @Autowired
+    private CategoryDAO categoryDAO;
+
+    @Autowired
+    private ManufacturerDAO manufacturerDAO;
+
     private static Logger logger = Logger.getLogger(ProductServiceImpl.class);
 
     @Override
-    public void insert(ProductDTO product) throws ServiceException {
+    public void insert(ProductDTO productDTO) throws ServiceException {
+        Product productPOJO = null;
+        Category categoryPOJO;
+        Manufacturer manufacturerPOJO;
         try {
-            if (product.getId() != null) {
-                Product product1 = dao.getById(product.getId());
-                dao.insert(productConverter.convertToLocal(product, product1));
-            } else {
-                dao.insert(productConverter.convertToLocal(product, new Product()));
+            if (productDTO.getId() != null) {
+                productPOJO = dao.getById(productDTO.getId());
             }
+            if (productPOJO == null)
+                productPOJO = new Product();
+            categoryPOJO = categoryDAO.getById(productDTO.getCategoryId());
+            manufacturerPOJO = manufacturerDAO.getById(productDTO.getManufacturerId());
+            productPOJO = productConverter.toProductPOJO(productDTO, productPOJO, categoryPOJO, manufacturerPOJO);
+            dao.insert(productPOJO);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -47,14 +63,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO getById(Long id) throws ServiceException {
-        Product product;
+        Product productPOJO;
         try {
-            product = dao.getById(id);
+            productPOJO = dao.getById(id);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
-        return productConverter.convertToFront(product);
+        return productConverter.toProductDTO(productPOJO);
     }
 
     @Override
@@ -70,19 +86,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> getAll() throws ServiceException {
-        List<Product> products;
+        List<Product> productPOJOs;
+        List<ProductDTO> productDTOs;
         try {
-            products = dao.getAll();
+            productPOJOs = dao.getAll();
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        List<ProductDTO> dtoList = new ArrayList<>(products.size());
-        for (Product product : products) {
-            dtoList.add(productConverter.convertToFront(product));
+        productDTOs = new ArrayList<>(productPOJOs.size());
+        for (Product product : productPOJOs) {
+            productDTOs.add(productConverter.toProductDTO(product));
         }
-        return dtoList;
+        return productDTOs;
     }
 
 }

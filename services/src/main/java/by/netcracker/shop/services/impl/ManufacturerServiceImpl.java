@@ -31,26 +31,27 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
     @Override
     public ManufacturerDTO getById(Long id) throws ServiceException {
-        Manufacturer manufacturer;
+        Manufacturer manufacturerPOJO;
         try {
-            manufacturer = dao.getById(id);
+            manufacturerPOJO = dao.getById(id);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e.getCause());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        return converter.convertToFront(manufacturer);
+        return converter.toManufacturerDTO(manufacturerPOJO);
     }
 
     @Override
     public void insert(ManufacturerDTO manufacturerDTO) throws ServiceException {
+        Manufacturer manufacturerPOJO = null;
         try {
             if (manufacturerDTO.getId() != null) {
-                Manufacturer manufacturer = dao.getById(manufacturerDTO.getId());
-                dao.insert(converter.convertToLocal(manufacturerDTO, manufacturer));
-            } else {
-                dao.insert(converter.convertToLocal(manufacturerDTO, new Manufacturer()));
+                manufacturerPOJO = dao.getById(manufacturerDTO.getId());
             }
+            if (manufacturerPOJO == null)
+                manufacturerPOJO = new Manufacturer();
+            dao.insert(converter.toManufacturerPOJO(manufacturerDTO, manufacturerPOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -60,19 +61,20 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
     @Override
     public List<ManufacturerDTO> getAll() throws ServiceException {
-        List<Manufacturer> manufacturerList;
+        List<Manufacturer> manufacturerPOJOs;
+        List<ManufacturerDTO> manufacturerDTOs;
         try {
-            manufacturerList = dao.getAll();
+            manufacturerPOJOs = dao.getAll();
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e.getCause());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        List<ManufacturerDTO> dtoList = new ArrayList<>(manufacturerList.size());
-        for (Manufacturer manufacturer: manufacturerList){
-            dtoList.add(converter.convertToFront(manufacturer));
+        manufacturerDTOs = new ArrayList<>(manufacturerPOJOs.size());
+        for (Manufacturer manufacturer: manufacturerPOJOs){
+            manufacturerDTOs.add(converter.toManufacturerDTO(manufacturer));
         }
-        return dtoList;
+        return manufacturerDTOs;
     }
 
     @Override

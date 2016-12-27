@@ -1,31 +1,38 @@
 package by.netcracker.shop.utils;
 
 import by.netcracker.shop.dto.ProductDTO;
+import by.netcracker.shop.pojo.Category;
+import by.netcracker.shop.pojo.Manufacturer;
 import by.netcracker.shop.pojo.Product;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductConverter implements Converter<Product, ProductDTO> {
-
-    @Override
-    public ProductDTO convertToFront(Product product) {
-        ProductDTO dto = new ProductDTO();
-        dto.setId(product.getId());
-        dto.setCategory(product.getCategory());
-        dto.setManufacturer(product.getManufacturer());
-        dto.setName(product.getName());
-        dto.setDescription(product.getDescription());
-        dto.setPrice(product.getPrice());
-        dto.setKeywords(product.getKeywords());
-        dto.setQuantityInStock(product.getQuantityInStock());
-        return dto;
+public class ProductConverter {
+    public ProductDTO toProductDTO(Product product) {
+        ProductDTO productDTO;
+        if (product == null)
+            return null;
+        productDTO = new ProductDTO();
+        productDTO.setId(product.getId());
+        productDTO.setCategoryId(product.getCategory().getId());
+        productDTO.setManufacturerId(product.getManufacturer().getId());
+        productDTO.setCategoryName(product.getCategory().getName());
+        productDTO.setManufacturerName(product.getManufacturer().getName());
+        productDTO.setName(product.getName());
+        productDTO.setDescription(product.getDescription());
+        productDTO.setPrice(product.getPrice());
+        productDTO.setKeywords(product.getKeywords());
+        productDTO.setQuantityInStock(product.getQuantityInStock());
+        return productDTO;
     }
 
-    @Override
-    public Product convertToLocal(ProductDTO productDTO, Product product) {
+    public Product toProductPOJO(ProductDTO productDTO, Product product,
+                                 Category category, Manufacturer manufacturer) {
+        if (productDTO == null || product == null)
+            return null;
         product.setId(productDTO.getId());
-        product.setCategory(productDTO.getCategory());
-        product.setManufacturer(productDTO.getManufacturer());
+        product.setCategory(category);
+        product.setManufacturer(manufacturer);
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());

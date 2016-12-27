@@ -94,7 +94,7 @@ public class ProductDAOImplTest {
 
         product.setName("newname");
         product.setDescription("newdescr");
-        product.setPrice(1.0);
+        product.setPrice(1d);
         product.setKeywords("newkeywords");
         product.setQuantityInStock(1);
 

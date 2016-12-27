@@ -1,6 +1,8 @@
 package by.netcracker.shop.services.impl;
 
 import by.netcracker.shop.constants.ServiceConstants;
+import by.netcracker.shop.dao.CategoryDAO;
+import by.netcracker.shop.dao.ManufacturerDAO;
 import by.netcracker.shop.dao.OrderDAO;
 import by.netcracker.shop.dao.ProductDAO;
 import by.netcracker.shop.dao.UserDAO;
@@ -43,38 +45,44 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ProductService productService;
     @Autowired
+    private CategoryDAO categoryDAO;
+    @Autowired
     private UserConverter userConverter;
 
     private static Logger logger = Logger.getLogger(OrderServiceImpl.class);
 
 
     @Override
-    public void insert(OrderDto order) throws ServiceException {
+    public void insert(OrderDTO orderDTO) throws ServiceException {
+        Order orderPOJO = null;
         try {
-            if (order.getId() != null) {
-                Order entity = dao.getById(order.getId());
+            if (orderDTO.getId() != null) {
+                orderPOJO = dao.getById(orderDTO.getId());
                 dao.insert(orderConverter.convertToLocal(order, entity));
             } else {
                 dao.insert(orderConverter.convertToLocal(order, new Order()));
             }
+            if (orderPOJO == null)
+                orderPOJO = new Order();
+            dao.insert(orderConverter.toOrderPOJO(orderDTO, orderPOJO));
         } catch (DAOException e) {
-           // logger.error(ServiceConstants.ERROR_SERVICE, e);
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public OrderDto getById(Long id) throws ServiceException {
-        Order order;
+    public OrderDTO getById(Long id) throws ServiceException {
+        Order orderPOJO;
         try {
-            order = dao.getById(id);
+            orderPOJO = dao.getById(id);
         } catch (DAOException e) {
-           // logger.error(ServiceConstants.ERROR_SERVICE, e);
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        return orderConverter.convertToFront(order);
+        return orderConverter.toOrderDTO(orderPOJO);
     }
 
     @Override
@@ -82,45 +90,46 @@ public class OrderServiceImpl implements OrderService {
         try {
             dao.deleteById(id);
         } catch (DAOException e) {
-         //   logger.error(ServiceConstants.ERROR_SERVICE, e);
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public List<OrderDto> getAll() throws ServiceException {
-        List<Order> orders;
+    public List<OrderDTO> getAll() throws ServiceException {
+        List<Order> orderPOJOs;
+        List<OrderDTO> orderDTOs;
         try {
-            orders = dao.getAll();
+            orderPOJOs = dao.getAll();
         } catch (DAOException e) {
           //  logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        List<OrderDto> result = new ArrayList<>(orders.size());
-        for (Order order : orders) {
-            result.add(orderConverter.convertToFront(order));
+        orderDTOs = new ArrayList<>(orderPOJOs.size());
+        for (Order order : orderPOJOs) {
+            orderDTOs.add(orderConverter.toOrderDTO(order));
         }
-        return result;
+        return orderDTOs;
     }
 
     @Override
-    public List<OrderDto> getOrdersByUser(UserDTO userDTO) throws ServiceException {
-        List<Order> orders;
+    public List<OrderDTO> getOrdersByUser(User userPOJO) throws ServiceException {
+        List<Order> orderPOJOs;
+        List<OrderDTO> orderDTOs;
         try {
-            User user = userDAO.getByUsername(userDTO.getUsername());
-            orders = dao.getOrdersByUser(user);
+            orderPOJOs = dao.getOrdersByUser(userPOJO);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e.getCause());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        List<OrderDto> result = new ArrayList<>(orders.size());
-        for (Order order : orders) {
-            result.add(orderConverter.convertToFront(order));
+        orderDTOs = new ArrayList<>(orderPOJOs.size());
+        for (Order order : orderPOJOs) {
+            orderDTOs.add(orderConverter.toOrderDTO(order));
         }
-        return result;
+        return orderDTOs;
     }
 
 

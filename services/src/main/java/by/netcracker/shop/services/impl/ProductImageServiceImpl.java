@@ -30,14 +30,15 @@ public class ProductImageServiceImpl implements ProductImageService {
     private static Logger logger = Logger.getLogger(ProductImageServiceImpl.class);
 
     @Override
-    public void insert(ProductImageDTO image) throws ServiceException {
+    public void insert(ProductImageDTO imageDTO) throws ServiceException {
+        ProductImage imagePOJO = null;
         try {
-            if (image.getId() != null) {
-                ProductImage productImage = dao.getById(image.getId());
-                dao.insert(converter.convertToLocal(image, productImage));
-            } else {
-                dao.insert(converter.convertToLocal(image, new ProductImage()));
+            if (imageDTO.getId() != null) {
+                imagePOJO = dao.getById(imageDTO.getId());
             }
+            if (imagePOJO == null)
+                imagePOJO = new ProductImage();
+            dao.insert(converter.toImagePOJO(imageDTO, imagePOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -47,15 +48,15 @@ public class ProductImageServiceImpl implements ProductImageService {
 
     @Override
     public ProductImageDTO getById(Long id) throws ServiceException {
-        ProductImage productImage;
+        ProductImage imagePOJO;
         try {
-            productImage = dao.getById(id);
+            imagePOJO = dao.getById(id);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        return converter.convertToFront(productImage);
+        return converter.toImageDTO(imagePOJO);
     }
 
     @Override
@@ -71,18 +72,19 @@ public class ProductImageServiceImpl implements ProductImageService {
 
     @Override
     public List<ProductImageDTO> getAll() throws ServiceException {
-        List<ProductImage> imageList;
+        List<ProductImage> imagePOJOs;
+        List<ProductImageDTO> imageDTOs;
         try {
-            imageList = dao.getAll();
+            imagePOJOs = dao.getAll();
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        List<ProductImageDTO> dtoList = new ArrayList<>(imageList.size());
-        for (ProductImage image : imageList) {
-            dtoList.add(converter.convertToFront(image));
+        imageDTOs = new ArrayList<>(imagePOJOs.size());
+        for (ProductImage image : imagePOJOs) {
+            imageDTOs.add(converter.toImageDTO(image));
         }
-        return dtoList;
+        return imageDTOs;
     }
 }

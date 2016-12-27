@@ -9,7 +9,7 @@ public interface ProductImageService {
 
     ProductImageDTO getById(Long id) throws ServiceException;
 
-    void insert(ProductImageDTO productImageDTO) throws ServiceException;
+    void insert(ProductImageDTO imageDTO) throws ServiceException;
 
     List<ProductImageDTO> getAll() throws ServiceException;
 

@@ -2,7 +2,7 @@ package by.netcracker.shop.services.impl;
 
 import by.netcracker.shop.constants.ServiceConstants;
 import by.netcracker.shop.dao.DeliveryDAO;
-import by.netcracker.shop.dto.DeliveryDto;
+import by.netcracker.shop.dto.DeliveryDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.Delivery;
@@ -29,14 +29,15 @@ public class DeliveryServiceImpl implements DeliveryService {
     private static Logger logger = Logger.getLogger(DeliveryServiceImpl.class);
 
     @Override
-    public void insert(DeliveryDto delivery) throws ServiceException {
+    public void insert(DeliveryDTO deliveryDTO) throws ServiceException {
+        Delivery deliveryPOJO = null;
         try {
-            if (delivery.getId() != null) {
-                Delivery entity = deliveryDAO.getById(delivery.getId());
-                deliveryDAO.insert(converter.convertToLocal(delivery, entity));
-            } else {
-                deliveryDAO.insert(converter.convertToLocal(delivery, new Delivery()));
+            if (deliveryDTO.getId() != null) {
+                deliveryPOJO = deliveryDAO.getById(deliveryDTO.getId());
             }
+            if (deliveryPOJO == null)
+                deliveryPOJO = new Delivery();
+            deliveryDAO.insert(converter.toDeliveryPOJO(deliveryDTO, deliveryPOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -45,16 +46,16 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public DeliveryDto getById(Long id) throws ServiceException {
-        Delivery delivery;
+    public DeliveryDTO getById(Long id) throws ServiceException {
+        Delivery deliveryPOJO;
         try {
-            delivery = deliveryDAO.getById(id);
+            deliveryPOJO = deliveryDAO.getById(id);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e.getCause());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        return converter.convertToFront(delivery);
+        return converter.toDeliveryDTO(deliveryPOJO);
     }
 
     @Override
@@ -69,19 +70,20 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public List<DeliveryDto> getAll() throws ServiceException {
-        List<Delivery> deliveries;
+    public List<DeliveryDTO> getAll() throws ServiceException {
+        List<Delivery> deliveryPOJOs;
+        List<DeliveryDTO> deliveryDTOs;
         try {
-            deliveries = deliveryDAO.getAll();
+            deliveryPOJOs = deliveryDAO.getAll();
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e.getCause());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        List<DeliveryDto> result = new ArrayList<>(deliveries.size());
-        for (Delivery delivery : deliveries) {
-            result.add(converter.convertToFront(delivery));
+        deliveryDTOs = new ArrayList<>(deliveryPOJOs.size());
+        for (Delivery delivery : deliveryPOJOs) {
+            deliveryDTOs.add(converter.toDeliveryDTO(delivery));
         }
-        return result;
+        return deliveryDTOs;
     }
 }

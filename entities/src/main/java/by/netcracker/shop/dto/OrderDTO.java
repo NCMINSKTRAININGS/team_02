@@ -1,5 +1,10 @@
 package by.netcracker.shop.dto;
 
+import by.netcracker.shop.pojo.Delivery;
+import by.netcracker.shop.pojo.Payment;
+import by.netcracker.shop.pojo.Product;
+import by.netcracker.shop.pojo.User;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -7,7 +12,7 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
-public class OrderDto {
+public class OrderDTO {
     private Long id;
 
     @NotNull
@@ -24,7 +29,7 @@ public class OrderDto {
     private Set<Long> productsId = new HashSet<>();
     private Boolean isProduced;
 
-    public OrderDto() {
+    public OrderDTO() {
     }
 
     public OrderDto(Long id, String comment, Double price,
@@ -142,7 +147,7 @@ public class OrderDto {
 
     @Override
     public String toString() {
-        return "OrderDto{" +
+        return "OrderDTO{" +
                 "id=" + id +
                 ", comment='" + comment + '\'' +
                 ", price=" + price +

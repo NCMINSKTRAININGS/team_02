@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 /**
  * Created by j on 20.12.16.
  */
-public class PaymentDto {
+public class PaymentDTO {
     private Long id;
 
     @NotBlank
@@ -16,10 +16,10 @@ public class PaymentDto {
 
     private String description;
 
-    public PaymentDto() {
+    public PaymentDTO() {
     }
 
-    public PaymentDto(Long id, String name, String description) {
+    public PaymentDTO(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -53,9 +53,9 @@ public class PaymentDto {
     public boolean equals(Object o) {
 
         if (this == o) return true;
-        if (!(o instanceof PaymentDto)) return false;
+        if (!(o instanceof PaymentDTO)) return false;
 
-        PaymentDto that = (PaymentDto) o;
+        PaymentDTO that = (PaymentDTO) o;
 
         if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) return false;
         if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
@@ -73,7 +73,7 @@ public class PaymentDto {
 
     @Override
     public String toString() {
-        return "PaymentDto{" +
+        return "PaymentDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

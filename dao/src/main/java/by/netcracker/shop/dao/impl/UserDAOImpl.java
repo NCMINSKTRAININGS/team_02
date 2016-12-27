@@ -40,7 +40,7 @@ public class UserDAOImpl extends AbstractDAO<Long, User> implements UserDAO {
     }
 
     @Override
-    public User getByUsernamePasswordSalt(String username, String password) throws DAOException {
+    public User getByUsernamePassword(String username, String password) throws DAOException {
         User user;
         try {
             Session session = getSession();

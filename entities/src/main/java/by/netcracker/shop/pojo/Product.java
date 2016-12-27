@@ -4,7 +4,6 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-
 @Entity
 @Table(name = "product")
 public class Product extends AbstractEntity<Long> {
