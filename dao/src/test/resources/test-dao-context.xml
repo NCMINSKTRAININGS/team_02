@@ -14,7 +14,7 @@
                             http://www.springframework.org/schema/tx
                              http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
-    <context:property-placeholder location="classpath:test-database.properties" />
+    <context:property-placeholder location="classpath:database.properties" />
     <context:component-scan base-package="by.netcracker.shop.dao"/>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>

@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
-public class OrderDto {
+public class OrderDTO {
     private Long id;
 
     @NotNull
@@ -28,10 +28,10 @@ public class OrderDto {
     private Payment payment;
     private Set<Product> products = new HashSet<>();
 
-    public OrderDto() {
+    public OrderDTO() {
     }
 
-    public OrderDto(Long id, String comment, Double price,
+    public OrderDTO(Long id, String comment, Double price,
                     User user, Delivery delivery, Payment payment,
                     Set<Product> products) {
         this.id = id;
@@ -102,20 +102,20 @@ public class OrderDto {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof OrderDto)) return false;
+        if (!(o instanceof OrderDTO)) return false;
 
-        OrderDto orderDto = (OrderDto) o;
+        OrderDTO orderDTO = (OrderDTO) o;
 
-        if (getId() != null ? !getId().equals(orderDto.getId()) : orderDto.getId() != null) return false;
-        if (getComment() != null ? !getComment().equals(orderDto.getComment()) : orderDto.getComment() != null)
+        if (getId() != null ? !getId().equals(orderDTO.getId()) : orderDTO.getId() != null) return false;
+        if (getComment() != null ? !getComment().equals(orderDTO.getComment()) : orderDTO.getComment() != null)
             return false;
-        if (getPrice() != null ? !getPrice().equals(orderDto.getPrice()) : orderDto.getPrice() != null) return false;
-        if (getUser() != null ? !getUser().equals(orderDto.getUser()) : orderDto.getUser() != null) return false;
-        if (getDelivery() != null ? !getDelivery().equals(orderDto.getDelivery()) : orderDto.getDelivery() != null)
+        if (getPrice() != null ? !getPrice().equals(orderDTO.getPrice()) : orderDTO.getPrice() != null) return false;
+        if (getUser() != null ? !getUser().equals(orderDTO.getUser()) : orderDTO.getUser() != null) return false;
+        if (getDelivery() != null ? !getDelivery().equals(orderDTO.getDelivery()) : orderDTO.getDelivery() != null)
             return false;
-        if (getPayment() != null ? !getPayment().equals(orderDto.getPayment()) : orderDto.getPayment() != null)
+        if (getPayment() != null ? !getPayment().equals(orderDTO.getPayment()) : orderDTO.getPayment() != null)
             return false;
-        return getProducts() != null ? getProducts().equals(orderDto.getProducts()) : orderDto.getProducts() == null;
+        return getProducts() != null ? getProducts().equals(orderDTO.getProducts()) : orderDTO.getProducts() == null;
 
     }
 
@@ -133,7 +133,7 @@ public class OrderDto {
 
     @Override
     public String toString() {
-        return "OrderDto{" +
+        return "OrderDTO{" +
                 "id=" + id +
                 ", comment='" + comment + '\'' +
                 ", price=" + price +
