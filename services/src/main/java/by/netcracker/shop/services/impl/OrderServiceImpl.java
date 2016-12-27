@@ -1,15 +1,15 @@
 package by.netcracker.shop.services.impl;
 
 import by.netcracker.shop.constants.ServiceConstants;
+import by.netcracker.shop.dao.CategoryDAO;
+import by.netcracker.shop.dao.ManufacturerDAO;
 import by.netcracker.shop.dao.OrderDAO;
 import by.netcracker.shop.dao.ProductDAO;
 import by.netcracker.shop.dto.OrderDTO;
 import by.netcracker.shop.dto.ProductDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
-import by.netcracker.shop.pojo.Order;
-import by.netcracker.shop.pojo.Product;
-import by.netcracker.shop.pojo.User;
+import by.netcracker.shop.pojo.*;
 import by.netcracker.shop.services.OrderService;
 import by.netcracker.shop.services.ProductService;
 import by.netcracker.shop.utils.OrderConverter;
@@ -38,6 +38,10 @@ public class OrderServiceImpl implements OrderService {
     private ProductConverter productConverter;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private CategoryDAO categoryDAO;
+    @Autowired
+    private ManufacturerDAO manufacturerDAO;
 
     private static Logger logger = Logger.getLogger(OrderServiceImpl.class);
 
@@ -134,6 +138,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void addProdToOrder(User user, ProductDTO product) throws ServiceException {
         //todo fixed this method
+        Category categoryPOJO = null;
+        Manufacturer manufacturerPOJO = null;
         List<OrderDTO> usersOrders = getOrdersByUser(user);
         OrderDTO order = usersOrders.get(usersOrders.size()-1);
 
@@ -143,7 +149,14 @@ public class OrderServiceImpl implements OrderService {
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
-        Product productConverted=productConverter.convertToLocal(product,entityProd);
+        try {
+            categoryPOJO = categoryDAO.getById(product.getCategoryId());
+            manufacturerPOJO = manufacturerDAO.getById(product.getManufacturerId());
+        } catch (DAOException e) {
+            //todo
+            e.printStackTrace();
+        }
+        Product productConverted=productConverter.convertToLocal(product, entityProd, categoryPOJO, manufacturerPOJO);
 
         if(!order.getProducts().contains(productConverted)){
             order.getProducts().add(productConverted);

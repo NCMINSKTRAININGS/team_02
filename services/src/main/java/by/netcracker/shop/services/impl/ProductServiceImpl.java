@@ -1,10 +1,14 @@
 package by.netcracker.shop.services.impl;
 
 import by.netcracker.shop.constants.ServiceConstants;
+import by.netcracker.shop.dao.CategoryDAO;
+import by.netcracker.shop.dao.ManufacturerDAO;
 import by.netcracker.shop.dao.ProductDAO;
 import by.netcracker.shop.dto.ProductDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
+import by.netcracker.shop.pojo.Category;
+import by.netcracker.shop.pojo.Manufacturer;
 import by.netcracker.shop.pojo.Product;
 import by.netcracker.shop.services.ProductService;
 import by.netcracker.shop.utils.ProductConverter;
@@ -27,18 +31,29 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductConverter productConverter;
 
+    @Autowired
+    private CategoryDAO categoryDAO;
+
+    @Autowired
+    private ManufacturerDAO manufacturerDAO;
+
     private static Logger logger = Logger.getLogger(ProductServiceImpl.class);
 
     @Override
     public void insert(ProductDTO productDTO) throws ServiceException {
         Product productPOJO = null;
+        Category categoryPOJO;
+        Manufacturer manufacturerPOJO;
         try {
             if (productDTO.getId() != null) {
                 productPOJO = dao.getById(productDTO.getId());
             }
             if (productPOJO == null)
                 productPOJO = new Product();
-            dao.insert(productConverter.convertToLocal(productDTO, productPOJO));
+            categoryPOJO = categoryDAO.getById(productDTO.getCategoryId());
+            manufacturerPOJO = manufacturerDAO.getById(productDTO.getManufacturerId());
+            productPOJO = productConverter.convertToLocal(productDTO, productPOJO, categoryPOJO, manufacturerPOJO);
+            dao.insert(productPOJO);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
