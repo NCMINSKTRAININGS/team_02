@@ -177,5 +177,4 @@ public class CategoryDAOImplTest {
         Assert.assertEquals(msg, categoryDAO.getByGap(0, -1), categories.subList(0, categories.size()));
         Assert.assertEquals(msg, categoryDAO.getByGap(categories.size(), 1), categories.subList(0, 0));
     }
-
 }
