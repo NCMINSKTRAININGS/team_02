@@ -56,6 +56,7 @@
     </div>
 </div>
 
+<sec:authorize access="hasRole('ROLE_CLIENT')">
 <div class="masonry">
     <c:forEach items="${products}" var="product">
         <div class="item">
@@ -72,3 +73,21 @@
         </div>
     </c:forEach>
 </div>
+</sec:authorize>
+
+<sec:authorize access="isAnonymous()">
+<div class="masonry">
+    <c:forEach items="${products}" var="product">
+        <div class="item">
+            <img src="${product.image}">
+            <br>
+            <spring:message code="label.product.field.categoryId"/> ${product.categoryName} <br>
+            <spring:message code="label.product.field.manufacturerId"/> ${product.manufacturerName} <br>
+            <spring:message code="label.product.field.name"/> ${product.name} <br>
+            <spring:message code="label.product.field.description"/> ${product.description} <br>
+            <spring:message code="label.product.field.price"/> ${product.price} <br>
+            <spring:message var="addButton" code="label.button.add"/> <br>
+        </div>
+    </c:forEach>
+</div>
+</sec:authorize>
