@@ -61,20 +61,22 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void insert(CategoryDTO categoryDTO) throws ServiceException {
+    public Long insert(CategoryDTO categoryDTO) throws ServiceException {
         Category categoryPOJO = null;
+        Long id;
         try {
             if (categoryDTO.getId() != null) {
                 categoryPOJO = dao.getById(categoryDTO.getId());
             }
             if (categoryPOJO == null)
                 categoryPOJO = new Category();
-            dao.insert(converter.toCategoryPOJO(categoryDTO, categoryPOJO));
+            id = dao.insert(converter.toCategoryPOJO(categoryDTO, categoryPOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
+        return id;
     }
 
     @Override

@@ -19,6 +19,10 @@ public class CategoryDTO {
     public CategoryDTO() {
     }
 
+    public CategoryDTO(CategoryDTO categoryDTO) {
+        this(categoryDTO.getId(), categoryDTO.getName(), categoryDTO.getDescription(), categoryDTO.getImage());
+    }
+
     public CategoryDTO(Long id, String name, String description, String image) {
         this.id = id;
         this.name = name;

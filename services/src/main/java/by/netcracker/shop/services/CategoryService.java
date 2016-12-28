@@ -6,7 +6,7 @@ import by.netcracker.shop.exceptions.ServiceException;
 import java.util.List;
 
 public interface CategoryService {
-    void insert(CategoryDTO categoryDTO) throws ServiceException;
+    Long insert(CategoryDTO categoryDTO) throws ServiceException;
 
     CategoryDTO getById(Long id) throws ServiceException;
 
