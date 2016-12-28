@@ -31,6 +31,11 @@ public class OrderDTO {
     public OrderDTO() {
     }
 
+    public OrderDTO(OrderDTO orderDTO) {
+        this(orderDTO.getId(), orderDTO.getComment(), orderDTO.getPrice(), orderDTO.getUser(),
+                orderDTO.getDelivery(), orderDTO.getPayment(), orderDTO.getProducts());
+    }
+
     public OrderDTO(Long id, String comment, Double price,
                     User user, Delivery delivery, Payment payment,
                     Set<Product> products) {
