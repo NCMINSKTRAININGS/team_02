@@ -62,16 +62,16 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public void update(DeliveryDTO categoryDTO) throws ServiceException {
-        Delivery categoryPOJO = null;
+    public void update(DeliveryDTO deliveryDTO) throws ServiceException {
+        Delivery deliveryPOJO = null;
         try {
-            if (categoryDTO.getId() != null)
-                categoryPOJO = deliveryDAO.getById(categoryDTO.getId());
-            if (categoryPOJO == null) {
+            if (deliveryDTO.getId() != null)
+                deliveryPOJO = deliveryDAO.getById(deliveryDTO.getId());
+            if (deliveryPOJO == null) {
                 throw new ServiceException();
             }
-            categoryPOJO = converter.toDeliveryPOJO(categoryDTO, categoryPOJO);
-            deliveryDAO.update(categoryPOJO);
+            deliveryPOJO = converter.toDeliveryPOJO(deliveryDTO, deliveryPOJO);
+            deliveryDAO.update(deliveryPOJO);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
@@ -121,17 +121,17 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public List<DeliveryDTO> getByGap(int offset, int quantity) throws ServiceException {
-        List<Delivery> categoryPOJOs;
-        List<DeliveryDTO> categoryDTOs = new LinkedList<>();
+        List<Delivery> deliveryPOJOs;
+        List<DeliveryDTO> deliveryDTOs = new LinkedList<>();
         try {
-            categoryPOJOs = deliveryDAO.getByGap(offset, quantity);
+            deliveryPOJOs = deliveryDAO.getByGap(offset, quantity);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
-        for (Delivery categoryPOJO : categoryPOJOs) {
-            categoryDTOs.add(converter.toDeliveryDTO(categoryPOJO));
+        for (Delivery deliveryPOJO : deliveryPOJOs) {
+            deliveryDTOs.add(converter.toDeliveryDTO(deliveryPOJO));
         }
-        return categoryDTOs;
+        return deliveryDTOs;
     }
 }
