@@ -1,8 +1,8 @@
 package by.netcracker.shop.controllers;
 
 import by.netcracker.shop.constants.Parameters;
-import by.netcracker.shop.dto.OrderProductDTO;
 import by.netcracker.shop.dto.UserDTO;
+import by.netcracker.shop.dto.UsersOrdersDTO;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.services.OrderProductService;
 import by.netcracker.shop.services.OrderService;
@@ -43,11 +43,11 @@ public class OrderController {
 
     @RequestMapping(value = Parameters.REQUEST_ORDER_LIST, method = RequestMethod.GET)
     public String listOrders(ModelMap modelMap){
-        List<OrderProductDTO> orders= new ArrayList<>();
+        List<UsersOrdersDTO> orders= new ArrayList<>();
         List<UserDTO> users=new ArrayList<>();
         try {
-            orders = orderProductService.getAll();
-            users = userService.getAll();
+            orders = orderService.getOrdersByUsers();
+            //users = userService.getAll();
         } catch (ServiceException e) {
             //todo
         }

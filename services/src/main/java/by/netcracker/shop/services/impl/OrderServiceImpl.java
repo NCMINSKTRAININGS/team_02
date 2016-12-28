@@ -2,12 +2,16 @@ package by.netcracker.shop.services.impl;
 
 import by.netcracker.shop.constants.ServiceConstants;
 import by.netcracker.shop.dao.OrderDAO;
+import by.netcracker.shop.dao.UserDAO;
 import by.netcracker.shop.dto.OrderDTO;
+import by.netcracker.shop.dto.UsersOrdersDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.Order;
+import by.netcracker.shop.pojo.User;
 import by.netcracker.shop.services.OrderService;
 import by.netcracker.shop.utils.OrderConverter;
+import by.netcracker.shop.utils.UsersOrdersConverter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +26,13 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderDAO dao;
+    @Autowired
+    private UserDAO userDAO;
 
     @Autowired
     private OrderConverter orderConverter;
+    @Autowired
+    private UsersOrdersConverter usersOrdersConverter;
 
 
     private static Logger logger = Logger.getLogger(OrderServiceImpl.class);
@@ -92,8 +100,22 @@ public class OrderServiceImpl implements OrderService {
         return orderDTOs;
     }
 
-
-
+    @Override
+    public List<UsersOrdersDTO> getOrdersByUsers() throws ServiceException {
+        List<User> users= null;
+        List<UsersOrdersDTO> usersOrdersDTOs=new ArrayList<>();
+        try {
+            users = userDAO.getAll();
+            for (User user:users) {
+                usersOrdersDTOs.add(usersOrdersConverter.toUsersOrdersDTO(user,dao.getOrdersByUser(user)));
+            }
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            throw new ServiceException(e);
+        }
+        return usersOrdersDTOs;
+    }
 
 
 }
