@@ -16,6 +16,7 @@
         <put-attribute name="footer" value="/WEB-INF/views/skeleton/footer.jsp" />
     </definition>
 
+    <!--Orders-->
     <definition name="order/list" extends="baseTemplate">
         <put-attribute name="titleKey" value="label.order.list"/>
         <put-attribute name="body" value="/WEB-INF/views/order/list.jsp" />
@@ -26,6 +27,7 @@
         <put-attribute name="body" value="/WEB-INF/views/order/details.jsp"/>
     </definition>
 
+    <!--Deliveries-->
     <definition name="delivery/list" extends="baseTemplate">
         <put-attribute name="titleKey" value="label.delivery.list"/>
         <put-attribute name="body" value="/WEB-INF/views/delivery/list.jsp"/>
@@ -36,6 +38,7 @@
         <put-attribute name="body" value="/WEB-INF/views/delivery/new.jsp"/>
     </definition>
 
+    <!--Products-->
     <definition name="product/list" extends="baseTemplate">
         <put-attribute name="titleKey" value="label.product.list"/>
         <put-attribute name="body" value="/WEB-INF/views/product/list.jsp" />
@@ -46,14 +49,31 @@
         <put-attribute name="body" value="/WEB-INF/views/product/new.jsp" />
     </definition>
 
-    <definition name="user/login" extends="empty">
+    <!--Users-->
+    <definition name="user/login" extends="baseTemplate">
         <put-attribute name="titleKey" value="label.login"/>
         <put-attribute name="body" value="/WEB-INF/views/user/login.jsp" />
     </definition>
 
-    <definition name="user/registration" extends="empty">
+    <definition name="user/registration" extends="baseTemplate">
         <put-attribute name="titleKey" value="label.registration"/>
         <put-attribute name="body" value="/WEB-INF/views/user/registration.jsp" />
+    </definition>
+
+    <definition name="user/profile" extends="baseTemplate">
+        <put-attribute name="titleKey" value="label.profile"/>
+        <put-attribute name="body" value="/WEB-INF/views/user/profile.jsp"/>
+    </definition>
+
+    <!--Images-->
+    <definition name="image/list" extends="baseTemplate">
+        <put-attribute name="titleKey" value="label.image.list"/>
+        <put-attribute name="body" value="/WEB-INF/views/image/list.jsp" />
+    </definition>
+
+    <definition name="image/new" extends="baseTemplate">
+        <put-attribute name="titleKey" value="label.image.new"/>
+        <put-attribute name="body" value="/WEB-INF/views/image/new.jsp" />
     </definition>
 
 </tiles-definitions>

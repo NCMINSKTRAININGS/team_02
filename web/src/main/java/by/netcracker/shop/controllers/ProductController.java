@@ -3,8 +3,8 @@ package by.netcracker.shop.controllers;
 import by.netcracker.shop.constants.Parameters;
 import by.netcracker.shop.dto.CategoryDTO;
 import by.netcracker.shop.dto.ManufacturerDTO;
+import by.netcracker.shop.dto.ProductDTO;
 import by.netcracker.shop.exceptions.ServiceException;
-import by.netcracker.shop.pojo.Product;
 import by.netcracker.shop.services.CategoryService;
 import by.netcracker.shop.services.ManufacturerService;
 import by.netcracker.shop.services.ProductService;
@@ -35,7 +35,7 @@ public class ProductController {
 
     @RequestMapping(value = Parameters.REQUEST_PRODUCT_LIST, method = RequestMethod.GET)
     public String listProducts(ModelMap modelMap) {
-        List<Product> products = null;
+        List<ProductDTO> products = null;
         try {
             products = service.getAll();
         } catch (ServiceException e) {
@@ -47,20 +47,20 @@ public class ProductController {
 
     @RequestMapping(value = Parameters.REQUEST_PRODUCT_CREATE, method = RequestMethod.GET)
     public String createProduct(ModelMap modelMap) {
-        Product product = new Product();
-        modelMap.addAttribute(Parameters.FIELD_PRODUCT, product);
+        ProductDTO dto = new ProductDTO();
+        modelMap.addAttribute(Parameters.FIELD_PRODUCT_DTO, dto);
         modelMap.addAttribute(Parameters.EDIT, false);
         return Parameters.TILES_PRODUCT_NEW;
     }
 
     @RequestMapping(value = Parameters.REQUEST_PRODUCT_CREATE, method = RequestMethod.POST)
-    public String saveProduct(@ModelAttribute(Parameters.FIELD_PRODUCT) @Valid Product product,
+    public String saveProduct(@Valid @ModelAttribute(Parameters.FIELD_PRODUCT_DTO) ProductDTO dto,
                               BindingResult bindingResult, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
             return Parameters.TILES_PRODUCT_NEW;
-        } //TODO: validation
+        }
         try {
-            service.insert(product);
+            service.insert(dto);
         } catch (ServiceException e) {
             e.printStackTrace();
         }
@@ -69,26 +69,26 @@ public class ProductController {
 
     @RequestMapping(value = Parameters.REQUEST_PRODUCT_EDIT, method = RequestMethod.GET)
     public String editProduct(@PathVariable Long id, ModelMap modelMap) {
-        Product product = null;
+        ProductDTO dto = null;
         try {
-            product = service.getById(id);
+            dto = service.getById(id);
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        modelMap.addAttribute(Parameters.FIELD_PRODUCT, product);
+        modelMap.addAttribute(Parameters.FIELD_PRODUCT_DTO, dto);
         modelMap.addAttribute(Parameters.EDIT, true);
         return Parameters.TILES_PRODUCT_NEW;
     }
 
     @RequestMapping(value = Parameters.REQUEST_PRODUCT_EDIT, method = RequestMethod.POST)
-    public String updateProduct(@Valid Product product, BindingResult bindingResult, @PathVariable Long id,
-                                ModelMap modelMap) {
+    public String updateProduct(@Valid @ModelAttribute(Parameters.FIELD_PRODUCT_DTO) ProductDTO dto,
+                                BindingResult bindingResult, @PathVariable Long id, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
             modelMap.addAttribute(Parameters.EDIT, true);
             return Parameters.TILES_PRODUCT_NEW;
         }
         try {
-            service.insert(product);
+            service.insert(dto);
         } catch (ServiceException e) {
             e.printStackTrace();
         }

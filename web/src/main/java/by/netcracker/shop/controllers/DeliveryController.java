@@ -1,6 +1,6 @@
 package by.netcracker.shop.controllers;
 
-import by.netcracker.shop.dto.DeliveryDto;
+import by.netcracker.shop.dto.DeliveryDTO;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.services.DeliveryService;
 import by.netcracker.shop.services.UserService;
@@ -31,7 +31,7 @@ public class DeliveryController {
 
     @RequestMapping(value = {"/list"},method = RequestMethod.GET)
     public String listDeliveries(ModelMap modelMap){
-        List<DeliveryDto> deliveries= null;
+        List<DeliveryDTO> deliveries= null;
         try {
             deliveries = deliveryService.getAll();
         } catch (ServiceException e) {
@@ -44,8 +44,8 @@ public class DeliveryController {
     @RequestMapping(value = { "/edit-{id}-delivery" }, method = RequestMethod.GET)
     public String editDelivery(@PathVariable Long id, ModelMap model) {
         try {
-            DeliveryDto deliveryDto = deliveryService.getById(id);
-            model.addAttribute("delivery", deliveryDto);
+            DeliveryDTO deliveryDTO = deliveryService.getById(id);
+            model.addAttribute("delivery", deliveryDTO);
             model.addAttribute("edit", true);
         } catch (ServiceException e) {
 
@@ -55,15 +55,15 @@ public class DeliveryController {
 
 
     @RequestMapping(value = { "/edit-{id}-delivery" }, method = RequestMethod.POST)
-    public String updateDelivery(@Valid @ModelAttribute("delivery") DeliveryDto deliveryDto, BindingResult result,
-                             ModelMap model, @PathVariable Long id) {
+    public String updateDelivery(@Valid @ModelAttribute("delivery") DeliveryDTO deliveryDTO, BindingResult result,
+                                 ModelMap model, @PathVariable Long id) {
 
         if (result.hasErrors()) {
             model.addAttribute("edit", true);
             return "delivery/new";
         }
         try {
-            deliveryService.insert(deliveryDto);
+            deliveryService.insert(deliveryDTO);
         } catch (ServiceException e) {
 
         }
@@ -82,7 +82,7 @@ public class DeliveryController {
 
     @RequestMapping(value = { "/new" }, method = RequestMethod.GET)
     public String newDelivery(ModelMap model) {
-        DeliveryDto delivery = new DeliveryDto();
+        DeliveryDTO delivery = new DeliveryDTO();
         model.addAttribute("delivery", delivery);
         model.addAttribute("edit", false);
         return "delivery/new";
@@ -90,8 +90,8 @@ public class DeliveryController {
 
 
     @RequestMapping(value = { "/new" }, method = RequestMethod.POST)
-    public String saveTeam(@Valid @ModelAttribute("delivery") DeliveryDto delivery, BindingResult result,
-                           ModelMap model) {
+    public String saveDelivery(@Valid @ModelAttribute("delivery") DeliveryDTO delivery, BindingResult result,
+                               ModelMap model) {
 
         if (result.hasErrors()) {
             return "delivery/new";

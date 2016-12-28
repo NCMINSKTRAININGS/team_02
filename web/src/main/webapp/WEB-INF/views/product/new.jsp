@@ -4,15 +4,15 @@
 
 <div class="container-paddingtop50">
     <div class="container">
-        <springform:form name="newProductForm" method="post" modelAttribute="product">
+        <springform:form name="newProductForm" method="post" modelAttribute="dto">
             <springform:input path="id" id="id" type="hidden"/>
-            <table>
+            <table class=" table">
                 <tr>
                     <td style="line-height: 2" class="col-sm-2 control-label">
-                        <label for="category"><spring:message code="label.product.field.category"/></label>
+                        <label for="categoryId"><spring:message code="label.product.field.category"/></label>
                     </td>
                     <td class="col-sm-6">
-                        <springform:select id="category" path="categoryId" items="${categories}" itemValue="id"
+                        <springform:select id="categoryId" path="categoryId" items="${categories}" itemValue="id"
                                            itemLabel="name" cssClass="form-control"/>
                     </td>
                     <td>
@@ -21,10 +21,10 @@
                 </tr>
                 <tr>
                     <td style="line-height: 2" class="col-sm-2 control-label">
-                        <label for="manufacturer"><spring:message code="label.product.field.manufacturer"/></label>
+                        <label for="manufacturerId"><spring:message code="label.product.field.manufacturer"/></label>
                     </td>
                     <td class="col-sm-6">
-                        <springform:select id="manufacturer" path="manufacturerId" items="${manufacturers}"
+                        <springform:select id="manufacturerId" path="manufacturerId" items="${manufacturers}"
                                            itemValue="id" itemLabel="name" cssClass="form-control"/>
                     </td>
                     <td>
@@ -88,18 +88,35 @@
                                            cssClass="label label-danger"/>
                     </td>
                 </tr>
+                <%--<tr>--%>
+                    <%--<td style="line-height: 2" class="col-sm-2 control-label">--%>
+                        <%--<label for="image"><spring:message code="label.image.field.image"/></label>--%>
+                    <%--</td>--%>
+                    <%--<td class="col-sm-6">--%>
+                        <%--<springform:input type="text" id="image" path="image" cssClass="form-control"/>--%>
+                    <%--</td>--%>
+                    <%--<td>--%>
+                        <%--<springform:errors path="image" cssStyle="line-height: 3" cssClass="label label-danger"/>--%>
+                    <%--</td>--%>
+                <%--</tr>--%>
                 <tr>
-                    <td>
+                    <td colspan="3">
                         <c:choose>
                             <c:when test="${edit}">
-                                <spring:message var="editButton" code="label.product.button.edit"/>
+                                <spring:message var="editButton" code="label.button.edit"/>
                                 <input type="submit" class="btn btn-primary" value="${editButton}"/>
                             </c:when>
                             <c:otherwise>
-                                <spring:message var="createButton" code="label.product.button.create"/>
+                                <spring:message var="createButton" code="label.button.create"/>
                                 <input type="submit" class="btn btn-primary" value="${createButton}"/>
                             </c:otherwise>
                         </c:choose>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <spring:message var="backButton" code="label.button.back"/>
+                        <input type="submit" class="btn btn-primary" value="${backButton}"/>
                     </td>
                 </tr>
             </table>
