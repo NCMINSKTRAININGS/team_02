@@ -22,8 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping(Parameters.CONTROLLER_ORDER)
@@ -45,6 +44,7 @@ public class OrderController {
 
     @RequestMapping(value = Parameters.REQUEST_ORDER_LIST, method = RequestMethod.GET)
     public String listOrders(ModelMap modelMap){
+
         List<UsersOrdersDTO> orders= new ArrayList<>();
         try {
             orders = orderService.getOrdersByUsers();
@@ -57,13 +57,25 @@ public class OrderController {
 
     @RequestMapping(value = "/show-order-for-{id}", method = RequestMethod.GET)
     public String showOrdersByUser(@PathVariable Long id, ModelMap modelMap) throws ServiceException {
-            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            String currentUser = ((UserDetails)principal).getUsername();
-        UserDTO userDTO = null;
-        userDTO = userService.getById(id);
-        if(userDTO.getUsername()==currentUser||userDTO.getRole().equals(UserRole.ADMIN)){
-                List<OrderProductDTO> orderProductByUser = orderProductService.getOrdersByUser(id);
-                modelMap.addAttribute("userOrder", orderProductByUser);
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails)principal).getUsername();
+        UserDTO currentUser = userService.getByUsername(username);
+        UserDTO userDTO = userService.getById(id);
+
+        Map<Long,List<OrderProductDTO>> map = new HashMap<>();
+
+        if(Objects.equals(userDTO.getUsername(), currentUser.getUsername())||currentUser.getRole().equals(UserRole.ADMIN)){
+            List<OrderProductDTO> orderProductByUser = orderProductService.getOrdersByUser(id);
+            for (OrderProductDTO orderProductDTO:orderProductByUser) {
+                List<OrderProductDTO> list =map.get(orderProductDTO.getOrderId());
+                if (list == null){
+                    list = new ArrayList<>();
+                    map.put(orderProductDTO.getOrderId(),list);
+                }
+                list.add(orderProductDTO);
+            }
+                modelMap.addAttribute("userOrder", map);
                 return "order/details";
             }
         else return "403";
