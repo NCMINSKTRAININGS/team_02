@@ -5,12 +5,14 @@ import by.netcracker.shop.pojo.Payment;
 import by.netcracker.shop.pojo.Product;
 import by.netcracker.shop.pojo.User;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-public class OrderDto {
+public class OrderDTO {
     private Long id;
 
     @NotNull
@@ -18,20 +20,20 @@ public class OrderDto {
     private String comment;
 
     @NotNull
-    private Integer price;
+    @Min(1) @Max(999999999)
+    private Double price;
 
     private User user;
     private Delivery delivery;
     private Payment payment;
+    private Set<Product> products = new HashSet<>();
 
-    private List<Product> products=new ArrayList<>();
-
-    public OrderDto() {
+    public OrderDTO() {
     }
 
-    public OrderDto(Long id, String comment, Integer price,
+    public OrderDTO(Long id, String comment, Double price,
                     User user, Delivery delivery, Payment payment,
-                    List<Product> products) {
+                    Set<Product> products) {
         this.id = id;
         this.comment = comment;
         this.price = price;
@@ -57,11 +59,11 @@ public class OrderDto {
         this.comment = comment;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -89,31 +91,31 @@ public class OrderDto {
         this.payment = payment;
     }
 
-    public List<Product> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(Set<Product> products) {
         this.products = products;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof OrderDto)) return false;
+        if (!(o instanceof OrderDTO)) return false;
 
-        OrderDto orderDto = (OrderDto) o;
+        OrderDTO orderDTO = (OrderDTO) o;
 
-        if (getId() != null ? !getId().equals(orderDto.getId()) : orderDto.getId() != null) return false;
-        if (getComment() != null ? !getComment().equals(orderDto.getComment()) : orderDto.getComment() != null)
+        if (getId() != null ? !getId().equals(orderDTO.getId()) : orderDTO.getId() != null) return false;
+        if (getComment() != null ? !getComment().equals(orderDTO.getComment()) : orderDTO.getComment() != null)
             return false;
-        if (getPrice() != null ? !getPrice().equals(orderDto.getPrice()) : orderDto.getPrice() != null) return false;
-        if (getUser() != null ? !getUser().equals(orderDto.getUser()) : orderDto.getUser() != null) return false;
-        if (getDelivery() != null ? !getDelivery().equals(orderDto.getDelivery()) : orderDto.getDelivery() != null)
+        if (getPrice() != null ? !getPrice().equals(orderDTO.getPrice()) : orderDTO.getPrice() != null) return false;
+        if (getUser() != null ? !getUser().equals(orderDTO.getUser()) : orderDTO.getUser() != null) return false;
+        if (getDelivery() != null ? !getDelivery().equals(orderDTO.getDelivery()) : orderDTO.getDelivery() != null)
             return false;
-        if (getPayment() != null ? !getPayment().equals(orderDto.getPayment()) : orderDto.getPayment() != null)
+        if (getPayment() != null ? !getPayment().equals(orderDTO.getPayment()) : orderDTO.getPayment() != null)
             return false;
-        return getProducts() != null ? getProducts().equals(orderDto.getProducts()) : orderDto.getProducts() == null;
+        return getProducts() != null ? getProducts().equals(orderDTO.getProducts()) : orderDTO.getProducts() == null;
 
     }
 
@@ -131,7 +133,7 @@ public class OrderDto {
 
     @Override
     public String toString() {
-        return "OrderDto{" +
+        return "OrderDTO{" +
                 "id=" + id +
                 ", comment='" + comment + '\'' +
                 ", price=" + price +

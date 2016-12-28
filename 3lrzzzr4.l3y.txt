@@ -1,0 +1,75 @@
+﻿Merge remote-tracking branch 'refs/remotes/origin/master' into Dmitry
+
+# Conflicts:
+#	entities/src/main/java/by/netcracker/shop/dto/CategoryDTO.java
+#	entities/src/main/java/by/netcracker/shop/dto/DeliveryDTO.java
+#	services/src/main/java/by/netcracker/shop/services/DeliveryService.java
+#	services/src/main/java/by/netcracker/shop/services/impl/CategoryServiceImpl.java
+#	services/src/main/java/by/netcracker/shop/services/impl/DeliveryServiceImpl.java
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch Dmitry
+# Your branch is up-to-date with 'origin/Dmitry'.
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	deleted:    dao/src/test/java/by/netcracker/shop/dao/DAOTest.java
+#	deleted:    dao/src/test/resources/test-database.properties
+#	modified:   dao/target/dao-0.1.jar
+#	modified:   dao/target/maven-archiver/pom.properties
+#	modified:   entities/src/main/java/by/netcracker/shop/dto/CategoryDTO.java
+#	modified:   entities/src/main/java/by/netcracker/shop/dto/DeliveryDTO.java
+#	deleted:    entities/src/main/java/by/netcracker/shop/dto/DeliveryDto.java
+#	deleted:    entities/src/main/java/by/netcracker/shop/dto/EntityDTO.java
+#	deleted:    entities/src/main/java/by/netcracker/shop/dto/OrderDto.java
+#	deleted:    entities/src/main/java/by/netcracker/shop/utils/ConvertToFront.java
+#	deleted:    entities/src/main/java/by/netcracker/shop/utils/Converter.java
+#	deleted:    entities/src/main/java/by/netcracker/shop/utils/ConverterToLocal.java
+#	modified:   entities/target/classes/by/netcracker/shop/dto/CategoryDTO.class
+#	modified:   entities/target/classes/by/netcracker/shop/dto/DeliveryDTO.class
+#	modified:   entities/target/entities-0.1.jar
+#	modified:   entities/target/maven-archiver/pom.properties
+#	modified:   pom.xml
+#	modified:   services/src/main/java/by/netcracker/shop/services/CategoryService.java
+#	modified:   services/src/main/java/by/netcracker/shop/services/DeliveryService.java
+#	deleted:    services/src/main/java/by/netcracker/shop/services/Service.java
+#	modified:   services/src/main/java/by/netcracker/shop/services/impl/CategoryServiceImpl.java
+#	modified:   services/src/main/java/by/netcracker/shop/services/impl/DeliveryServiceImpl.java
+#	deleted:    services/src/test/java/by/netcracker/shop/services/ServiceTest.java
+#	new file:   services/src/test/java/by/netcracker/shop/services/impl/CategoryServiceImplTest.java
+#	new file:   services/src/test/java/by/netcracker/shop/services/impl/DeliveryServiceImplTest.java
+#	modified:   services/target/classes/by/netcracker/shop/services/CategoryService.class
+#	modified:   services/target/classes/by/netcracker/shop/services/DeliveryService.class
+#	modified:   services/target/classes/by/netcracker/shop/services/impl/CategoryServiceImpl.class
+#	modified:   services/target/classes/by/netcracker/shop/services/impl/DeliveryServiceImpl.class
+#	modified:   services/target/maven-archiver/pom.properties
+#	modified:   services/target/services-0.1.jar
+#	modified:   shop_dump.sql
+#	modified:   web/src/main/java/by/netcracker/shop/constants/Parameters.java
+#	deleted:    web/src/main/java/by/netcracker/shop/exceptions/UtilException.java
+#	deleted:    web/src/main/java/by/netcracker/shop/utils/PasswordGenerator.java
+#	deleted:    web/src/main/webapp/WEB-INF/jspf/footer.jspf
+#	deleted:    web/src/main/webapp/WEB-INF/jspf/header.jspf
+#	renamed:    web/src/main/resources/config.properties -> web/src/main/webapp/WEB-INF/views/product/details.jsp
+#	deleted:    web/src/main/webapp/WEB-INF/views/view.jsp
+#	modified:   web/target/classes/by/netcracker/shop/constants/Parameters.class
+#	modified:   web/target/classes/by/netcracker/shop/controllers/DeliveryController.class
+#	modified:   web/target/classes/by/netcracker/shop/controllers/OrderController.class
+#	modified:   web/target/classes/by/netcracker/shop/controllers/PaymentController.class
+#	modified:   web/target/classes/by/netcracker/shop/controllers/ProductController.class
+#	modified:   web/target/classes/by/netcracker/shop/controllers/ProductImageController.class
+#	modified:   web/target/classes/by/netcracker/shop/controllers/UserController.class
+#	modified:   web/target/classes/by/netcracker/shop/filters/EncodingFilter.class
+#	modified:   web/target/maven-archiver/pom.properties
+#	modified:   web/target/web-0.1/WEB-INF/classes/by/netcracker/shop/constants/Parameters.class
+#	modified:   web/target/web-0.1/WEB-INF/classes/by/netcracker/shop/controllers/DeliveryController.class
+#
+
