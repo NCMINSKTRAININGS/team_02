@@ -40,7 +40,7 @@ public class Order extends AbstractEntity<Long> {
 //    @JoinTable(name = "order_product",
 //            joinColumns = {@JoinColumn(name = "order_id")},
 //            inverseJoinColumns = {@JoinColumn(name = "product_id")})
-    @OneToMany(mappedBy = "primaryKey.order",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "primaryKey.order",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<OrderProduct> orderProducts = new HashSet<>();
 
     public Order() {

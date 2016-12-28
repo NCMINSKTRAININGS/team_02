@@ -1,14 +1,15 @@
 package by.netcracker.shop.services.impl;
 
-import by.netcracker.shop.constants.ServiceConstants;
+import by.netcracker.shop.dao.OrderDAO;
 import by.netcracker.shop.dao.OrderProductDAO;
+import by.netcracker.shop.dao.ProductDAO;
 import by.netcracker.shop.dao.UserDAO;
+import by.netcracker.shop.dto.OrderDTO;
 import by.netcracker.shop.dto.OrderProductDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.OrderProduct;
 import by.netcracker.shop.pojo.OrderProductId;
-import by.netcracker.shop.pojo.User;
 import by.netcracker.shop.services.OrderProductService;
 import by.netcracker.shop.services.OrderService;
 import by.netcracker.shop.services.ProductService;
@@ -21,6 +22,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service("orderProductService")
 @Transactional
@@ -33,7 +35,11 @@ public class OrderProductServiceImpl implements OrderProductService {
     @Autowired
     private OrderService orderService;
     @Autowired
+    private OrderDAO orderDAO;
+    @Autowired
     private ProductService productService;
+    @Autowired
+    private ProductDAO productDAO;
     @Autowired
     private UserDAO userDAO;
 
@@ -75,25 +81,36 @@ public class OrderProductServiceImpl implements OrderProductService {
     }
 
     @Override
-    public void deleteById(Long id) throws ServiceException {
-
+    public void deleteProductFromOrder(Long orderId, Long productId) throws ServiceException {
+        try {
+            OrderProductId id = new OrderProductId(orderDAO.getById(orderId),productDAO.getById(productId));
+            OrderProduct orderProduct = orderProductDAO.getById(id);
+            OrderDTO orderDTO = orderService.getById(orderId);
+            Set<Long> productsId ;
+            productsId = orderDTO.getProductsId();
+            if(orderProduct.getPruductQuantity()>=2){
+                orderProduct.setPruductQuantity(orderProduct.getPruductQuantity()-1);
+                insert(orderProductConverter.convertToFront(orderProduct));
+            }else {
+                orderProductDAO.deleteById(id);
+                productsId.remove(productId);
+                orderDTO.setProductsId(productsId);
+            }
+            if(orderDTO.getProductsId().isEmpty()){
+                orderService.deleteById(orderId);
+            }
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @Override
     public List<OrderProductDTO> getOrdersByUser(Long userId) throws ServiceException {
-        User user= null;
         List<OrderProductDTO> orderProductDTO= new ArrayList<>();
-        try {
-            user = userDAO.getById(userId);
-            for (OrderProduct orderProduct:
-            orderProductDAO.getByUserId(userId)) {
-                orderProductDTO.add(orderProductConverter.convertToFront(orderProduct));
-            }
-
-        } catch (DAOException e) {
-            logger.error(ServiceConstants.ERROR_SERVICE, e);
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            throw new ServiceException(e);
+        for (OrderProduct orderProduct:
+        orderProductDAO.getByUserId(userId)) {
+            orderProductDTO.add(orderProductConverter.convertToFront(orderProduct));
         }
         return orderProductDTO;
     }

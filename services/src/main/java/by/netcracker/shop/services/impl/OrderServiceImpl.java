@@ -107,8 +107,9 @@ public class OrderServiceImpl implements OrderService {
         try {
             users = userDAO.getAll();
             for (User user:users) {
+                if(!user.getOrders().isEmpty()){
                 usersOrdersDTOs.add(usersOrdersConverter.toUsersOrdersDTO(user,dao.getOrdersByUser(user)));
-            }
+            }}
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();

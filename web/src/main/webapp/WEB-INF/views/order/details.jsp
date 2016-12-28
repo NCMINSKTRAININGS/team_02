@@ -5,7 +5,8 @@
 <div class="container-paddingtop50">
     <div class="container">
         <c:forEach items="${userOrder}" var="order">
-            <table class="table table-hover" >
+            <h3>Order Num.${order.key}</h3>
+            <table class="table table-hover">
                 <thead>
                 <tr>
                     <th>Name</th>
@@ -21,11 +22,16 @@
                             <td>${ord.productName}</td>
                             <td>${ord.productPrice}</td>
                             <td>${ord.productQuantityInOrder}</td>
-                            <td><a href="/order/remove-">Remove</a> </td>
+                            <c:if test="${ord.username eq signedIn.username}" >
+                                <td><a href="/order/remove-${ord.orderId}-${ord.productId}">Remove</a> </td>
+                            </c:if>
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
+
+
         </c:forEach>
     </div>
 </div>
+

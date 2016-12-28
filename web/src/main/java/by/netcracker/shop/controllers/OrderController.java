@@ -1,9 +1,7 @@
 package by.netcracker.shop.controllers;
 
 import by.netcracker.shop.constants.Parameters;
-import by.netcracker.shop.dto.OrderProductDTO;
-import by.netcracker.shop.dto.UserDTO;
-import by.netcracker.shop.dto.UsersOrdersDTO;
+import by.netcracker.shop.dto.*;
 import by.netcracker.shop.enums.UserRole;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.services.OrderProductService;
@@ -76,6 +74,7 @@ public class OrderController {
                 list.add(orderProductDTO);
             }
                 modelMap.addAttribute("userOrder", map);
+                modelMap.addAttribute("signedIn",currentUser);
                 return "order/details";
             }
         else return "403";
@@ -87,8 +86,9 @@ public class OrderController {
         return "redirect:/product/list";
     }
 
-    @RequestMapping(value = "/remove-{id}-{username}",method = RequestMethod.GET)
-    public String deleteProdFromOrder(@PathVariable Long id, @PathVariable String username, HttpServletRequest request) throws ServiceException{
+    @RequestMapping(value = "/remove-{orderId}-{productId}",method = RequestMethod.GET)
+    public String deleteProdFromOrder(@PathVariable Long orderId, @PathVariable Long productId, HttpServletRequest request) throws ServiceException{
+        orderProductService.deleteProductFromOrder(orderId,productId);
         return "redirect:"+request.getHeader("Referer");
     }
 }
