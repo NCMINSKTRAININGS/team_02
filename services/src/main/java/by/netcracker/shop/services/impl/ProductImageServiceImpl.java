@@ -2,53 +2,61 @@ package by.netcracker.shop.services.impl;
 
 import by.netcracker.shop.constants.ServiceConstants;
 import by.netcracker.shop.dao.ProductImageDAO;
+import by.netcracker.shop.dto.ProductImageDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.ProductImage;
 import by.netcracker.shop.services.ProductImageService;
+import by.netcracker.shop.utils.ProductImageConverter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("productImageService")
 @Transactional
 public class ProductImageServiceImpl implements ProductImageService {
+
     @Autowired
     private ProductImageDAO dao;
+
+    @Autowired
+    private ProductImageConverter converter;
 
     private static Logger logger = Logger.getLogger(ProductImageServiceImpl.class);
 
     @Override
-    public Long insert(ProductImage image) throws ServiceException {
+    public void insert(ProductImageDTO imageDTO) throws ServiceException {
+        ProductImage imagePOJO = null;
         try {
-            return dao.insert(image);
+            if (imageDTO.getId() != null) {
+                imagePOJO = dao.getById(imageDTO.getId());
+            }
+            if (imagePOJO == null)
+                imagePOJO = new ProductImage();
+            dao.insert(converter.toImagePOJO(imageDTO, imagePOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public ProductImage getById(Long id) throws ServiceException {
+    public ProductImageDTO getById(Long id) throws ServiceException {
+        ProductImage imagePOJO;
         try {
-            return dao.getById(id);
+            imagePOJO = dao.getById(id);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-    }
-
-    @Override
-    public void update(ProductImage entity) throws ServiceException {
-        try {
-            dao.update(entity);
-        } catch (DAOException e) {
-            logger.error(ServiceConstants.ERROR_SERVICE, e);
-            throw new ServiceException(e);
-        }
+        return converter.toImageDTO(imagePOJO);
     }
 
     @Override
@@ -57,17 +65,26 @@ public class ProductImageServiceImpl implements ProductImageService {
             dao.deleteById(id);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public List<ProductImage> getAll() throws ServiceException {
+    public List<ProductImageDTO> getAll() throws ServiceException {
+        List<ProductImage> imagePOJOs;
+        List<ProductImageDTO> imageDTOs;
         try {
-            return dao.getAll();
+            imagePOJOs = dao.getAll();
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
+        imageDTOs = new ArrayList<>(imagePOJOs.size());
+        for (ProductImage image : imagePOJOs) {
+            imageDTOs.add(converter.toImageDTO(image));
+        }
+        return imageDTOs;
     }
 }

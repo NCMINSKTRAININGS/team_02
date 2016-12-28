@@ -31,26 +31,27 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO getById(Long id) throws ServiceException {
-        Category category;
+        Category categoryPOJO;
         try {
-            category = dao.getById(id);
+            categoryPOJO = dao.getById(id);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        return converter.convertToFront(category);
+        return converter.toCategoryDTO(categoryPOJO);
     }
 
     @Override
     public void insert(CategoryDTO categoryDTO) throws ServiceException {
+        Category categoryPOJO = null;
         try {
             if (categoryDTO.getId() != null) {
-                Category category = dao.getById(categoryDTO.getId());
-                dao.insert(converter.convertToLocal(categoryDTO, category));
-            } else {
-                dao.insert(converter.convertToLocal(categoryDTO, new Category()));
+                categoryPOJO = dao.getById(categoryDTO.getId());
             }
+            if (categoryPOJO == null)
+                categoryPOJO = new Category();
+            dao.insert(converter.toCategoryPOJO(categoryDTO, categoryPOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -60,19 +61,20 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDTO> getAll() throws ServiceException {
-        List<Category> categoryList;
+        List<Category> categoryPOJOs;
+        List<CategoryDTO> categoryDTOs;
         try {
-            categoryList = dao.getAll();
+            categoryPOJOs = dao.getAll();
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e.getCause());
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
-        List<CategoryDTO> dtoList = new ArrayList<>(categoryList.size());
-        for (Category category : categoryList) {
-            dtoList.add(converter.convertToFront(category));
+        categoryDTOs = new ArrayList<>(categoryPOJOs.size());
+        for (Category category : categoryPOJOs) {
+            categoryDTOs.add(converter.toCategoryDTO(category));
         }
-        return dtoList;
+        return categoryDTOs;
     }
 
     @Override
