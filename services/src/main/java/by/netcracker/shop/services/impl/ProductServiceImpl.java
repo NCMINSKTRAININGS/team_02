@@ -69,15 +69,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO getById(Long id) throws ServiceException {
         Product productPOJO;
-        ProductImage imagePOJO;
+        List<ProductImage> imagePOJOs;
         try {
             productPOJO = dao.getById(id);
-            imagePOJO = imageDAO.getImagesByProduct(productPOJO);
+            imagePOJOs = imageDAO.getImagesByProduct(productPOJO);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
-        return productConverter.toProductDTO(productPOJO, imagePOJO);
+        return productConverter.toProductDTO(productPOJO, imagePOJOs.iterator().next());
     }
 
     @Override
@@ -95,13 +95,14 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDTO> getAll() throws ServiceException {
         List<Product> productPOJOs;
         List<ProductDTO> productDTOs;
-        ProductImage imagePOJO;
+        List<ProductImage> imagePOJOs;
         try {
             productPOJOs = dao.getAll();
             productDTOs = new ArrayList<>(productPOJOs.size());
             for (Product product : productPOJOs) {
-                imagePOJO = imageDAO.getImagesByProduct(product);
-                productDTOs.add(productConverter.toProductDTO(product, imagePOJO));
+                imagePOJOs = imageDAO.getImagesByProduct(product);
+                productDTOs.add(productConverter.toProductDTO(product,
+                        imagePOJOs.iterator().next()));
             }
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);

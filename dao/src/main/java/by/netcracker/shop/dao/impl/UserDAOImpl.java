@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository("userDAO")
 public class UserDAOImpl extends AbstractDAO<Long, User> implements UserDAO {
-    private static Logger logger = Logger.getLogger(AbstractDAO.class);
+    private static Logger logger = Logger.getLogger(UserDAOImpl.class);
     private static final String GET_BY_USERNAME_WITH_PASSWORD_WITH_SALT = "SELECT * FROM user WHERE username=:username " +
             "AND password=:password";
     private static final String GET_BY_USERNAME = "SELECT * FROM user WHERE username=:username";
