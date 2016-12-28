@@ -9,7 +9,7 @@
             <table class=" table">
                 <tr>
                     <td style="line-height: 2" class="col-sm-2 control-label">
-                        <label for="categoryId"><spring:message code="label.product.field.categoryId"/></label>
+                        <label for="categoryId"><spring:message code="label.product.field.category"/></label>
                     </td>
                     <td class="col-sm-6">
                         <springform:select id="categoryId" path="categoryId" items="${categories}" itemValue="id"
@@ -21,7 +21,7 @@
                 </tr>
                 <tr>
                     <td style="line-height: 2" class="col-sm-2 control-label">
-                        <label for="manufacturerId"><spring:message code="label.product.field.manufacturerId"/></label>
+                        <label for="manufacturerId"><spring:message code="label.product.field.manufacturer"/></label>
                     </td>
                     <td class="col-sm-6">
                         <springform:select id="manufacturerId" path="manufacturerId" items="${manufacturers}"
@@ -88,6 +88,17 @@
                                            cssClass="label label-danger"/>
                     </td>
                 </tr>
+                <%--<tr>--%>
+                    <%--<td style="line-height: 2" class="col-sm-2 control-label">--%>
+                        <%--<label for="image"><spring:message code="label.image.field.image"/></label>--%>
+                    <%--</td>--%>
+                    <%--<td class="col-sm-6">--%>
+                        <%--<springform:input type="text" id="image" path="image" cssClass="form-control"/>--%>
+                    <%--</td>--%>
+                    <%--<td>--%>
+                        <%--<springform:errors path="image" cssStyle="line-height: 3" cssClass="label label-danger"/>--%>
+                    <%--</td>--%>
+                <%--</tr>--%>
                 <tr>
                     <td colspan="3">
                         <c:choose>

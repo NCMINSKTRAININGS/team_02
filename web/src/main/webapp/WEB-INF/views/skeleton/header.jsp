@@ -28,16 +28,16 @@
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="?lang=en" >en</a></li>
-                <li><a href="?lang=ru" >ru</a></li>
+                <li><a href="?lang=en" ><spring:message code="label.language.en"/></a></li>
+                <li><a href="?lang=ru" ><spring:message code="label.language.ru"/></a></li>
                 <sec:authorize access="isAnonymous()">
-                    <li><a href="/login">Login</a> </li>
+                    <li><a href="/login"><spring:message code="label.login"/></a> </li>
                 </sec:authorize>
                 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_CLIENT')">
                     <li><a href="/profile">profile</a> </li>
                 </sec:authorize>
                 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_CLIENT')">
-                    <li><a href="/logout">logout</a> </li>
+                    <li><a href="/logout"><spring:message code="label.logout"/></a> </li>
                 </sec:authorize>
             </ul>
         </div>
