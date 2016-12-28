@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service("paymentService")
@@ -30,20 +31,22 @@ public class PaymentServiceImpl implements PaymentService {
     private static Logger logger = Logger.getLogger(PaymentServiceImpl.class);
 
     @Override
-    public void insert(PaymentDTO paymentDTO) throws ServiceException {
+    public Long insert(PaymentDTO paymentDTO) throws ServiceException {
         Payment paymentPOJO = null;
+        Long id;
         try {
             if (paymentDTO.getId() != null) {
                 paymentPOJO = paymentDAO.getById(paymentDTO.getId());
             }
             if (paymentPOJO == null)
                 paymentPOJO = new Payment();
-            paymentDAO.insert(converter.toPaymentPOJO(paymentDTO, paymentPOJO));
+            id = paymentDAO.insert(converter.toPaymentPOJO(paymentDTO, paymentPOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
+        return id;
     }
 
     @Override
@@ -57,6 +60,23 @@ public class PaymentServiceImpl implements PaymentService {
             throw new ServiceException();
         }
         return converter.toPaymentDTO(paymentPOJO);
+    }
+
+    @Override
+    public void update(PaymentDTO paymentDTO) throws ServiceException {
+        Payment categoryPOJO = null;
+        try {
+            if (paymentDTO.getId() != null)
+                categoryPOJO = paymentDAO.getById(paymentDTO.getId());
+            if (categoryPOJO == null) {
+                throw new ServiceException();
+            }
+            categoryPOJO = converter.toPaymentPOJO(paymentDTO, categoryPOJO);
+            paymentDAO.update(categoryPOJO);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
     }
 
     @Override
@@ -86,5 +106,33 @@ public class PaymentServiceImpl implements PaymentService {
             paymentDTOs.add(converter.toPaymentDTO(payment));
         }
         return paymentDTOs;
+    }
+
+    @Override
+    public Long getCount() throws ServiceException {
+        Long count;
+        try {
+            count = paymentDAO.getCount();
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+        return count;
+    }
+
+    @Override
+    public List<PaymentDTO> getByGap(int offset, int quantity) throws ServiceException {
+        List<Payment> categoryPOJOs;
+        List<PaymentDTO> categoryDTOs = new LinkedList<>();
+        try {
+            categoryPOJOs = paymentDAO.getByGap(offset, quantity);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+        for (Payment categoryPOJO : categoryPOJOs) {
+            categoryDTOs.add(converter.toPaymentDTO(categoryPOJO));
+        }
+        return categoryDTOs;
     }
 }

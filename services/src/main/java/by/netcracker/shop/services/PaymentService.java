@@ -7,12 +7,17 @@ import java.util.List;
 
 
 public interface PaymentService {
-
-    void insert(PaymentDTO paymentDTO) throws ServiceException;
+    Long insert(PaymentDTO paymentDTO) throws ServiceException;
 
     PaymentDTO getById(Long id) throws ServiceException;
+
+    void update(PaymentDTO paymentDTO) throws ServiceException;
 
     void deleteById(Long id) throws ServiceException;
 
     List<PaymentDTO> getAll() throws ServiceException;
+
+    Long getCount() throws ServiceException;
+
+    List<PaymentDTO> getByGap(int offset, int quantity) throws ServiceException;
 }
