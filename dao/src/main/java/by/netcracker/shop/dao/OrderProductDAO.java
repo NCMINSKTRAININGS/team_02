@@ -15,4 +15,5 @@ public interface OrderProductDAO  {
     Long getCount() throws DAOException;
     List<OrderProduct> getByGap(int offset, int quantity) throws DAOException ;
 
+    List<OrderProduct> getByUserId(Long userId);
 }

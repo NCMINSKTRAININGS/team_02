@@ -117,5 +117,20 @@ public class OrderServiceImpl implements OrderService {
         return usersOrdersDTOs;
     }
 
+    @Override
+    public UsersOrdersDTO getOrdersByUser(Long userId) throws ServiceException {
+        User user= null;
+        UsersOrdersDTO usersOrdersDTO;
+        try {
+            user = userDAO.getById(userId);
+            usersOrdersDTO = (usersOrdersConverter.toUsersOrdersDTO(user,dao.getOrdersByUser(user)));
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            throw new ServiceException(e);
+        }
+        return usersOrdersDTO;
+    }
+
 
 }

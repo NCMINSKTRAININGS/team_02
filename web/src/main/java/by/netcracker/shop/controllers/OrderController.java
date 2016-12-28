@@ -3,6 +3,7 @@ package by.netcracker.shop.controllers;
 import by.netcracker.shop.constants.Parameters;
 import by.netcracker.shop.dto.UserDTO;
 import by.netcracker.shop.dto.UsersOrdersDTO;
+import by.netcracker.shop.enums.UserRole;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.services.OrderProductService;
 import by.netcracker.shop.services.OrderService;
@@ -44,10 +45,8 @@ public class OrderController {
     @RequestMapping(value = Parameters.REQUEST_ORDER_LIST, method = RequestMethod.GET)
     public String listOrders(ModelMap modelMap){
         List<UsersOrdersDTO> orders= new ArrayList<>();
-        List<UserDTO> users=new ArrayList<>();
         try {
             orders = orderService.getOrdersByUsers();
-            //users = userService.getAll();
         } catch (ServiceException e) {
             //todo
         }
@@ -55,14 +54,18 @@ public class OrderController {
         return Parameters.TILES_ORDER_LIST;
     }
 
-    @RequestMapping(value = "/show-order-{id}", method = RequestMethod.GET)
-    public String showOrders(@PathVariable Long id, ModelMap modelMap){
-
-        String userName = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        userName = ((UserDetails)principal).getUsername();
-
-        return "order/details";
+    @RequestMapping(value = "/show-order-for-{id}", method = RequestMethod.GET)
+    public String showOrdersByUser(@PathVariable Long id, ModelMap modelMap) throws ServiceException {
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String currentUser = ((UserDetails)principal).getUsername();
+        UserDTO userDTO = null;
+        userDTO = userService.getById(id);
+        if(userDTO.getUsername()==currentUser||((UserDetails) principal).getAuthorities().contains(UserRole.ADMIN)){
+                UsersOrdersDTO userOrder = orderService.getOrdersByUser(id);
+                modelMap.addAttribute("userOrder", userOrder);
+                return "order/details";
+            }
+        else return "403";
     }
 
     @RequestMapping(value = "/add-{id}-to-order",method = RequestMethod.GET)

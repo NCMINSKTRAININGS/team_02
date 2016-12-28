@@ -16,4 +16,5 @@ public interface OrderProductService {
     List<OrderProductDTO> getAll() throws ServiceException;
 
     void deleteById(Long id) throws ServiceException;
+
 }

@@ -24,7 +24,7 @@
                     <td>${order.orderIsntProduced}</td>
                     <td>${order.orderIsProduced}</td>
                     <td>${order.orderPrice}</td>
-                    <td><input class="btn btn-warning btn-xs" value="Show" onclick="location.href='show-order-'" type="button" /></td>
+                    <td><input class="btn btn-warning btn-xs" value="Show" onclick="location.href='show-order-for-${order.userId}'" type="button" /></td>
                 </tr>
         </c:forEach>
         </tbody>

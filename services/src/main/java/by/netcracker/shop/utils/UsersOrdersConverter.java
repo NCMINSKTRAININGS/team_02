@@ -33,7 +33,9 @@ public class UsersOrdersConverter {
                 if (!order.getProduced()) {
                     usersOrdersDTO.setOrderIsntProduced(usersOrdersDTO.getOrderIsntProduced()+1);
                     for (OrderProduct product:order.getOrderProducts()) {
-                        usersOrdersDTO.setOrderPrice(usersOrdersDTO.getOrderPrice()+product.getProduct().getPrice());
+                        usersOrdersDTO.setOrderPrice(
+                                usersOrdersDTO.getOrderPrice()+(
+                                        product.getProduct().getPrice()*product.getPruductQuantity()));
                     }
                 }else {
                     usersOrdersDTO.setOrderIsProduced(usersOrdersDTO.getOrderIsProduced()+1);

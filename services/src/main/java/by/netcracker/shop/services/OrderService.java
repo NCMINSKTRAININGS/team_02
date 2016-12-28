@@ -18,4 +18,5 @@ public interface OrderService {
 
     List<UsersOrdersDTO> getOrdersByUsers() throws ServiceException;
 
+    UsersOrdersDTO getOrdersByUser(Long userId) throws ServiceException;
 }

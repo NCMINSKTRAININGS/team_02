@@ -98,6 +98,16 @@ public class OrderProductDAOImplTest {
     }
 
     @Test
+    public void testGetByUserId() throws Exception{
+        List<OrderProduct> orderProducts=orderProductDAO.getByUserId(1l);
+        for (OrderProduct orderProduct:orderProducts) {
+            System.out.println(orderProduct.getOrder().toString()+"\n"
+                    +orderProduct.getProduct().toString()+"\n"+
+                    orderProduct.getPrice()+" "+orderProduct.getPruductQuantity());
+        }
+    }
+
+    @Test
     public void testGetCount() throws Exception {
 
     }

@@ -2,6 +2,7 @@ package by.netcracker.shop.dao.impl;
 
 
 import by.netcracker.shop.constants.DAOConstants;
+import by.netcracker.shop.dao.OrderDAO;
 import by.netcracker.shop.dao.OrderProductDAO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.pojo.OrderProduct;
@@ -13,6 +14,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +25,8 @@ public class OrderProductDAOImpl implements OrderProductDAO{
 
     @Autowired
     private SessionFactory sessionFactory;
+    @Autowired
+    private OrderDAO orderDAO;
 
     protected Session getSession(){
         return sessionFactory.getCurrentSession();
@@ -119,6 +123,17 @@ public class OrderProductDAOImpl implements OrderProductDAO{
             throw new DAOException();
         }
         return results;
+    }
+
+    @Override
+    public List<OrderProduct> getByUserId(Long userId) {
+        List<OrderProduct> orderProductList;
+        Session session = getSession();
+        Criteria criteria = session.createCriteria(OrderProduct.class,"orderProduct")
+                .createCriteria("orderProduct.order","order")
+                .add(Restrictions.eq("order.userId",userId));
+orderProductList=criteria.list();
+       return orderProductList;
     }
 
 }

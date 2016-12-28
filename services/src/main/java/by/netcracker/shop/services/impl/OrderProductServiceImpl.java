@@ -7,6 +7,8 @@ import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.OrderProduct;
 import by.netcracker.shop.pojo.OrderProductId;
 import by.netcracker.shop.services.OrderProductService;
+import by.netcracker.shop.services.OrderService;
+import by.netcracker.shop.services.ProductService;
 import by.netcracker.shop.utils.OrderProductConverter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,10 @@ public class OrderProductServiceImpl implements OrderProductService {
     private OrderProductDAO orderProductDAO;
     @Autowired
     private OrderProductConverter orderProductConverter;
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private ProductService productService;
 
     private static Logger logger = Logger.getLogger(OrderProductServiceImpl.class);
 
@@ -67,4 +73,5 @@ public class OrderProductServiceImpl implements OrderProductService {
     public void deleteById(Long id) throws ServiceException {
 
     }
+
 }
