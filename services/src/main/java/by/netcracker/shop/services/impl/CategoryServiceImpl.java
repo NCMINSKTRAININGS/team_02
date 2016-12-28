@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service("categoryService")
@@ -40,6 +41,23 @@ public class CategoryServiceImpl implements CategoryService {
             throw new ServiceException(e);
         }
         return converter.toCategoryDTO(categoryPOJO);
+    }
+
+    @Override
+    public void update(CategoryDTO categoryDTO) throws ServiceException {
+        Category categoryPOJO = null;
+        try {
+            if (categoryDTO.getId() != null)
+                categoryPOJO = dao.getById(categoryDTO.getId());
+            if (categoryPOJO == null) {
+                throw new ServiceException();
+            }
+            categoryPOJO = converter.toCategoryPOJO(categoryDTO, categoryPOJO);
+            dao.update(categoryPOJO);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
     }
 
     @Override
@@ -73,6 +91,34 @@ public class CategoryServiceImpl implements CategoryService {
         categoryDTOs = new ArrayList<>(categoryPOJOs.size());
         for (Category category : categoryPOJOs) {
             categoryDTOs.add(converter.toCategoryDTO(category));
+        }
+        return categoryDTOs;
+    }
+
+    @Override
+    public Long getCount() throws ServiceException {
+        Long count;
+        try {
+            count = dao.getCount();
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+        return count;
+    }
+
+    @Override
+    public List<CategoryDTO> getByGap(int offset, int quantity) throws ServiceException {
+        List<Category> categoryPOJOs;
+        List<CategoryDTO> categoryDTOs = new LinkedList<>();
+        try {
+            categoryPOJOs = dao.getByGap(offset, quantity);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+        for (Category categoryPOJO : categoryPOJOs) {
+            categoryDTOs.add(converter.toCategoryDTO(categoryPOJO));
         }
         return categoryDTOs;
     }
