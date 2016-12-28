@@ -1,57 +1,42 @@
-package by.netcracker.shop.pojo;
+package by.netcracker.shop.dto;
 
 import by.netcracker.shop.enums.UserRole;
 import by.netcracker.shop.enums.UserStatus;
+import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.List;
 
-@Entity
-@Table(name = "user")
-public class User extends AbstractEntity<Long> {
-    private static final long serialVersionUID = 1L;
-
-    @Column(name = "first_name", length = 45)
+public class UserDTO {
+    private Long id;
+    @Size(max = 45)
     private String firstName;
-    @Column(name = "last_name", length = 45)
+    @Size(max = 45)
     private String lastName;
-    @Column(name = "username", nullable = false, length = 45)
+    @NotBlank
+    @Size(min = 5, max = 45)
     private String username;
-    @Column(name = "password", nullable = false, length = 255)
+    @NotBlank
+    @Size(min = 5, max = 45)
     private String password;
-    @Column(name = "email", length = 50)
     private String email;
-    @Column(name = "discount", length = 2)
     private Double discount;
-    @Column(name = "status", columnDefinition = "ENUM('ONLINE', 'OFLINE', 'REMOVED', 'BANNED')", nullable = false)
-    @Enumerated(EnumType.STRING)
     private UserStatus status;
-    @Column(name = "birthday")
     private Date birthday;
-    @Column(name = "role", columnDefinition = "ENUM('CLIENT', 'ADMIN')")
-    @Enumerated(EnumType.STRING)
     private UserRole role;
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Order> orders;
 
-    public User(){
-        super();
+    public UserDTO() {
     }
 
-    public User(String firstName, String lastName, String username, String password, String email, Double discount,
-                UserStatus status, Date birthday, UserRole role, List<Order> orders) {
-        this(null, firstName, lastName, username, password, email, discount, status, birthday, role, orders);
-    }
-
-    public User(User user) {
+    public UserDTO(UserDTO user) {
         this(user.getId(), user.getFirstName(), user.getLastName(), user.getUsername(), user.getPassword(),
-                user.getEmail(), user.getDiscount(), user.getStatus(), user.getBirthday(), user.getRole(), user.getOrders());
+                user.getEmail(), user.getDiscount(), user.getStatus(), user.getBirthday(), user.getRole());
     }
 
-    public User(Long id, String firstName, String lastName, String username, String password,
-                String email, Double discount, UserStatus status, Date birthday, UserRole role,List<Order> orders) {
-        super(id);
+    public UserDTO(Long id, String firstName, String lastName, String username, String password,
+                   String email, Double discount, UserStatus status, Date birthday,
+                   UserRole role) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -61,7 +46,14 @@ public class User extends AbstractEntity<Long> {
         this.status = status;
         this.birthday = birthday;
         this.role = role;
-        this.orders = orders;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -98,14 +90,6 @@ public class User extends AbstractEntity<Long> {
 
     public String getEmail() {
         return email;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
     }
 
     public void setEmail(String email) {
@@ -148,25 +132,25 @@ public class User extends AbstractEntity<Long> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
 
-        User user = (User) o;
+        UserDTO userDTO = (UserDTO) o;
 
-        if (discount != user.discount) return false;
-        if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
-        if (username != null ? !username.equals(user.username) : user.username != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (email != null ? !email.equals(user.email) : user.email != null) return false;
-        if (status != user.status) return false;
-        if (birthday != null ? !birthday.equals(user.birthday) : user.birthday != null) return false;
-        return role == user.role;
+        if (id != null ? !id.equals(userDTO.id) : userDTO.id != null) return false;
+        if (firstName != null ? !firstName.equals(userDTO.firstName) : userDTO.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(userDTO.lastName) : userDTO.lastName != null) return false;
+        if (username != null ? !username.equals(userDTO.username) : userDTO.username != null) return false;
+        if (password != null ? !password.equals(userDTO.password) : userDTO.password != null) return false;
+        if (email != null ? !email.equals(userDTO.email) : userDTO.email != null) return false;
+        if (discount != null ? !discount.equals(userDTO.discount) : userDTO.discount != null) return false;
+        if (status != userDTO.status) return false;
+        if (birthday != null ? !birthday.equals(userDTO.birthday) : userDTO.birthday != null) return false;
+        return role == userDTO.role;
 
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (username != null ? username.hashCode() : 0);
@@ -181,8 +165,9 @@ public class User extends AbstractEntity<Long> {
 
     @Override
     public String toString() {
-        return "User{" +
-                "firstName='" + firstName + '\'' +
+        return "UserDTO{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
@@ -191,6 +176,6 @@ public class User extends AbstractEntity<Long> {
                 ", status=" + status +
                 ", birthday=" + birthday +
                 ", role=" + role +
-                "} " + super.toString();
+                '}';
     }
 }

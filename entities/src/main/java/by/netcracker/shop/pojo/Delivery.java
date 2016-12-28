@@ -15,9 +15,19 @@ public class Delivery extends AbstractEntity<Long> {
     private String description;
 
     public Delivery() {
+        super();
     }
 
     public Delivery(String name, String description) {
+        this(null, name, description);
+    }
+
+    public Delivery(Delivery delivery) {
+        this(delivery.getId(), delivery.getName(), delivery.getDescription());
+    }
+
+    public Delivery(Long id, String name, String description) {
+        super(id);
         this.name = name;
         this.description = description;
     }

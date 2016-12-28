@@ -1,71 +1,75 @@
 package by.netcracker.shop.pojo;
 
-import org.hibernate.validator.constraints.NotBlank;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.Size;
-
+import javax.persistence.*;
 
 @Entity
 @Table(name = "product")
 public class Product extends AbstractEntity<Long> {
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "category_id")
-    private Integer categoryId;
-    @Column(name = "manufacturer_id")
-    private Integer manufacturerId;
-    @NotBlank
-    @Size(min = 2, max = 45)
+    @ManyToOne(targetEntity = Category.class)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToOne(targetEntity = Manufacturer.class)
+    @JoinColumn(name = "manufacturer_id")
+    private Manufacturer manufacturer;
+
     @Column(name = "name", nullable = false)
     private String name;
+
     @Column(name = "description", nullable = false)
     private String description;
-    //    @NotBlank
+
     @Column(name = "price", nullable = false)
-    private Integer price;
+    private Double price;
+
     @Column(name = "keywords", nullable = false)
     private String keywords;
-    //    @NotEmpty
+
     @Column(name = "quantity_in_stock", nullable = false)
     private Integer quantityInStock;
 
     public Product() {
+        super();
     }
 
     public Product(Product product) {
-        this(product.getCategoryId(), product.getManufacturerId(), product.getName(), product.getDescription(),
+        this(product.getId(), product.getCategory(), product.getManufacturer(), product.getName(), product.getDescription(),
                 product.getPrice(), product.getKeywords(), product.getQuantityInStock());
     }
 
-    public Product(Integer categoryId, Integer manufacturerId, String name,
-                   String description, Integer price, String keywords, Integer quantityInStock) {
-        this.categoryId = categoryId;
-        this.manufacturerId = manufacturerId;
+    public Product(Category category, Manufacturer manufacturer, String name,
+                   String description, Double price, String keywords, Integer quantityInStock) {
+        this(null, category, manufacturer, name,description, price, keywords, quantityInStock);
+    }
+
+    public Product(Long id, Category category, Manufacturer manufacturer, String name,
+                   String description, Double price, String keywords, Integer quantityInStock) {
+        super(id);
+        this.category = category;
+        this.manufacturer = manufacturer;
         this.name = name;
         this.description = description;
         this.price = price;
         this.keywords = keywords;
         this.quantityInStock = quantityInStock;
-
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
-    public Integer getManufacturerId() {
-        return manufacturerId;
+    public Manufacturer getManufacturer() {
+        return manufacturer;
     }
 
-    public void setManufacturerId(Integer manufacturerId) {
-        this.manufacturerId = manufacturerId;
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
     }
 
     public String getName() {
@@ -84,11 +88,11 @@ public class Product extends AbstractEntity<Long> {
         this.description = description;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -117,16 +121,21 @@ public class Product extends AbstractEntity<Long> {
         Product product = (Product) o;
 
         if (!id.equals(product.id)) return false;
-        if (categoryId != null ? !categoryId.equals(product.categoryId) : product.categoryId != null) return false;
-        return manufacturerId != null ? manufacturerId.equals(product.manufacturerId) : product.manufacturerId == null;
+        if (category != null ? !category.equals(product.category) : product.category != null) return false;
+        return manufacturer != null ? manufacturer.equals(product.manufacturer) : product.manufacturer == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + (categoryId != null ? categoryId.hashCode() : 0);
-        result = 31 * result + (manufacturerId != null ? manufacturerId.hashCode() : 0);
+        int result = super.hashCode();
+        result = 31 * result + (category != null ? category.hashCode() : 0);
+        result = 31 * result + (manufacturer != null ? manufacturer.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
+        result = 31 * result + (keywords != null ? keywords.hashCode() : 0);
+        result = 31 * result + (quantityInStock != null ? quantityInStock.hashCode() : 0);
         return result;
     }
 
@@ -134,8 +143,8 @@ public class Product extends AbstractEntity<Long> {
     public String toString() {
         return "Product{" +
                 "id=" + id +
-                ", categoryId=" + categoryId +
-                ", manufacturerId=" + manufacturerId +
+                ", category=" + category +
+                ", manufacturer=" + manufacturer +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +

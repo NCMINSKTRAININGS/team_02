@@ -1,14 +1,11 @@
 package by.netcracker.shop.pojo;
 
-import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "\"order\"")
@@ -32,19 +29,31 @@ public class Order extends AbstractEntity<Long> {
     private String comment;
 
     @Column(name = "price", nullable = false)
-    private Integer price;
+    private Double price;
 
     @ManyToMany(cascade = CascadeType.ALL, targetEntity = Product.class)
     @JoinTable(name = "order_product",
             joinColumns = {@JoinColumn(name = "order_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id")})
-    private List<Product> products = new ArrayList<>();
+    private Set<Product> products = new HashSet<>();
 
     public Order() {
+        super();
     }
 
     public Order(User user, Payment payment, Delivery delivery,
-                 String comment, Integer price, List<Product> products) {
+                 String comment, Double price, Set<Product> products) {
+        this(null, user, payment, delivery, comment, price, products);
+    }
+
+    public Order(Order order) {
+        this(order.getId(), order.getUser(), order.getPayment(), order.getDelivery(),
+                order.getComment(), order.getPrice(), order.getProducts());
+    }
+
+    public Order(Long id, User user, Payment payment, Delivery delivery,
+                 String comment, Double price, Set<Product> products) {
+        super(id);
         this.user = user;
         this.payment = payment;
         this.delivery = delivery;
@@ -85,19 +94,19 @@ public class Order extends AbstractEntity<Long> {
         this.comment = comment;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public List<Product> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(Set<Product> products) {
         this.products = products;
     }
 

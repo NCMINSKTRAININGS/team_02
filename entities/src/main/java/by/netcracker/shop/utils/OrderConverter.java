@@ -1,37 +1,40 @@
 package by.netcracker.shop.utils;
 
-import by.netcracker.shop.dto.OrderDto;
+import by.netcracker.shop.dto.OrderDTO;
 import by.netcracker.shop.pojo.Order;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OrderConverter implements Converter<Order, OrderDto> {
-    @Override
-    public OrderDto convertToFront(Order order) {
-        OrderDto orderDto= new OrderDto();
-        orderDto.setId(order.getId());
-        orderDto.setUser(order.getUser());
-        orderDto.setComment(order.getComment());
-        orderDto.setDelivery(order.getDelivery());
-        orderDto.setPayment(order.getPayment());
-        orderDto.setPrice(order.getPrice());
+public class OrderConverter {
+    public OrderDTO toOrderDTO(Order order) {
+        OrderDTO orderDTO;
+        if (order == null)
+            return null;
+        orderDTO = new OrderDTO();
+        orderDTO.setId(order.getId());
+        orderDTO.setUser(order.getUser());
+        orderDTO.setComment(order.getComment());
+        orderDTO.setDelivery(order.getDelivery());
+        orderDTO.setPayment(order.getPayment());
+        orderDTO.setPrice(order.getPrice());
 
         if (order.getProducts().iterator().hasNext()){
-             orderDto.setProducts(order.getProducts());
+             orderDTO.setProducts(order.getProducts());
         }
-        return orderDto;
+        return orderDTO;
     }
 
-    @Override
-    public Order convertToLocal(OrderDto orderDto, Order order) {
-        order.setUser(orderDto.getUser());
-        order.setPrice(orderDto.getPrice());
-        order.setPayment(orderDto.getPayment());
-        order.setDelivery(orderDto.getDelivery());
-        order.setComment(orderDto.getComment());
+    public Order toOrderPOJO(OrderDTO orderDTO, Order order) {
+        if (orderDTO == null || order == null)
+            return null;
+        order.setUser(orderDTO.getUser());
+        order.setPrice(orderDTO.getPrice());
+        order.setPayment(orderDTO.getPayment());
+        order.setDelivery(orderDTO.getDelivery());
+        order.setComment(orderDTO.getComment());
 
-        if (orderDto.getProducts().iterator().hasNext()){
-            order.setProducts(orderDto.getProducts());
+        if (orderDTO.getProducts().iterator().hasNext()){
+            order.setProducts(orderDTO.getProducts());
         }
         return order;
     }

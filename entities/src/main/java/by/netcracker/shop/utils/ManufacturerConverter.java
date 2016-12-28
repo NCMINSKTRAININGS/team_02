@@ -5,20 +5,22 @@ import by.netcracker.shop.pojo.Manufacturer;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ManufacturerConverter implements Converter<Manufacturer, ManufacturerDTO> {
-
-    @Override
-    public ManufacturerDTO convertToFront(Manufacturer manufacturer) {
-        ManufacturerDTO dto = new ManufacturerDTO();
-        dto.setId(manufacturer.getId());
-        dto.setName(manufacturer.getName());
-        dto.setDescription(manufacturer.getDescription());
-        dto.setLogo(manufacturer.getLogo());
-        return dto;
+public class ManufacturerConverter {
+    public ManufacturerDTO toManufacturerDTO(Manufacturer manufacturer) {
+        ManufacturerDTO manufacturerDTO;
+        if (manufacturer == null)
+            return null;
+        manufacturerDTO = new ManufacturerDTO();
+        manufacturerDTO.setId(manufacturer.getId());
+        manufacturerDTO.setName(manufacturer.getName());
+        manufacturerDTO.setDescription(manufacturer.getDescription());
+        manufacturerDTO.setLogo(manufacturer.getLogo());
+        return manufacturerDTO;
     }
 
-    @Override
-    public Manufacturer convertToLocal(ManufacturerDTO manufacturerDTO, Manufacturer manufacturer) {
+    public Manufacturer toManufacturerPOJO(ManufacturerDTO manufacturerDTO, Manufacturer manufacturer) {
+        if (manufacturerDTO == null || manufacturer == null)
+            return null;
         manufacturer.setName(manufacturerDTO.getName());
         manufacturer.setDescription(manufacturerDTO.getDescription());
         manufacturer.setLogo(manufacturerDTO.getLogo());
