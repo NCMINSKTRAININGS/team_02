@@ -99,7 +99,7 @@ public class OrderProductDAOImplTest {
 
     @Test
     public void testGetByUserId() throws Exception{
-        List<OrderProduct> orderProducts=orderProductDAO.getByUserId(1l);
+        List<OrderProduct> orderProducts=orderProductDAO.getByUserId(5l);
         for (OrderProduct orderProduct:orderProducts) {
             System.out.println(orderProduct.getOrder().toString()+"\n"
                     +orderProduct.getProduct().toString()+"\n"+

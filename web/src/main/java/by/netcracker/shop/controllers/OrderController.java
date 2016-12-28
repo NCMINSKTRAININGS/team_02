@@ -1,6 +1,7 @@
 package by.netcracker.shop.controllers;
 
 import by.netcracker.shop.constants.Parameters;
+import by.netcracker.shop.dto.OrderProductDTO;
 import by.netcracker.shop.dto.UserDTO;
 import by.netcracker.shop.dto.UsersOrdersDTO;
 import by.netcracker.shop.enums.UserRole;
@@ -60,9 +61,9 @@ public class OrderController {
             String currentUser = ((UserDetails)principal).getUsername();
         UserDTO userDTO = null;
         userDTO = userService.getById(id);
-        if(userDTO.getUsername()==currentUser||((UserDetails) principal).getAuthorities().contains(UserRole.ADMIN)){
-                UsersOrdersDTO userOrder = orderService.getOrdersByUser(id);
-                modelMap.addAttribute("userOrder", userOrder);
+        if(userDTO.getUsername()==currentUser||userDTO.getRole().equals(UserRole.ADMIN)){
+                List<OrderProductDTO> orderProductByUser = orderProductService.getOrdersByUser(id);
+                modelMap.addAttribute("userOrder", orderProductByUser);
                 return "order/details";
             }
         else return "403";

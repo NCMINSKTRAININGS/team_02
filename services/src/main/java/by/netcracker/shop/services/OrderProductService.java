@@ -17,4 +17,5 @@ public interface OrderProductService {
 
     void deleteById(Long id) throws ServiceException;
 
+    List<OrderProductDTO> getOrdersByUser(Long userId) throws ServiceException;
 }

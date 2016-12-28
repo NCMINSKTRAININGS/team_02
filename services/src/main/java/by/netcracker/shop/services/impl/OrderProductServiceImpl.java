@@ -1,11 +1,14 @@
 package by.netcracker.shop.services.impl;
 
+import by.netcracker.shop.constants.ServiceConstants;
 import by.netcracker.shop.dao.OrderProductDAO;
+import by.netcracker.shop.dao.UserDAO;
 import by.netcracker.shop.dto.OrderProductDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.OrderProduct;
 import by.netcracker.shop.pojo.OrderProductId;
+import by.netcracker.shop.pojo.User;
 import by.netcracker.shop.services.OrderProductService;
 import by.netcracker.shop.services.OrderService;
 import by.netcracker.shop.services.ProductService;
@@ -31,6 +34,8 @@ public class OrderProductServiceImpl implements OrderProductService {
     private OrderService orderService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private UserDAO userDAO;
 
     private static Logger logger = Logger.getLogger(OrderProductServiceImpl.class);
 
@@ -72,6 +77,25 @@ public class OrderProductServiceImpl implements OrderProductService {
     @Override
     public void deleteById(Long id) throws ServiceException {
 
+    }
+
+    @Override
+    public List<OrderProductDTO> getOrdersByUser(Long userId) throws ServiceException {
+        User user= null;
+        List<OrderProductDTO> orderProductDTO= new ArrayList<>();
+        try {
+            user = userDAO.getById(userId);
+            for (OrderProduct orderProduct:
+            orderProductDAO.getByUserId(userId)) {
+                orderProductDTO.add(orderProductConverter.convertToFront(orderProduct));
+            }
+
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            throw new ServiceException(e);
+        }
+        return orderProductDTO;
     }
 
 }

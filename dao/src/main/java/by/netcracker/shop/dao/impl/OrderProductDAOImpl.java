@@ -14,7 +14,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -128,12 +127,17 @@ public class OrderProductDAOImpl implements OrderProductDAO{
     @Override
     public List<OrderProduct> getByUserId(Long userId) {
         List<OrderProduct> orderProductList;
-        Session session = getSession();
-        Criteria criteria = session.createCriteria(OrderProduct.class,"orderProduct")
-                .createCriteria("orderProduct.order","order")
-                .add(Restrictions.eq("order.userId",userId));
-orderProductList=criteria.list();
+//        Session session = getSession();
+//        Criteria criteria = session.createCriteria(OrderProduct.class,"orderProduct")
+//                .createCriteria("orderProduct.order","order")
+//                .add(Restrictions.eq("order.userId",userId));
+//        orderProductList=criteria.list();
+//
+       String sql="SELECT op.* FROM order_product op INNER JOIN `order` o ON o.id=op.order_id WHERE user_id=?";
+       orderProductList= getSession().createSQLQuery(sql)
+               .addEntity(OrderProduct.class)
+               .setLong(0,userId)
+               .list();
        return orderProductList;
     }
-
 }
