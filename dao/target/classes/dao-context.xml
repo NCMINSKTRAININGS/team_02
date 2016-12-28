@@ -41,7 +41,7 @@
                 <prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache:true}</prop>
                 <prop key="cache.use_query_cache">${cache.use_query_cache:true}</prop>
                 <prop key="hibernate.cache.region.factory_class">
-                    org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+                    ${hibernate.cache.region.factory_class}
                 </prop>
             </props>
         </property>
@@ -53,11 +53,4 @@
 
     <bean id="persistenceExceptionTranslationPostProcessor"
           class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
-
-    <bean id="userDAO" class="by.netcracker.shop.dao.impl.UserDAOImpl"/>
-    <bean id="orderDAO" class="by.netcracker.shop.dao.impl.OrderDAOImpl"/>
-    <bean id="paymentDAO" class="by.netcracker.shop.dao.impl.PaymentDAOImpl"/>
-    <bean id="deliveryDAO" class="by.netcracker.shop.dao.impl.DeliveryDAOImpl"/>
-    <bean id="productDAO" class="by.netcracker.shop.dao.impl.ProductDAOImpl"/>
-
 </beans>

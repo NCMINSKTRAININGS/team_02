@@ -13,9 +13,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository("userDAO")
 public class UserDAOImpl extends AbstractDAO<Long, User> implements UserDAO {
-    private static Logger logger = Logger.getLogger(AbstractDAO.class);
+    private static Logger logger = Logger.getLogger(UserDAOImpl.class);
     private static final String GET_BY_USERNAME_WITH_PASSWORD_WITH_SALT = "SELECT * FROM user WHERE username=:username " +
-            "AND password=:password AND salt=:salt";
+            "AND password=:password";
     private static final String GET_BY_USERNAME = "SELECT * FROM user WHERE username=:username";
 
     public UserDAOImpl() {
@@ -40,15 +40,14 @@ public class UserDAOImpl extends AbstractDAO<Long, User> implements UserDAO {
     }
 
     @Override
-    public User getByUsernamePasswordSalt(String username, String password, String salt) throws DAOException {
+    public User getByUsernamePassword(String username, String password) throws DAOException {
         User user;
         try {
             Session session = getSession();
             Query query = session.createSQLQuery(GET_BY_USERNAME_WITH_PASSWORD_WITH_SALT)
                     .addEntity(User.class)
                     .setParameter("username", username)
-                    .setParameter("password", password)
-                    .setParameter("salt", salt);
+                    .setParameter("password", password);
             user = (User) query.uniqueResult();
         }
         catch(HibernateException e){

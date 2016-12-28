@@ -19,12 +19,11 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional(transactionManager = "transactionManager")
 public class UserDAOImplTest {
+    private static String assertMsg;
+    private static int counter;
     @Autowired
     private UserDAO userDAO;
-
-    private static String assertMsg;
     private User user;
-    private static int counter;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -34,8 +33,8 @@ public class UserDAOImplTest {
 
     @Before
     public void setUp() throws Exception {
-        user = new User("test", "test", String.valueOf(counter), "test", "test", "test", 0,
-                UserStatus.OFLINE, new Date(), UserRole.CLIENT);
+        user = new User("test", "test", String.valueOf(counter), "test", "test", new Double(0),
+                UserStatus.OFLINE, new Date(), UserRole.CLIENT, null);
         counter += 1;
     }
 
@@ -70,10 +69,9 @@ public class UserDAOImplTest {
         user.setUsername("new_username");
         user.setEmail("new@email.com");
         user.setRole(UserRole.ADMIN);
-        user.setDiscount(5);
+        user.setDiscount(new Double(5));
         user.setBirthday(new Date());
         user.setPassword("new_password");
-        user.setSalt("new_salt");
         user.setStatus(UserStatus.ONLINE);
 
         userDAO.update(user);
@@ -191,14 +189,14 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void getUserByLogin() throws Exception {
+    public void getByUsernamePassword() throws Exception {
         String msg = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMsg;
         User newUser;
         Long id;
 
         id = userDAO.insert(user);
         user.setId(id);
-        newUser = userDAO.getByUsernamePasswordSalt(user.getUsername(), user.getPassword(), user.getSalt());
+        newUser = userDAO.getByUsernamePassword(user.getUsername(), user.getPassword());
 
         Assert.assertEquals(msg, user, newUser);
     }
@@ -207,10 +205,8 @@ public class UserDAOImplTest {
     public void getByUsername() throws Exception {
         String msg = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMsg;
         User newUser;
-        Long id;
 
-        id = userDAO.insert(user);
-        user.setId(id);
+        userDAO.insert(user);
         newUser = userDAO.getByUsername(user.getUsername());
 
         Assert.assertEquals(msg, user, newUser);
