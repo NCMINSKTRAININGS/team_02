@@ -44,8 +44,6 @@ public class Product extends AbstractEntity<Long> {
         this(null, category, manufacturer, name,description, price, keywords, quantityInStock);
     }
 
-
-
     public Product(Long id, Category category, Manufacturer manufacturer, String name,
                    String description, Double price, String keywords, Integer quantityInStock) {
         super(id);
