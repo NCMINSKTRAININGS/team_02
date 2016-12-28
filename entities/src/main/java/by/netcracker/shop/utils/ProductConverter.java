@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProductConverter {
-    public ProductDTO toProductDTO(Product product) {
+    public ProductDTO toProductDTO(Product product, ProductImage image) {
         ProductDTO productDTO;
         if (product == null)
             return null;
