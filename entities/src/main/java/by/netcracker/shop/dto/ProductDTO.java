@@ -36,6 +36,13 @@ public class ProductDTO {
     public ProductDTO() {
     }
 
+    public ProductDTO(ProductDTO productDTO) {
+        this(productDTO.getId(), productDTO.getCategoryId(), productDTO.getManufacturerId(),
+                productDTO.getManufacturerName(), productDTO.getCategoryName(), productDTO.getName(),
+                productDTO.getDescription(), productDTO.getPrice(), productDTO.getKeywords(),
+                productDTO.getQuantityInStock(), productDTO.getImage());
+    }
+
     public ProductDTO(Long id, Long categoryId, Long manufacturerId, String manufacturerName, String categoryName,
                       String name, String description, Double price, String keywords, Integer quantityInStock, String image) {
         this.id = id;

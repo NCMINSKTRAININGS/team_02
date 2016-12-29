@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service("deliveryService")
@@ -29,20 +30,22 @@ public class DeliveryServiceImpl implements DeliveryService {
     private static Logger logger = Logger.getLogger(DeliveryServiceImpl.class);
 
     @Override
-    public void insert(DeliveryDTO deliveryDTO) throws ServiceException {
+    public Long insert(DeliveryDTO deliveryDTO) throws ServiceException {
         Delivery deliveryPOJO = null;
+        Long id;
         try {
             if (deliveryDTO.getId() != null) {
                 deliveryPOJO = deliveryDAO.getById(deliveryDTO.getId());
             }
             if (deliveryPOJO == null)
                 deliveryPOJO = new Delivery();
-            deliveryDAO.insert(converter.toDeliveryPOJO(deliveryDTO, deliveryPOJO));
+            id = deliveryDAO.insert(converter.toDeliveryPOJO(deliveryDTO, deliveryPOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
+        return id;
     }
 
     @Override
@@ -56,6 +59,23 @@ public class DeliveryServiceImpl implements DeliveryService {
             throw new ServiceException(e);
         }
         return converter.toDeliveryDTO(deliveryPOJO);
+    }
+
+    @Override
+    public void update(DeliveryDTO deliveryDTO) throws ServiceException {
+        Delivery deliveryPOJO = null;
+        try {
+            if (deliveryDTO.getId() != null)
+                deliveryPOJO = deliveryDAO.getById(deliveryDTO.getId());
+            if (deliveryPOJO == null) {
+                throw new ServiceException();
+            }
+            deliveryPOJO = converter.toDeliveryPOJO(deliveryDTO, deliveryPOJO);
+            deliveryDAO.update(deliveryPOJO);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
     }
 
     @Override
@@ -83,6 +103,34 @@ public class DeliveryServiceImpl implements DeliveryService {
         deliveryDTOs = new ArrayList<>(deliveryPOJOs.size());
         for (Delivery delivery : deliveryPOJOs) {
             deliveryDTOs.add(converter.toDeliveryDTO(delivery));
+        }
+        return deliveryDTOs;
+    }
+
+    @Override
+    public Long getCount() throws ServiceException {
+        Long count;
+        try {
+            count = deliveryDAO.getCount();
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+        return count;
+    }
+
+    @Override
+    public List<DeliveryDTO> getByGap(int offset, int quantity) throws ServiceException {
+        List<Delivery> deliveryPOJOs;
+        List<DeliveryDTO> deliveryDTOs = new LinkedList<>();
+        try {
+            deliveryPOJOs = deliveryDAO.getByGap(offset, quantity);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+        for (Delivery deliveryPOJO : deliveryPOJOs) {
+            deliveryDTOs.add(converter.toDeliveryDTO(deliveryPOJO));
         }
         return deliveryDTOs;
     }

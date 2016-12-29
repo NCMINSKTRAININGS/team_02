@@ -4,9 +4,6 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Size;
 
-/**
- * Created by j on 20.12.16.
- */
 public class PaymentDTO {
     private Long id;
 
@@ -17,6 +14,10 @@ public class PaymentDTO {
     private String description;
 
     public PaymentDTO() {
+    }
+
+    public PaymentDTO(PaymentDTO paymentDTO) {
+        this(paymentDTO.getId(), paymentDTO.getName(), paymentDTO.getDescription());
     }
 
     public PaymentDTO(Long id, String name, String description) {

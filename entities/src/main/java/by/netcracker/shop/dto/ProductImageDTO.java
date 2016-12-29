@@ -13,6 +13,14 @@ public class ProductImageDTO {
     public ProductImageDTO() {
     }
 
+    public ProductImageDTO(Long productId, String productName,, String image) {
+        this(null, productId, productName, image);
+    }
+
+    public ProductImageDTO(ProductImageDTO imageDTO) {
+        this(imageDTO.getId(), imageDTO.getProductId(), imageDTO.getProductName(), imageDTO.getImage());
+    }
+
     public ProductImageDTO(Long id, Long productId, String productName, String image) {
         this.id = id;
         this.productId = productId;

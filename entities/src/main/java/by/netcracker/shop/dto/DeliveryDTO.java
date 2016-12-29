@@ -16,6 +16,10 @@ public class DeliveryDTO {
     public DeliveryDTO() {
     }
 
+    public DeliveryDTO(DeliveryDTO deliveryDTO) {
+        this(deliveryDTO.getId(), deliveryDTO.getName(), deliveryDTO.getDescription());
+    }
+
     public DeliveryDTO(Long id, String name, String description) {
         this.id = id;
         this.name = name;

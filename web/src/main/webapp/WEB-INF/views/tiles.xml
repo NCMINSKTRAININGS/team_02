@@ -50,12 +50,12 @@
     </definition>
 
     <!--Users-->
-    <definition name="user/login" extends="empty">
+    <definition name="user/login" extends="baseTemplate">
         <put-attribute name="titleKey" value="label.login"/>
         <put-attribute name="body" value="/WEB-INF/views/user/login.jsp" />
     </definition>
 
-    <definition name="user/registration" extends="empty">
+    <definition name="user/registration" extends="baseTemplate">
         <put-attribute name="titleKey" value="label.registration"/>
         <put-attribute name="body" value="/WEB-INF/views/user/registration.jsp" />
     </definition>

@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service("manufacturerService")
@@ -43,20 +44,39 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     }
 
     @Override
-    public void insert(ManufacturerDTO manufacturerDTO) throws ServiceException {
+    public void update(ManufacturerDTO manufacturerDTO) throws ServiceException {
         Manufacturer manufacturerPOJO = null;
+        try {
+            if (manufacturerDTO.getId() != null)
+                manufacturerPOJO = dao.getById(manufacturerDTO.getId());
+            if (manufacturerPOJO == null) {
+                throw new ServiceException();
+            }
+            manufacturerPOJO = converter.toManufacturerPOJO(manufacturerDTO, manufacturerPOJO);
+            dao.update(manufacturerPOJO);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public Long insert(ManufacturerDTO manufacturerDTO) throws ServiceException {
+        Manufacturer manufacturerPOJO = null;
+        Long id;
         try {
             if (manufacturerDTO.getId() != null) {
                 manufacturerPOJO = dao.getById(manufacturerDTO.getId());
             }
             if (manufacturerPOJO == null)
                 manufacturerPOJO = new Manufacturer();
-            dao.insert(converter.toManufacturerPOJO(manufacturerDTO, manufacturerPOJO));
+            id = dao.insert(converter.toManufacturerPOJO(manufacturerDTO, manufacturerPOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
+        return id;
     }
 
     @Override
@@ -73,6 +93,34 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         manufacturerDTOs = new ArrayList<>(manufacturerPOJOs.size());
         for (Manufacturer manufacturer: manufacturerPOJOs){
             manufacturerDTOs.add(converter.toManufacturerDTO(manufacturer));
+        }
+        return manufacturerDTOs;
+    }
+
+    @Override
+    public Long getCount() throws ServiceException {
+        Long count;
+        try {
+            count = dao.getCount();
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+        return count;
+    }
+
+    @Override
+    public List<ManufacturerDTO> getByGap(int offset, int quantity) throws ServiceException {
+        List<Manufacturer> manufacturerPOJOs;
+        List<ManufacturerDTO> manufacturerDTOs = new LinkedList<>();
+        try {
+            manufacturerPOJOs = dao.getByGap(offset, quantity);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+        for (Manufacturer manufacturerPOJO : manufacturerPOJOs) {
+            manufacturerDTOs.add(converter.toManufacturerDTO(manufacturerPOJO));
         }
         return manufacturerDTOs;
     }

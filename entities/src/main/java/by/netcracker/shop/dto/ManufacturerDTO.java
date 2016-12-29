@@ -19,6 +19,11 @@ public class ManufacturerDTO {
     public ManufacturerDTO() {
     }
 
+    public ManufacturerDTO(ManufacturerDTO manufacturerDTO) {
+        this(manufacturerDTO.getId(), manufacturerDTO.getName(),
+                manufacturerDTO.getDescription(), manufacturerDTO.getLogo());
+    }
+
     public ManufacturerDTO(Long id, String name, String description, String logo) {
         this.id = id;
         this.name = name;

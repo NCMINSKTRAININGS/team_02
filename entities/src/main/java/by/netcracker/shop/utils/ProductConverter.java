@@ -24,7 +24,8 @@ public class ProductConverter {
         productDTO.setPrice(product.getPrice());
         productDTO.setKeywords(product.getKeywords());
         productDTO.setQuantityInStock(product.getQuantityInStock());
-        productDTO.setImage(image.getImage());
+        if (image != null)
+            productDTO.setImage(image.getImage());
         return productDTO;
     }
 

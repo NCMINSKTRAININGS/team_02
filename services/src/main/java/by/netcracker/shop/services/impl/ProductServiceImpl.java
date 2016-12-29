@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service("productService")
@@ -45,10 +46,11 @@ public class ProductServiceImpl implements ProductService {
     private static Logger logger = Logger.getLogger(ProductServiceImpl.class);
 
     @Override
-    public void insert(ProductDTO productDTO) throws ServiceException {
+    public Long insert(ProductDTO productDTO) throws ServiceException {
         Product productPOJO = null;
         Category categoryPOJO;
         Manufacturer manufacturerPOJO;
+        Long id;
         try {
             if (productDTO.getId() != null) {
                 productPOJO = dao.getById(productDTO.getId());
@@ -58,18 +60,20 @@ public class ProductServiceImpl implements ProductService {
             categoryPOJO = categoryDAO.getById(productDTO.getCategoryId());
             manufacturerPOJO = manufacturerDAO.getById(productDTO.getManufacturerId());
             productPOJO = productConverter.toProductPOJO(productDTO, productPOJO, categoryPOJO, manufacturerPOJO);
-            dao.insert(productPOJO);
+            id = dao.insert(productPOJO);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
+        return id;
     }
 
     @Override
     public ProductDTO getById(Long id) throws ServiceException {
         Product productPOJO;
         List<ProductImage> imagePOJOs;
+        ProductImage image = null;
         try {
             productPOJO = dao.getById(id);
             imagePOJOs = imageDAO.getImagesByProduct(productPOJO);
@@ -77,7 +81,30 @@ public class ProductServiceImpl implements ProductService {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
-        return productConverter.toProductDTO(productPOJO, imagePOJOs.iterator().next());
+        if (imagePOJOs != null && imagePOJOs.size() != 0)
+            image = imagePOJOs.iterator().next();
+        return productConverter.toProductDTO(productPOJO, image);
+    }
+
+    @Override
+    public void update(ProductDTO productDTO) throws ServiceException {
+        Product productPOJO = null;
+        Category categoryPOJO;
+        Manufacturer manufacturerPOJO;
+        try {
+            if (productDTO.getId() != null)
+                productPOJO = dao.getById(productDTO.getId());
+            if (productPOJO == null) {
+                throw new ServiceException();
+            }
+            categoryPOJO = categoryDAO.getById(productDTO.getCategoryId());
+            manufacturerPOJO = manufacturerDAO.getById(productDTO.getManufacturerId());
+            productPOJO = productConverter.toProductPOJO(productDTO, productPOJO, categoryPOJO, manufacturerPOJO);
+            dao.update(productPOJO);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
     }
 
     @Override
@@ -96,17 +123,54 @@ public class ProductServiceImpl implements ProductService {
         List<Product> productPOJOs;
         List<ProductDTO> productDTOs;
         List<ProductImage> imagePOJOs;
+        ProductImage image = null;
         try {
             productPOJOs = dao.getAll();
             productDTOs = new ArrayList<>(productPOJOs.size());
             for (Product product : productPOJOs) {
                 imagePOJOs = imageDAO.getImagesByProduct(product);
-                productDTOs.add(productConverter.toProductDTO(product,
-                        imagePOJOs.iterator().next()));
+                if (image != null)
+                    image = imagePOJOs.iterator().next();
+                productDTOs.add(productConverter.toProductDTO(product, image));
+                image = null;
             }
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            throw new ServiceException(e);
+        }
+        return productDTOs;
+    }
+
+    @Override
+    public Long getCount() throws ServiceException {
+        Long count;
+        try {
+            count = dao.getCount();
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+        return count;
+    }
+
+    @Override
+    public List<ProductDTO> getByGap(int offset, int quantity) throws ServiceException {
+        List<Product> productPOJOs;
+        List<ProductDTO> productDTOs = new LinkedList<>();
+        List<ProductImage> imagePOJOs;
+        ProductImage image = null;
+        try {
+            productPOJOs = dao.getByGap(offset, quantity);
+            for (Product productPOJO : productPOJOs) {
+                imagePOJOs = imageDAO.getImagesByProduct(productPOJO);
+                if (image != null)
+                    image = imagePOJOs.iterator().next();
+                productDTOs.add(productConverter.toProductDTO(productPOJO, image));
+                image = null;
+            }
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
         return productDTOs;

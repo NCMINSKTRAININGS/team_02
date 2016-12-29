@@ -1,6 +1,11 @@
 package by.netcracker.shop.constants;
 
 public class Parameters {
+//    Roles
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_CLIENT = "ROLE_CLIENT";
+    public static final String ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
+
 //    Controllers
     public static final String CONTROLLER_USER = "";
     public static final String CONTROLLER_INDEX = "/";

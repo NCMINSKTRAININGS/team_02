@@ -7,11 +7,17 @@ import by.netcracker.shop.exceptions.ServiceException;
 import java.util.List;
 
 public interface DeliveryService  {
-    void insert(DeliveryDTO deliveryDTO) throws ServiceException;
+    Long insert(DeliveryDTO deliveryDTO) throws ServiceException;
 
     DeliveryDTO getById(Long id) throws ServiceException;
+
+    void update(DeliveryDTO deliveryDTO) throws ServiceException;
 
     void deleteById(Long id) throws ServiceException;
 
     List<DeliveryDTO> getAll() throws ServiceException;
+
+    Long getCount() throws ServiceException;
+
+    List<DeliveryDTO> getByGap(int offset, int quantity) throws ServiceException;
 }

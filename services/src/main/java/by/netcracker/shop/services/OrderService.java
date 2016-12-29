@@ -9,14 +9,19 @@ import by.netcracker.shop.pojo.User;
 import java.util.List;
 
 public interface OrderService {
-
-    void insert(OrderDTO orderDTO) throws ServiceException;
+    Long insert(OrderDTO orderDTO) throws ServiceException;
 
     OrderDTO getById(Long id) throws ServiceException;
+
+    void update(OrderDTO orderDTO) throws ServiceException;
 
     void deleteById(Long id) throws ServiceException;
 
     List<OrderDTO> getAll() throws ServiceException;
+
+    Long getCount() throws ServiceException;
+
+    List<OrderDTO> getByGap(int offset, int quantity) throws ServiceException;
 
     List<OrderDTO> getOrdersByUser(User userPOJO) throws ServiceException;
 
