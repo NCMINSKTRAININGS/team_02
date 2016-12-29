@@ -1,10 +1,5 @@
 package by.netcracker.shop.dto;
 
-import by.netcracker.shop.pojo.Delivery;
-import by.netcracker.shop.pojo.Payment;
-import by.netcracker.shop.pojo.Product;
-import by.netcracker.shop.pojo.User;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -23,10 +18,11 @@ public class OrderDTO {
     @Min(1) @Max(999999999)
     private Double price;
 
-    private User user;
-    private Delivery delivery;
-    private Payment payment;
-    private Set<Product> products = new HashSet<>();
+    private Long userId;
+    private Long deliveryId;
+    private Long paymentId;
+    private Set<Long> productsId = new HashSet<>();
+    private Boolean isProduced;
 
     public OrderDTO() {
     }
@@ -37,15 +33,16 @@ public class OrderDTO {
     }
 
     public OrderDTO(Long id, String comment, Double price,
-                    User user, Delivery delivery, Payment payment,
-                    Set<Product> products) {
+                    Long userId, Long deliveryId, Long paymentId,
+                    Set<Long> productsId, Boolean isProduced) {
         this.id = id;
         this.comment = comment;
         this.price = price;
-        this.user = user;
-        this.delivery = delivery;
-        this.payment = payment;
-        this.products = products;
+        this.userId = userId;
+        this.deliveryId = deliveryId;
+        this.paymentId = paymentId;
+        this.productsId = productsId;
+        this.isProduced = isProduced;
     }
 
     public Long getId() {
@@ -72,36 +69,44 @@ public class OrderDTO {
         this.price = price;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Delivery getDelivery() {
-        return delivery;
+    public Long getDeliveryId() {
+        return deliveryId;
     }
 
-    public void setDelivery(Delivery delivery) {
-        this.delivery = delivery;
+    public void setDeliveryId(Long deliveryId) {
+        this.deliveryId = deliveryId;
     }
 
-    public Payment getPayment() {
-        return payment;
+    public Long getPaymentId() {
+        return paymentId;
     }
 
-    public void setPayment(Payment payment) {
-        this.payment = payment;
+    public void setPaymentId(Long paymentId) {
+        this.paymentId = paymentId;
     }
 
-    public Set<Product> getProducts() {
-        return products;
+    public Set<Long> getProductsId() {
+        return productsId;
     }
 
-    public void setProducts(Set<Product> products) {
-        this.products = products;
+    public void setProductsId(Set<Long> productsId) {
+        this.productsId = productsId;
+    }
+
+    public Boolean getProduced() {
+        return isProduced;
+    }
+
+    public void setProduced(Boolean produced) {
+        isProduced = produced;
     }
 
     @Override
@@ -115,12 +120,15 @@ public class OrderDTO {
         if (getComment() != null ? !getComment().equals(orderDTO.getComment()) : orderDTO.getComment() != null)
             return false;
         if (getPrice() != null ? !getPrice().equals(orderDTO.getPrice()) : orderDTO.getPrice() != null) return false;
-        if (getUser() != null ? !getUser().equals(orderDTO.getUser()) : orderDTO.getUser() != null) return false;
-        if (getDelivery() != null ? !getDelivery().equals(orderDTO.getDelivery()) : orderDTO.getDelivery() != null)
+        if (getUserId() != null ? !getUserId().equals(orderDTO.getUserId()) : orderDTO.getUserId() != null)
             return false;
-        if (getPayment() != null ? !getPayment().equals(orderDTO.getPayment()) : orderDTO.getPayment() != null)
+        if (getDeliveryId() != null ? !getDeliveryId().equals(orderDTO.getDeliveryId()) : orderDTO.getDeliveryId() != null)
             return false;
-        return getProducts() != null ? getProducts().equals(orderDTO.getProducts()) : orderDTO.getProducts() == null;
+        if (getPaymentId() != null ? !getPaymentId().equals(orderDTO.getPaymentId()) : orderDTO.getPaymentId() != null)
+            return false;
+        if (getProductsId() != null ? !getProductsId().equals(orderDTO.getProductsId()) : orderDTO.getProductsId() != null)
+            return false;
+        return isProduced != null ? isProduced.equals(orderDTO.isProduced) : orderDTO.isProduced == null;
 
     }
 
@@ -129,10 +137,11 @@ public class OrderDTO {
         int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getComment() != null ? getComment().hashCode() : 0);
         result = 31 * result + (getPrice() != null ? getPrice().hashCode() : 0);
-        result = 31 * result + (getUser() != null ? getUser().hashCode() : 0);
-        result = 31 * result + (getDelivery() != null ? getDelivery().hashCode() : 0);
-        result = 31 * result + (getPayment() != null ? getPayment().hashCode() : 0);
-        result = 31 * result + (getProducts() != null ? getProducts().hashCode() : 0);
+        result = 31 * result + (getUserId() != null ? getUserId().hashCode() : 0);
+        result = 31 * result + (getDeliveryId() != null ? getDeliveryId().hashCode() : 0);
+        result = 31 * result + (getPaymentId() != null ? getPaymentId().hashCode() : 0);
+        result = 31 * result + (getProductsId() != null ? getProductsId().hashCode() : 0);
+        result = 31 * result + (isProduced != null ? isProduced.hashCode() : 0);
         return result;
     }
 
@@ -142,10 +151,11 @@ public class OrderDTO {
                 "id=" + id +
                 ", comment='" + comment + '\'' +
                 ", price=" + price +
-                ", user=" + user +
-                ", delivery=" + delivery +
-                ", payment=" + payment +
-                ", products=" + products +
+                ", userId=" + userId +
+                ", deliveryId=" + deliveryId +
+                ", paymentId=" + paymentId +
+                ", productsId=" + productsId +
+                ", isProduced=" + isProduced +
                 '}';
     }
 }

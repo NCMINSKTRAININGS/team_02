@@ -2,6 +2,7 @@ package by.netcracker.shop.pojo;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,7 +14,7 @@ import java.util.Set;
 public class Order extends AbstractEntity<Long> {
     private static final long serialVersionUID = 1L;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -31,35 +32,32 @@ public class Order extends AbstractEntity<Long> {
     @Column(name = "price", nullable = false)
     private Double price;
 
-    @ManyToMany(cascade = CascadeType.ALL, targetEntity = Product.class)
-    @JoinTable(name = "order_product",
-            joinColumns = {@JoinColumn(name = "order_id")},
-            inverseJoinColumns = {@JoinColumn(name = "product_id")})
-    private Set<Product> products = new HashSet<>();
+    @Column(name = "produced",columnDefinition = "TINYINT",nullable = false)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private Boolean isProduced;
+
+//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},targetEntity = Product.class)
+//    @JoinTable(name = "order_product",
+//            joinColumns = {@JoinColumn(name = "order_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "product_id")})
+    @OneToMany(mappedBy = "primaryKey.order",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<OrderProduct> orderProducts = new HashSet<>();
 
     public Order() {
         super();
     }
 
-    public Order(User user, Payment payment, Delivery delivery,
-                 String comment, Double price, Set<Product> products) {
-        this(null, user, payment, delivery, comment, price, products);
     }
 
-    public Order(Order order) {
-        this(order.getId(), order.getUser(), order.getPayment(), order.getDelivery(),
-                order.getComment(), order.getPrice(), order.getProducts());
-    }
-
-    public Order(Long id, User user, Payment payment, Delivery delivery,
-                 String comment, Double price, Set<Product> products) {
-        super(id);
+    public Order(User user, Payment payment,
+                 Delivery delivery, String comment,
+                 Double price, Boolean isProduced) {
         this.user = user;
         this.payment = payment;
         this.delivery = delivery;
         this.comment = comment;
         this.price = price;
-        this.products = products;
+        this.isProduced = isProduced;
     }
 
     public User getUser() {
@@ -102,12 +100,20 @@ public class Order extends AbstractEntity<Long> {
         this.price = price;
     }
 
-    public Set<Product> getProducts() {
-        return products;
+    public Set<OrderProduct> getOrderProducts() {
+        return orderProducts;
     }
 
-    public void setProducts(Set<Product> products) {
-        this.products = products;
+    public void setOrderProducts(Set<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
+    }
+
+    public Boolean getProduced() {
+        return isProduced;
+    }
+
+    public void setProduced(Boolean produced) {
+        isProduced = produced;
     }
 
     @Override
@@ -124,7 +130,8 @@ public class Order extends AbstractEntity<Long> {
             return false;
         if (getComment() != null ? !getComment().equals(order.getComment()) : order.getComment() != null) return false;
         if (getPrice() != null ? !getPrice().equals(order.getPrice()) : order.getPrice() != null) return false;
-        return getProducts() != null ? getProducts().equals(order.getProducts()) : order.getProducts() == null;
+        if (isProduced != null ? !isProduced.equals(order.isProduced) : order.isProduced != null) return false;
+        return getOrderProducts() != null ? getOrderProducts().equals(order.getOrderProducts()) : order.getOrderProducts() == null;
 
     }
 
@@ -136,7 +143,8 @@ public class Order extends AbstractEntity<Long> {
         result = 31 * result + (getDelivery() != null ? getDelivery().hashCode() : 0);
         result = 31 * result + (getComment() != null ? getComment().hashCode() : 0);
         result = 31 * result + (getPrice() != null ? getPrice().hashCode() : 0);
-        result = 31 * result + (getProducts() != null ? getProducts().hashCode() : 0);
+        result = 31 * result + (isProduced != null ? isProduced.hashCode() : 0);
+        result = 31 * result + (getOrderProducts() != null ? getOrderProducts().hashCode() : 0);
         return result;
     }
 
@@ -148,7 +156,8 @@ public class Order extends AbstractEntity<Long> {
                 ", delivery=" + delivery +
                 ", comment='" + comment + '\'' +
                 ", price=" + price +
-                ", products=" + products +
+                ", isProduced=" + isProduced +
+                ", orderProducts=" + orderProducts +
                 '}';
     }
 }

@@ -25,6 +25,7 @@ public class ProductDAOImplTest {
     private ProductDAO dao;
 
     private static String assertMess;
+
     private Product product;
 
     @Autowired
@@ -37,7 +38,6 @@ public class ProductDAOImplTest {
 
     private Manufacturer manufacturer;
 
-    //private static String assertMess;
 
     @BeforeClass
     public static void setUpClass() throws Exception {

@@ -8,16 +8,24 @@
         <thead>
         <tr>
             <th>username</th>
-            <th>ordered items</th>
+            <th>lastname</th>
+            <th>firsname</th>
+            <th>orders arent produced</th>
+            <th>orders are produced</th>
+            <th>summa stoimostey zakazov.</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${orders}" var="order">
-            <tr>
-                <td>${order[1]}</td>
-                <td>${order[2]}</td>
-                <td><input class="btn btn-warning btn-xs" value="Show" onclick="location.href='show-order-${order[0]}'" type="button" /></td>
-            </tr>
+                <tr>
+                    <td>${order.username}</td>
+                    <td>${order.lastName}</td>
+                    <td>${order.firstName}</td>
+                    <td>${order.orderIsntProduced}</td>
+                    <td>${order.orderIsProduced}</td>
+                    <td>${order.orderPrice}</td>
+                    <td><input class="btn btn-warning btn-xs" value="Show" onclick="location.href='show-order-for-${order.userId}'" type="button" /></td>
+                </tr>
         </c:forEach>
         </tbody>
     </table>

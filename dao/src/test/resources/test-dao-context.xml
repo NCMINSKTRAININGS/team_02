@@ -59,5 +59,6 @@
     <bean id="paymentDAO" class="by.netcracker.shop.dao.impl.PaymentDAOImpl"/>
     <bean id="deliveryDAO" class="by.netcracker.shop.dao.impl.DeliveryDAOImpl"/>
     <bean id="productDAO" class="by.netcracker.shop.dao.impl.ProductDAOImpl"/>
+    <bean id="orderProductDAO" class="by.netcracker.shop.dao.impl.OrderProductDAOImpl"/>
 
 </beans>

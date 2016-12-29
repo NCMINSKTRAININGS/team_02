@@ -11,7 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
 import java.util.*;
 
 @ContextConfiguration("/test-dao-context.xml")
@@ -60,15 +59,9 @@ public class OrderDAOImplTest {
         delivery = new Delivery("test", "test");
         deliveryDAO.insert(delivery);
 
-        order = new Order(user, payment, delivery, "test", 0d, products);
+        order = new Order(user, payment, delivery, "test", 0d, false);
         orderDao.insert(order);
-        expectedOrders.add(0, order);
 
-
-        expectedOrders.get(0);
-        expectedGroupedOrder[0] = 1;
-        expectedGroupedOrder[1] = "test";
-        expectedGroupedOrder[2] = BigInteger.valueOf(1);
 
     }
 
@@ -85,6 +78,7 @@ public class OrderDAOImplTest {
     @Test
     public void testGetOrdersByUser() throws Exception {
         List<Order> actualOrders = orderDao.getOrdersByUser(user);
+        System.out.println(actualOrders.toString());
         Assert.assertEquals(expectedOrders, actualOrders);
     }
 
@@ -148,5 +142,11 @@ public class OrderDAOImplTest {
         List<Order> orders = orderDao.getByGap(0, 2);
         Assert.assertTrue(orders.size() <= 2);
 
+    }
+
+    @Test
+    public void getActiveOrderByUser()  throws Exception{
+        List<Order> actualOrders = orderDao.getActiveOrderByUser(userDAO.getByUsername("12345"));
+        System.out.println(actualOrders.toString());
     }
 }
