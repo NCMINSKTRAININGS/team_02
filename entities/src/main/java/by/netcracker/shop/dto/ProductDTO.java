@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 public class ProductDTO {
 
@@ -33,6 +34,8 @@ public class ProductDTO {
 
     private String image;
 
+    private Set<String> imageSet;
+
     public ProductDTO() {
     }
 
@@ -40,11 +43,12 @@ public class ProductDTO {
         this(productDTO.getId(), productDTO.getCategoryId(), productDTO.getManufacturerId(),
                 productDTO.getManufacturerName(), productDTO.getCategoryName(), productDTO.getName(),
                 productDTO.getDescription(), productDTO.getPrice(), productDTO.getKeywords(),
-                productDTO.getQuantityInStock(), productDTO.getImage());
+                productDTO.getQuantityInStock(), productDTO.getImage(), productDTO.getImageSet());
     }
 
     public ProductDTO(Long id, Long categoryId, Long manufacturerId, String manufacturerName, String categoryName,
-                      String name, String description, Double price, String keywords, Integer quantityInStock, String image) {
+                      String name, String description, Double price, String keywords, Integer quantityInStock,
+                      String image, Set<String> imageSet) {
         this.id = id;
         this.categoryId = categoryId;
         this.manufacturerId = manufacturerId;
@@ -56,6 +60,7 @@ public class ProductDTO {
         this.keywords = keywords;
         this.quantityInStock = quantityInStock;
         this.image = image;
+        this.imageSet = imageSet;
     }
 
     public Long getId() {
@@ -146,6 +151,14 @@ public class ProductDTO {
         this.image = image;
     }
 
+    public Set<String> getImageSet() {
+        return imageSet;
+    }
+
+    public void setImageSet(Set<String> imageSet) {
+        this.imageSet = imageSet;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -183,11 +196,15 @@ public class ProductDTO {
                 "id=" + id +
                 ", categoryId=" + categoryId +
                 ", manufacturerId=" + manufacturerId +
+                ", manufacturerName='" + manufacturerName + '\'' +
+                ", categoryName='" + categoryName + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", keywords='" + keywords + '\'' +
                 ", quantityInStock=" + quantityInStock +
+                ", image='" + image + '\'' +
+                ", imageSet=" + imageSet +
                 '}';
     }
 }

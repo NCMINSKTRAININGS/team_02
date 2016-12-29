@@ -7,10 +7,16 @@ import by.netcracker.shop.pojo.Product;
 import by.netcracker.shop.pojo.ProductImage;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Component
 public class ProductConverter {
-    public ProductDTO toProductDTO(Product product, ProductImage image) {
+    public ProductDTO toProductDTO(Product product, List<ProductImage> imagePOJOs) {
         ProductDTO productDTO;
+        ProductImage image;
+        Set<String> set = new HashSet<>();
         if (product == null)
             return null;
         productDTO = new ProductDTO();
@@ -24,8 +30,14 @@ public class ProductConverter {
         productDTO.setPrice(product.getPrice());
         productDTO.setKeywords(product.getKeywords());
         productDTO.setQuantityInStock(product.getQuantityInStock());
-        if (image != null)
+        if (imagePOJOs != null && imagePOJOs.size() != 0) {
+            image = imagePOJOs.iterator().next();
             productDTO.setImage(image.getImage());
+            for (ProductImage productImage : imagePOJOs){
+                set.add(productImage.getImage());
+            }
+            productDTO.setImageSet(set);
+        }
         return productDTO;
     }
 

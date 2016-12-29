@@ -14,7 +14,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @ContextConfiguration("/test-services-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -32,6 +34,7 @@ public class ProductServiceImplTest {
     private ProductDTO productDTO;
     private Category categoryPOJO;
     private Manufacturer manufacturerPOJO;
+    private Set<String> images = new HashSet<>();
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -46,7 +49,7 @@ public class ProductServiceImplTest {
         categoryDAO.insert(categoryPOJO);
         manufacturerDAO.insert(manufacturerPOJO);
         productDTO = new ProductDTO(null, categoryPOJO.getId(), manufacturerPOJO.getId(), manufacturerPOJO.getName(),
-                categoryPOJO.getName(), "test", "test", 0d, "test", 0, "test");
+                categoryPOJO.getName(), "test", "test", 0d, "test", 0, "test", images);
         counter += 1;
     }
 

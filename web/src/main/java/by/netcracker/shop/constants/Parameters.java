@@ -24,6 +24,7 @@ public class Parameters {
     public static final String REQUEST_PRODUCT_CREATE = "/new";
     public static final String REQUEST_PRODUCT_EDIT = "/update-product-{id}";
     public static final String REQUEST_PRODUCT_DELETE = "/delete-product-{id}";
+    public static final String REQUEST_PRODUCT_SHOW = "/show-product-{id}";
     public static final String REQUEST_PRODUCT_IMAGE_LIST = "/list";
     public static final String REQUEST_PRODUCT_IMAGE_CREATE = "/new";
     public static final String REQUEST_PRODUCT_IMAGE_EDIT = "/update-image-{id}";
@@ -63,6 +64,7 @@ public class Parameters {
     public static final String TILES_ORDER_DETAILS = "order/details";
     public static final String TILES_PRODUCT_LIST = "product/list";
     public static final String TILES_PRODUCT_NEW = "product/new";
+    public static final String TILES_PRODUCT_DETAILS = "product/details";
     public static final String TILES_PRODUCT_IMAGE_LIST = "image/list";
     public static final String TILES_PRODUCT_IMAGE_NEW = "image/new";
 
