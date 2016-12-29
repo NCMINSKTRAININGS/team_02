@@ -129,7 +129,7 @@ public class ProductServiceImpl implements ProductService {
             productDTOs = new ArrayList<>(productPOJOs.size());
             for (Product product : productPOJOs) {
                 imagePOJOs = imageDAO.getImagesByProduct(product);
-                if (image != null)
+                if (imagePOJOs != null && imagePOJOs.size() != 0)
                     image = imagePOJOs.iterator().next();
                 productDTOs.add(productConverter.toProductDTO(product, image));
                 image = null;
@@ -164,7 +164,7 @@ public class ProductServiceImpl implements ProductService {
             productPOJOs = dao.getByGap(offset, quantity);
             for (Product productPOJO : productPOJOs) {
                 imagePOJOs = imageDAO.getImagesByProduct(productPOJO);
-                if (image != null)
+                if (imagePOJOs != null && imagePOJOs.size() != 0)
                     image = imagePOJOs.iterator().next();
                 productDTOs.add(productConverter.toProductDTO(productPOJO, image));
                 image = null;
