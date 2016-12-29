@@ -1,7 +1,9 @@
 package by.netcracker.shop.controllers;
 
 import by.netcracker.shop.constants.Parameters;
-import by.netcracker.shop.dto.*;
+import by.netcracker.shop.dto.OrderProductDTO;
+import by.netcracker.shop.dto.UserDTO;
+import by.netcracker.shop.dto.UsersOrdersDTO;
 import by.netcracker.shop.enums.UserRole;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.services.OrderProductService;
@@ -61,36 +63,38 @@ public class OrderController {
         UserDTO currentUser = userService.getByUsername(username);
         UserDTO userDTO = userService.getById(id);
 
-        Map<Long,List<OrderProductDTO>> map = new HashMap<>();
-
         if(Objects.equals(userDTO.getUsername(), currentUser.getUsername())||currentUser.getRole().equals(UserRole.ADMIN)){
-            List<OrderProductDTO> orderProductByUser = orderProductService.getOrdersByUser(id);
-            for (OrderProductDTO orderProductDTO:orderProductByUser) {
-                List<OrderProductDTO> list =map.get(orderProductDTO.getOrderId());
-                if (list == null){
-                    list = new ArrayList<>();
-                    map.put(orderProductDTO.getOrderId(),list);
-                }
-                list.add(orderProductDTO);
-            }
-                modelMap.addAttribute("userOrder", map);
-                modelMap.addAttribute("signedIn",currentUser);
-                return "order/details";
+            Map<Long,List<OrderProductDTO>> map = orderProductService.separateByOrderId(orderProductService.getOrdersByUser(id));
+            Map<Long,List<OrderProductDTO>> treeMap = new TreeMap<>(
+                    (Comparator<Long>) (o1, o2) -> o2.compareTo(o1));
+            treeMap.putAll(map);
+            modelMap.addAttribute("userOrder", treeMap);
+
+            modelMap.addAttribute("signedIn",currentUser);
+            return "order/details";
             }
         else return "403";
     }
 
     @RequestMapping(value = "/add-{prodId}-to-order",method = RequestMethod.GET)
-    public String addToOrder(@PathVariable Long prodId) throws ServiceException {
+    public String addToOrder(@PathVariable Long prodId,  HttpServletRequest request) throws ServiceException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails)principal).getUsername();
         orderService.addToOrder(userService.getByUsername(username),prodId);
-        return "redirect:/product/list";
+        return "redirect:"+request.getHeader("Referer");
     }
 
     @RequestMapping(value = "/remove-{orderId}-{productId}",method = RequestMethod.GET)
     public String deleteProdFromOrder(@PathVariable Long orderId, @PathVariable Long productId, HttpServletRequest request) throws ServiceException{
         orderProductService.deleteProductFromOrder(orderId,productId);
         return "redirect:"+request.getHeader("Referer");
+    }
+
+    @RequestMapping(value = "/order-{orderId}",method = RequestMethod.GET)
+    public String editOrder(@PathVariable Long orderId, ModelMap model) throws ServiceException {
+        Map<Long,List<OrderProductDTO>> map = orderProductService.separateByOrderId(orderProductService.getOrderByOrderId(orderId));
+
+        model.addAttribute("orderMap", map);
+        return "order/order";
     }
 }

@@ -4,6 +4,7 @@ package by.netcracker.shop.dao.impl;
 import by.netcracker.shop.constants.DAOConstants;
 import by.netcracker.shop.dao.OrderDAO;
 import by.netcracker.shop.dao.OrderProductDAO;
+import by.netcracker.shop.dto.OrderProductDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.pojo.OrderProduct;
 import by.netcracker.shop.pojo.OrderProductId;
@@ -17,6 +18,7 @@ import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository("orderProductDAO")
@@ -134,11 +136,22 @@ public class OrderProductDAOImpl implements OrderProductDAO{
 //                .add(Restrictions.eq("order.userId",userId));
 //        orderProductList=criteria.list();
 //
-       String sql="SELECT op.* FROM order_product op INNER JOIN `order` o ON o.id=op.order_id WHERE user_id=?";
+       String sql="SELECT op.* FROM order_product op INNER JOIN `order` o ON o.id=op.order_id WHERE user_id=? ORDER BY produced  ";
        orderProductList= getSession().createSQLQuery(sql)
                .addEntity(OrderProduct.class)
                .setLong(0,userId)
                .list();
        return orderProductList;
+    }
+
+    @Override
+    public List<OrderProduct> getByOrderId(Long orderId) {
+        List<OrderProduct> orderProducts =new ArrayList<>();
+        String sql="SELECT op.* FROM order_product op INNER JOIN `order` o ON o.id=op.order_id WHERE op.order_id=?";
+        orderProducts= getSession().createSQLQuery(sql)
+                .addEntity(OrderProduct.class)
+                .setLong(0,orderId)
+                .list();
+        return orderProducts;
     }
 }

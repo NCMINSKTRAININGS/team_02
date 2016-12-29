@@ -22,9 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service("orderProductService")
 @Transactional
@@ -120,5 +118,29 @@ public class OrderProductServiceImpl implements OrderProductService {
         }
         return orderProductDTO;
     }
+
+    @Override
+    public List<OrderProductDTO> getOrderByOrderId(Long orderId) throws ServiceException {
+        List<OrderProductDTO> orderProductDTO = new ArrayList<>();
+        for (OrderProduct orderProduct: orderProductDAO.getByOrderId(orderId)) {
+            orderProductDTO.add(orderProductConverter.convertToFront(orderProduct));
+        }
+        return orderProductDTO;
+    }
+
+    @Override
+    public Map<Long, List<OrderProductDTO>> separateByOrderId(List<OrderProductDTO> orderProductDTOs) throws ServiceException {
+        Map<Long,List<OrderProductDTO>> map = new HashMap<>();
+        for (OrderProductDTO orderProductDTO : orderProductDTOs) {
+            List<OrderProductDTO> list =map.get(orderProductDTO.getOrderId());
+            if (list == null){
+                list = new ArrayList<>();
+                map.put(orderProductDTO.getOrderId(),list);
+            }
+            list.add(orderProductDTO);
+        }
+        return map;
+    }
+
 
 }

@@ -27,6 +27,11 @@
         <put-attribute name="body" value="/WEB-INF/views/order/details.jsp"/>
     </definition>
 
+    <definition name="order/order" extends="baseTemplate">
+        <put-attribute name="titleKey" value="label.order.order"/>
+        <put-attribute name="body" value="/WEB-INF/views/order/order.jsp"/>
+    </definition>
+
     <!--Deliveries-->
     <definition name="delivery/list" extends="baseTemplate">
         <put-attribute name="titleKey" value="label.delivery.list"/>

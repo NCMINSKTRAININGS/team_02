@@ -6,6 +6,7 @@ import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.OrderProductId;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OrderProductService {
 
@@ -18,4 +19,8 @@ public interface OrderProductService {
     void deleteProductFromOrder(Long orderId, Long productId) throws ServiceException;
 
     List<OrderProductDTO> getOrdersByUser(Long userId) throws ServiceException;
+
+    List<OrderProductDTO> getOrderByOrderId(Long orderId) throws ServiceException;
+
+    Map<Long,List<OrderProductDTO>> separateByOrderId(List<OrderProductDTO> orderProductDTOs) throws ServiceException;
 }

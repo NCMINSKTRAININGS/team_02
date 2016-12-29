@@ -11,11 +11,8 @@ import by.netcracker.shop.dto.UsersOrdersDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.*;
-import by.netcracker.shop.services.OrderProductService;
 import by.netcracker.shop.services.OrderService;
-import by.netcracker.shop.services.ProductService;
 import by.netcracker.shop.utils.OrderConverter;
-import by.netcracker.shop.utils.OrderProductConverter;
 import by.netcracker.shop.utils.UsersOrdersConverter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +31,6 @@ public class OrderServiceImpl implements OrderService {
     private OrderDAO dao;
     @Autowired
     private UserDAO userDAO;
-    @Autowired
-    private ProductService productService;
 
     @Autowired
     private OrderConverter orderConverter;
@@ -46,14 +41,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderProductDAO orderProductDAO;
 
-    @Autowired
-    private OrderProductService  orderProductService;
-    @Autowired
-    private OrderProductConverter orderProductConverter;
-
-
     private static Logger logger = Logger.getLogger(OrderServiceImpl.class);
-
 
     @Override
     public Long insert(OrderDTO orderDTO) throws ServiceException {
@@ -204,11 +192,11 @@ public class OrderServiceImpl implements OrderService {
                 }
                 product.setQuantityInStock(product.getQuantityInStock()-1);
                 productDAO.insert(product);
-            }
+                }
             }
         } catch (DAOException e) {
         e.printStackTrace();
-    }
+        }
     }
 
     @Override
@@ -222,20 +210,21 @@ public class OrderServiceImpl implements OrderService {
         }
         return count;
     }
-        @Override
-        public List<OrderDTO> getByGap(int offset, int quantity) throws ServiceException {
-                    List<Order> orderPOJOs;
-           List<OrderDTO> orderDTOs = new LinkedList<>();
-            try {
-                orderPOJOs = dao.getByGap(offset, quantity);
-            } catch (DAOException e) {
-                            logger.error(ServiceConstants.ERROR_SERVICE, e);
-                     throw new ServiceException(e);
-                    }
-          for (Order orderPOJO : orderPOJOs) {
-                          orderDTOs.add(orderConverter.convertToFront(orderPOJO));
-                  }
-             return orderDTOs;
-            }
+
+    @Override
+    public List<OrderDTO> getByGap(int offset, int quantity) throws ServiceException {
+        List<Order> orderPOJOs;
+        List<OrderDTO> orderDTOs = new LinkedList<>();
+        try {
+            orderPOJOs = dao.getByGap(offset, quantity);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+        for (Order orderPOJO : orderPOJOs) {
+            orderDTOs.add(orderConverter.convertToFront(orderPOJO));
+        }
+        return orderDTOs;
+    }
 
 }

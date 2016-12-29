@@ -36,7 +36,7 @@
                     </tbody>
                 </table>
                 <c:forEach items="${order.value}" var="ord" step="9000">
-                    <c:if test="${not ord.produced}">
+                    <c:if test="${not ord.produced and signedIn.username eq ord.username}">
                         <p>
                             <input class="btn btn-primary " value="Order" onclick="location.href='order-${order.key}'" type="button" />
                         </p>
