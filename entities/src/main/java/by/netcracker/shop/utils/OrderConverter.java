@@ -17,10 +17,7 @@ public class OrderConverter {
         orderDTO.setDelivery(order.getDelivery());
         orderDTO.setPayment(order.getPayment());
         orderDTO.setPrice(order.getPrice());
-
-        if (order.getProducts().iterator().hasNext()){
-             orderDTO.setProducts(order.getProducts());
-        }
+        orderDTO.setProducts(order.getProducts());
         return orderDTO;
     }
 
@@ -32,10 +29,7 @@ public class OrderConverter {
         order.setPayment(orderDTO.getPayment());
         order.setDelivery(orderDTO.getDelivery());
         order.setComment(orderDTO.getComment());
-
-        if (orderDTO.getProducts().iterator().hasNext()){
-            order.setProducts(orderDTO.getProducts());
-        }
+        order.setProducts(orderDTO.getProducts());
         return order;
     }
 }

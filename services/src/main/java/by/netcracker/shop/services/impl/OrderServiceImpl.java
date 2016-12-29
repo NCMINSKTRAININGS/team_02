@@ -20,10 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service("orderService")
 @Transactional
@@ -46,20 +43,22 @@ public class OrderServiceImpl implements OrderService {
     private static Logger logger = Logger.getLogger(OrderServiceImpl.class);
 
     @Override
-    public void insert(OrderDTO orderDTO) throws ServiceException {
+    public Long insert(OrderDTO orderDTO) throws ServiceException {
         Order orderPOJO = null;
+        Long id;
         try {
             if (orderDTO.getId() != null) {
                 orderPOJO = dao.getById(orderDTO.getId());
             }
             if (orderPOJO == null)
                 orderPOJO = new Order();
-            dao.insert(orderConverter.toOrderPOJO(orderDTO, orderPOJO));
+            id = dao.insert(orderConverter.toOrderPOJO(orderDTO, orderPOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
+        return id;
     }
 
     @Override
@@ -73,6 +72,23 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException(e);
         }
         return orderConverter.toOrderDTO(orderPOJO);
+    }
+
+    @Override
+    public void update(OrderDTO orderDTO) throws ServiceException {
+        Order orderPOJO = null;
+        try {
+            if (orderDTO.getId() != null)
+                orderPOJO = dao.getById(orderDTO.getId());
+            if (orderPOJO == null) {
+                throw new ServiceException();
+            }
+            orderPOJO = orderConverter.toOrderPOJO(orderDTO, orderPOJO);
+            dao.update(orderPOJO);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
     }
 
     @Override
@@ -100,6 +116,34 @@ public class OrderServiceImpl implements OrderService {
         orderDTOs = new ArrayList<>(orderPOJOs.size());
         for (Order order : orderPOJOs) {
             orderDTOs.add(orderConverter.toOrderDTO(order));
+        }
+        return orderDTOs;
+    }
+
+    @Override
+    public Long getCount() throws ServiceException {
+        Long count;
+        try {
+            count = dao.getCount();
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+        return count;
+    }
+
+    @Override
+    public List<OrderDTO> getByGap(int offset, int quantity) throws ServiceException {
+        List<Order> orderPOJOs;
+        List<OrderDTO> orderDTOs = new LinkedList<>();
+        try {
+            orderPOJOs = dao.getByGap(offset, quantity);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+        for (Order orderPOJO : orderPOJOs) {
+            orderDTOs.add(orderConverter.toOrderDTO(orderPOJO));
         }
         return orderDTOs;
     }

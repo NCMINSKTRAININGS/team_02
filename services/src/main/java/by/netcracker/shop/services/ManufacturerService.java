@@ -10,7 +10,7 @@ public interface ManufacturerService {
 
     ManufacturerDTO getById(Long id) throws ServiceException;
 
-    void update(ManufacturerDTO categoryDTO) throws ServiceException;
+    void update(ManufacturerDTO manufacturerDTO) throws ServiceException;
 
     void deleteById(Long id) throws ServiceException;
 

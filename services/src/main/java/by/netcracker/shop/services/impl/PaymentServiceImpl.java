@@ -64,15 +64,15 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void update(PaymentDTO paymentDTO) throws ServiceException {
-        Payment categoryPOJO = null;
+        Payment paymentPOJO = null;
         try {
             if (paymentDTO.getId() != null)
-                categoryPOJO = paymentDAO.getById(paymentDTO.getId());
-            if (categoryPOJO == null) {
+                paymentPOJO = paymentDAO.getById(paymentDTO.getId());
+            if (paymentPOJO == null) {
                 throw new ServiceException();
             }
-            categoryPOJO = converter.toPaymentPOJO(paymentDTO, categoryPOJO);
-            paymentDAO.update(categoryPOJO);
+            paymentPOJO = converter.toPaymentPOJO(paymentDTO, paymentPOJO);
+            paymentDAO.update(paymentPOJO);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
@@ -122,17 +122,17 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<PaymentDTO> getByGap(int offset, int quantity) throws ServiceException {
-        List<Payment> categoryPOJOs;
-        List<PaymentDTO> categoryDTOs = new LinkedList<>();
+        List<Payment> paymentPOJOs;
+        List<PaymentDTO> paymentDTOs = new LinkedList<>();
         try {
-            categoryPOJOs = paymentDAO.getByGap(offset, quantity);
+            paymentPOJOs = paymentDAO.getByGap(offset, quantity);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
-        for (Payment categoryPOJO : categoryPOJOs) {
-            categoryDTOs.add(converter.toPaymentDTO(categoryPOJO));
+        for (Payment paymentPOJO : paymentPOJOs) {
+            paymentDTOs.add(converter.toPaymentDTO(paymentPOJO));
         }
-        return categoryDTOs;
+        return paymentDTOs;
     }
 }

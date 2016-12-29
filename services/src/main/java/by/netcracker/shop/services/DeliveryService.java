@@ -11,7 +11,7 @@ public interface DeliveryService  {
 
     DeliveryDTO getById(Long id) throws ServiceException;
 
-    void update(DeliveryDTO categoryDTO) throws ServiceException;
+    void update(DeliveryDTO deliveryDTO) throws ServiceException;
 
     void deleteById(Long id) throws ServiceException;
 

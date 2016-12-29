@@ -10,7 +10,7 @@ public interface ProductImageService {
 
     ProductImageDTO getById(Long id) throws ServiceException;
 
-    void update(ProductImageDTO categoryDTO) throws ServiceException;
+    void update(ProductImageDTO imageDTO) throws ServiceException;
 
     void deleteById(Long id) throws ServiceException;
 
