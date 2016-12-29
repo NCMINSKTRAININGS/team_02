@@ -41,7 +41,6 @@
                             <input class="btn btn-primary " value="Order" onclick="location.href='order-${order.key}'" type="button" />
                         </p>
                     </c:if>
-                    <c:
                 </c:forEach>
             </div>
             </div>

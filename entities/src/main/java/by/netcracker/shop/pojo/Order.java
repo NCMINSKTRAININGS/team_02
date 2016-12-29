@@ -47,7 +47,6 @@ public class Order extends AbstractEntity<Long> {
         super();
     }
 
-    }
 
     public Order(User user, Payment payment,
                  Delivery delivery, String comment,

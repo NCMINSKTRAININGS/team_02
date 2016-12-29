@@ -42,7 +42,7 @@ public class OrderServiceImplTest {
         userPOJO = new User("test", "test", String.valueOf(counter), "test", "test", 0d,
                 UserStatus.OFLINE, new Date(), UserRole.CLIENT, null);
         userDAO.insert(userPOJO);
-        order = new OrderDTO(null, "test", 0d, userPOJO, null, null, null);
+        order = new OrderDTO(null, "test", 0d, userPOJO.getId(), null, null, null,false);
         counter += 1;
     }
 
@@ -60,35 +60,6 @@ public class OrderServiceImplTest {
         order.setId(id);
         newOrderDTO = orderService.getById(order.getId());
         Assert.assertEquals(msg, order, newOrderDTO);
-    }
-
-    @Test
-    public void update() throws Exception {
-        String msg = Thread.currentThread().getStackTrace()[1].getMethodName() + assertMsg;
-        Long id;
-        OrderDTO newOrderDTO;
-        id = orderService.insert(order);
-        order.setId(id);
-        newOrderDTO = orderService.getById(order.getId());
-        Assert.assertEquals(msg, order, newOrderDTO);
-
-        order.setComment("new_comment");
-        order.setPrice(1d);
-
-        orderService.update(order);
-        newOrderDTO = orderService.getById(id);
-        Assert.assertEquals(msg, order, newOrderDTO);
-        orderService.deleteById(id);
-        OrderDTO newOrder = orderService.getById(id);
-        Assert.assertNull(msg, newOrder);
-
-        Throwable ex = null;
-        try {
-            orderService.update(newOrderDTO);
-        } catch (Exception e) {
-            ex = e;
-        }
-        Assert.assertTrue(msg, ex instanceof ServiceException);
     }
 
     @Test

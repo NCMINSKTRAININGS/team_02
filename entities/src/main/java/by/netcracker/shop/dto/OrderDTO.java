@@ -28,8 +28,8 @@ public class OrderDTO {
     }
 
     public OrderDTO(OrderDTO orderDTO) {
-        this(orderDTO.getId(), orderDTO.getComment(), orderDTO.getPrice(), orderDTO.getUser(),
-                orderDTO.getDelivery(), orderDTO.getPayment(), orderDTO.getProducts());
+        this(orderDTO.getId(), orderDTO.getComment(), orderDTO.getPrice(), orderDTO.getUserId(),
+                orderDTO.getDeliveryId(), orderDTO.getPaymentId(), orderDTO.getProductsId(),orderDTO.getProduced());
     }
 
     public OrderDTO(Long id, String comment, Double price,

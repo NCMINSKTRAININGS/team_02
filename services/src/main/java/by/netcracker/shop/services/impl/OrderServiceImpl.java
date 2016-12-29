@@ -5,7 +5,9 @@ import by.netcracker.shop.dao.OrderDAO;
 import by.netcracker.shop.dao.OrderProductDAO;
 import by.netcracker.shop.dao.ProductDAO;
 import by.netcracker.shop.dao.UserDAO;
-import by.netcracker.shop.dto.*;
+import by.netcracker.shop.dto.OrderDTO;
+import by.netcracker.shop.dto.UserDTO;
+import by.netcracker.shop.dto.UsersOrdersDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
 import by.netcracker.shop.pojo.*;
@@ -22,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service("orderService")
@@ -53,8 +56,9 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public void insert(OrderDTO orderDTO) throws ServiceException {
+    public Long insert(OrderDTO orderDTO) throws ServiceException {
         Order orderPOJO = null;
+        Long id;
         try {
             if (orderDTO.getId() != null) {
                 orderPOJO = dao.getById(orderDTO.getId());
@@ -64,12 +68,13 @@ public class OrderServiceImpl implements OrderService {
             }
             if (orderPOJO == null)
                 orderPOJO = new Order();
-            dao.insert(orderConverter.convertToLocal(orderDTO, orderPOJO));
+           id = dao.insert(orderConverter.convertToLocal(orderDTO, orderPOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
+        return id;
     }
 
     @Override
@@ -206,5 +211,31 @@ public class OrderServiceImpl implements OrderService {
     }
     }
 
+    @Override
+        public Long getCount() throws ServiceException {
+        Long count;
+        try {
+            count = dao.getCount();
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            throw new ServiceException(e);
+        }
+        return count;
+    }
+        @Override
+        public List<OrderDTO> getByGap(int offset, int quantity) throws ServiceException {
+                    List<Order> orderPOJOs;
+           List<OrderDTO> orderDTOs = new LinkedList<>();
+            try {
+                orderPOJOs = dao.getByGap(offset, quantity);
+            } catch (DAOException e) {
+                            logger.error(ServiceConstants.ERROR_SERVICE, e);
+                     throw new ServiceException(e);
+                    }
+          for (Order orderPOJO : orderPOJOs) {
+                          orderDTOs.add(orderConverter.convertToFront(orderPOJO));
+                  }
+             return orderDTOs;
+            }
 
 }

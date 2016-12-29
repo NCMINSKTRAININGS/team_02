@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    void insert(OrderDTO orderDTO) throws ServiceException;
+    Long insert(OrderDTO orderDTO) throws ServiceException;
 
     OrderDTO getById(Long id) throws ServiceException;
 
@@ -22,4 +22,8 @@ public interface OrderService {
     UsersOrdersDTO getOrdersByUser(Long userId) throws ServiceException;
 
     void addToOrder(UserDTO userDTO, Long prodId) throws ServiceException;
+
+    Long getCount() throws ServiceException;
+
+    List<OrderDTO> getByGap(int offset, int quantity) throws ServiceException;
 }
