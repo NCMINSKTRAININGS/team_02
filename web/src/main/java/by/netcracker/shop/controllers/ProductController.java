@@ -20,11 +20,6 @@ import java.util.List;
 @Controller
 @RequestMapping(Parameters.CONTROLLER_PRODUCT)
 public class ProductController {
-    int pageNumber;
-    int recordsPerPage;
-    int numberOfPages;
-    int numberOfRecords;
-
     @Autowired
     ProductService service;
 
@@ -34,36 +29,35 @@ public class ProductController {
     @Autowired
     CategoryService categoryService;
 
-    /*@RequestMapping(value = Parameters.REQUEST_PRODUCT_LIST, method = RequestMethod.GET)
-    public String listProducts(ModelMap modelMap, @RequestParam(value = "page") String page) {
+    @RequestMapping(value = Parameters.REQUEST_PRODUCT_LIST, method = RequestMethod.GET)
+    public String listProducts(ModelMap modelMap, @RequestParam(value = "page", required = false) String page) {
+        int pageNumber;
+        int recordsPerPage = 2;
+        int numberOfPages;
+        int numberOfRecords;
+        List<ProductDTO> products = null;
+
         if (page != null){
-            pageNumber = Integer.parseInt(page);
+            try {
+                pageNumber = Integer.parseInt(page);
+            } catch (NumberFormatException e){
+                pageNumber = 1;
+            }
         } else {
             pageNumber = 1;
         }
-        pageNumber = 1;
-        List<ProductDTO> products = null;
         try {
             products = service.getByGap((pageNumber - 1) * recordsPerPage, recordsPerPage);
-            numberOfRecords = service.getAll().size();
+            numberOfRecords = Math.toIntExact(service.getCount());
         } catch (ServiceException e) {
             //todo
+            if (products != null)
+                numberOfRecords = products.size();
+            else numberOfRecords = recordsPerPage;
         }
         numberOfPages = (int) Math.ceil(numberOfRecords * 1.0 / recordsPerPage);
         modelMap.addAttribute("currentPage", pageNumber);
         modelMap.addAttribute("numberOfPages", numberOfPages);
-        modelMap.addAttribute(Parameters.FIELD_PRODUCTS, products);
-        return Parameters.TILES_PRODUCT_LIST;
-    }*/
-
-    @RequestMapping(value = Parameters.REQUEST_PRODUCT_LIST, method = RequestMethod.GET)
-    public String listProducts(ModelMap modelMap) {
-        List<ProductDTO> products = null;
-        try {
-            products = service.getAll();
-        } catch (ServiceException e) {
-            //todo
-        }
         modelMap.addAttribute(Parameters.FIELD_PRODUCTS, products);
         return Parameters.TILES_PRODUCT_LIST;
     }

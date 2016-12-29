@@ -45,15 +45,6 @@
                 </tbody>
             </table>
         </sec:authorize>
-        <sec:authorize access="hasRole('ROLE_ADMIN')">
-            ty admin
-        </sec:authorize>
-        <sec:authorize access="hasRole('ROLE_CLIENT')">
-            ty client
-        </sec:authorize>
-        <sec:authorize access="isAnonymous()">
-            ty anonymous
-        </sec:authorize>
     </div>
 </div>
 
@@ -75,14 +66,11 @@
     </div>
 </sec:authorize>
 
-<%--For displaying Page numbers.
-The when condition does not display a link for the current page
 <table class="table" border="1" cellpadding="5" cellspacing="5">
     <div class="text-center">
         <ul class="pagination">
-            &lt;%&ndash;For displaying Previous link except for the 1st page &ndash;%&gt;
             <c:if test="${currentPage != 1}">
-                <li class="previous"><a href="/?page=${currentPage - 1}">&larr; Previous</a></li>
+                <li class="previous"><a href="/product/list?page=${currentPage - 1}">&larr; Previous</a></li>
             </c:if>
 
             <c:forEach begin="1" end="${numberOfPages}" var="i">
@@ -91,16 +79,15 @@ The when condition does not display a link for the current page
                         <li class="active"><a href="">${i}</a></li>
                     </c:when>
                     <c:otherwise>
-                        <li><a href="/?page=${i}">${i}</a></li>
+                        <li><a href="/product/list?page=${i}">${i}</a></li>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
 
-            &lt;%&ndash;For displaying Next link &ndash;%&gt;
             <c:if test="${currentPage lt numberOfPages}">
-                <li class="next"><a href="/?page=${currentPage + 1}">Next &rarr;</a></li>
+                <li class="next"><a href="/product/list?page=${currentPage + 1}">Next &rarr;</a></li>
             </c:if>
         </ul>
     </div>
-</table>--%>
+</table>
 
