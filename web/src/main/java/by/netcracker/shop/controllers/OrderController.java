@@ -80,9 +80,11 @@ public class OrderController {
         else return "403";
     }
 
-    @RequestMapping(value = "/add-{id}-to-order",method = RequestMethod.GET)
-    public String addToOrder(@PathVariable Long id) throws ServiceException {
-
+    @RequestMapping(value = "/add-{prodId}-to-order",method = RequestMethod.GET)
+    public String addToOrder(@PathVariable Long prodId) throws ServiceException {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails)principal).getUsername();
+        orderService.addToOrder(userService.getByUsername(username),prodId);
         return "redirect:/product/list";
     }
 

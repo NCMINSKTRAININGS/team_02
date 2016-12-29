@@ -28,6 +28,16 @@ public class OrderDAOImpl extends AbstractDAO<Long,Order> implements OrderDAO {
     }
 
     @Override
+    public List<Order> getActiveOrderByUser(User user) throws DAOException {
+        List<Order> orders;
+        Criteria criteria= getSession().createCriteria(Order.class);
+        criteria.add(Restrictions.eq("user",user));
+        criteria.add(Restrictions.eq("isProduced",false));
+        orders=criteria.list();
+        return orders;
+    }
+
+    @Override
     public List<Object[]> getGroupedOrders() throws DAOException {
         String sql="select user_id,username, COUNT(*) from `order` INNER JOIN user ON `order`.user_id = user.id WHERE produced=0 GROUP BY user_id";
         return getSession().createSQLQuery(sql).list();

@@ -2,15 +2,18 @@ package by.netcracker.shop.services.impl;
 
 import by.netcracker.shop.constants.ServiceConstants;
 import by.netcracker.shop.dao.OrderDAO;
+import by.netcracker.shop.dao.OrderProductDAO;
+import by.netcracker.shop.dao.ProductDAO;
 import by.netcracker.shop.dao.UserDAO;
-import by.netcracker.shop.dto.OrderDTO;
-import by.netcracker.shop.dto.UsersOrdersDTO;
+import by.netcracker.shop.dto.*;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
-import by.netcracker.shop.pojo.Order;
-import by.netcracker.shop.pojo.User;
+import by.netcracker.shop.pojo.*;
+import by.netcracker.shop.services.OrderProductService;
 import by.netcracker.shop.services.OrderService;
+import by.netcracker.shop.services.ProductService;
 import by.netcracker.shop.utils.OrderConverter;
+import by.netcracker.shop.utils.OrderProductConverter;
 import by.netcracker.shop.utils.UsersOrdersConverter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +31,22 @@ public class OrderServiceImpl implements OrderService {
     private OrderDAO dao;
     @Autowired
     private UserDAO userDAO;
+    @Autowired
+    private ProductService productService;
 
     @Autowired
     private OrderConverter orderConverter;
     @Autowired
     private UsersOrdersConverter usersOrdersConverter;
+    @Autowired
+    private ProductDAO productDAO;
+    @Autowired
+    private OrderProductDAO orderProductDAO;
+
+    @Autowired
+    private OrderProductService  orderProductService;
+    @Autowired
+    private OrderProductConverter orderProductConverter;
 
 
     private static Logger logger = Logger.getLogger(OrderServiceImpl.class);
@@ -131,6 +145,65 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException(e);
         }
         return usersOrdersDTO;
+    }
+
+    @Override
+    public void addToOrder(UserDTO userDTO, Long prodId) throws ServiceException {
+        try {
+            Product product =productDAO.getById(prodId);
+            if(product.getQuantityInStock()>=1){
+                User user =userDAO.getByUsername(userDTO.getUsername());
+                List<Order> activeOrders = dao.getActiveOrderByUser(user);
+                OrderProductId orderProductId = new OrderProductId();
+                OrderProduct orderProduct = new OrderProduct();
+            if(activeOrders.isEmpty()){
+
+                Order order = new Order();
+                order.setUser(user);
+                order.setPrice(0d);
+                order.setProduced(false);
+                dao.insert(order);
+
+                activeOrders =dao.getActiveOrderByUser(user);
+                for(Order order1:activeOrders){
+                    orderProductId.setOrder(order1);
+                    break;
+                }
+                orderProductId.setProduct(product);
+                orderProduct.setPrimaryKey(orderProductId);
+                orderProduct.setPruductQuantity(1);
+                orderProduct.setPrice(product.getPrice());
+                orderProductDAO.insert(orderProduct);
+
+                product.setQuantityInStock(product.getQuantityInStock()-1);
+                productDAO.insert(product);
+
+            }else {
+                for (Order order:activeOrders){
+                    orderProductId.setOrder(order);
+                    break;
+                }
+                orderProductId.setProduct(product);
+                orderProduct.setPrimaryKey(orderProductId);
+                orderProduct = orderProductDAO.getById(orderProductId);
+                if(orderProduct==null){
+                    orderProduct = new OrderProduct();
+                    orderProduct.setPrimaryKey(orderProductId);
+                    orderProduct.setPruductQuantity(1);
+                    orderProduct.setPrice(product.getPrice());
+                    orderProductDAO.insert(orderProduct);
+                }else {
+                    orderProduct.setPrice(product.getPrice());
+                    orderProduct.setPruductQuantity(orderProduct.getPruductQuantity() + 1);
+                    orderProductDAO.insert(orderProduct);
+                }
+                product.setQuantityInStock(product.getQuantityInStock()-1);
+                productDAO.insert(product);
+            }
+            }
+        } catch (DAOException e) {
+        e.printStackTrace();
+    }
     }
 
 

@@ -125,6 +125,7 @@ public class OrderProductDAOImpl implements OrderProductDAO{
     }
 
     @Override
+    @SuppressWarnings(value = "")
     public List<OrderProduct> getByUserId(Long userId) {
         List<OrderProduct> orderProductList;
 //        Session session = getSession();

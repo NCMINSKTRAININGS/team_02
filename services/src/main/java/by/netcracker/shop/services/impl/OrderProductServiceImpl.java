@@ -8,8 +8,10 @@ import by.netcracker.shop.dto.OrderDTO;
 import by.netcracker.shop.dto.OrderProductDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
+import by.netcracker.shop.pojo.Order;
 import by.netcracker.shop.pojo.OrderProduct;
 import by.netcracker.shop.pojo.OrderProductId;
+import by.netcracker.shop.pojo.Product;
 import by.netcracker.shop.services.OrderProductService;
 import by.netcracker.shop.services.OrderService;
 import by.netcracker.shop.services.ProductService;
@@ -83,22 +85,26 @@ public class OrderProductServiceImpl implements OrderProductService {
     @Override
     public void deleteProductFromOrder(Long orderId, Long productId) throws ServiceException {
         try {
-            OrderProductId id = new OrderProductId(orderDAO.getById(orderId),productDAO.getById(productId));
+            Order order = orderDAO.getById(orderId);
+            Product product = productDAO.getById(productId);
+            OrderProductId id = new OrderProductId(order,product);
             OrderProduct orderProduct = orderProductDAO.getById(id);
             OrderDTO orderDTO = orderService.getById(orderId);
             Set<Long> productsId ;
             productsId = orderDTO.getProductsId();
             if(orderProduct.getPruductQuantity()>=2){
                 orderProduct.setPruductQuantity(orderProduct.getPruductQuantity()-1);
-                insert(orderProductConverter.convertToFront(orderProduct));
             }else {
                 orderProductDAO.deleteById(id);
                 productsId.remove(productId);
                 orderDTO.setProductsId(productsId);
             }
+            product.setQuantityInStock(product.getQuantityInStock()+1);
+            productDAO.insert(product);
             if(orderDTO.getProductsId().isEmpty()){
                 orderService.deleteById(orderId);
             }
+
         } catch (DAOException e) {
             e.printStackTrace();
         }
