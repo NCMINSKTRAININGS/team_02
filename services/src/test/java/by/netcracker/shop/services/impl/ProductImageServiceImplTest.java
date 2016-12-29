@@ -3,7 +3,6 @@ package by.netcracker.shop.services.impl;
 import by.netcracker.shop.dao.ProductDAO;
 import by.netcracker.shop.dto.ProductImageDTO;
 import by.netcracker.shop.exceptions.ServiceException;
-import by.netcracker.shop.pojo.Product;
 import by.netcracker.shop.services.ProductImageService;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -25,7 +24,6 @@ public class ProductImageServiceImplTest {
 
     private static String assertMsg;
     private ProductImageDTO image;
-    private Product productPOJO;
     private static int counter;
 
     @BeforeClass
@@ -36,9 +34,7 @@ public class ProductImageServiceImplTest {
 
     @Before
     public void setUp() throws Exception {
-        productPOJO = new Product(null, null, null, "test", "test", 0d, "test", 0);
-        productDAO.insert(productPOJO);
-        image = new ProductImageDTO(null, productPOJO, "test");
+        image = new ProductImageDTO(null, null, "test", "test");
         counter += 1;
     }
 

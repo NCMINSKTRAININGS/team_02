@@ -13,7 +13,7 @@ public class ProductImageDTO {
     public ProductImageDTO() {
     }
 
-    public ProductImageDTO(Long productId, String productName,, String image) {
+    public ProductImageDTO(Long productId, String productName, String image) {
         this(null, productId, productName, image);
     }
 

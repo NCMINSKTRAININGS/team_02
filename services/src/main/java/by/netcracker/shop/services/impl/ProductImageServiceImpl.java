@@ -72,13 +72,15 @@ public class ProductImageServiceImpl implements ProductImageService {
     @Override
     public void update(ProductImageDTO imageDTO) throws ServiceException {
         ProductImage imagePOJO = null;
+        Product productPOJO;
         try {
             if (imageDTO.getId() != null)
                 imagePOJO = dao.getById(imageDTO.getId());
             if (imagePOJO == null) {
                 throw new ServiceException();
             }
-            imagePOJO = converter.toImagePOJO(imageDTO, imagePOJO);
+            productPOJO = productDAO.getById(imageDTO.getProductId());
+            imagePOJO = converter.toImagePOJO(imageDTO, imagePOJO, productPOJO);
             dao.update(imagePOJO);
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
