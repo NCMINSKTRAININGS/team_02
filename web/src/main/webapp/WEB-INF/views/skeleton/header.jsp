@@ -34,7 +34,7 @@
                     <li><a href="/login"><spring:message code="label.login"/></a> </li>
                 </sec:authorize>
                 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_CLIENT')">
-                    <li><a href="/profile">profile</a> </li>
+                    <li><a href="/profile"><spring:message code="label.profile"/></a> </li>
                 </sec:authorize>
                 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_CLIENT')">
                     <li><a href="/logout"><spring:message code="label.logout"/></a> </li>
