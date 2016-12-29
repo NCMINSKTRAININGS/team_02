@@ -42,6 +42,7 @@ public class Parameters {
     public static final String FIELD_USER = "user";
     public static final String FIELD_PRODUCT_IMAGES = "images";
     public static final String FIELD_PRODUCT_IMAGE = "image";
+    public static final String FIELD_IMAGE_DTO = "dto";
 
 //    Messages
     public static final String MESSAGE_LOGIN_ERROR = "Invalid username or password!";

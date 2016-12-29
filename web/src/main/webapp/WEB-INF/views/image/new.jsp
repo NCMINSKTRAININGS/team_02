@@ -4,19 +4,19 @@
 
 <div class="container-paddingtop50">
     <div class="container">
-        <springform:form name="newImageForm" method="post" modelAttribute="image">
+        <springform:form name="newImageForm" method="post" modelAttribute="dto">
             <springform:input path="id" id="id" type="hidden"/>
             <table class=" table">
                 <tr>
                     <td style="line-height: 2" class="col-sm-2 control-label">
-                        <label for="product"><spring:message code="label.image.field.product"/></label>
+                        <label for="productId"><spring:message code="label.image.field.product"/></label>
                     </td>
                     <td class="col-sm-6">
-                        <springform:select id="product" path="product.id" items="${products}" itemValue="id"
+                        <springform:select id="productId" path="productId" items="${products}" itemValue="id"
                                            itemLabel="name" cssClass="form-control"/>
                     </td>
                     <td>
-                        <springform:errors path="product" cssStyle="line-height: 3" cssClass="label label-danger"/>
+                        <springform:errors path="productId" cssStyle="line-height: 3" cssClass="label label-danger"/>
                     </td>
                 </tr>
                 <tr>

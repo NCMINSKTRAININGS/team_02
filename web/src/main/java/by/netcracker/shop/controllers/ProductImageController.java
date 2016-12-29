@@ -4,7 +4,6 @@ import by.netcracker.shop.constants.Parameters;
 import by.netcracker.shop.dto.ProductDTO;
 import by.netcracker.shop.dto.ProductImageDTO;
 import by.netcracker.shop.exceptions.ServiceException;
-import by.netcracker.shop.pojo.ProductImage;
 import by.netcracker.shop.services.ProductImageService;
 import by.netcracker.shop.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,20 +42,20 @@ public class ProductImageController {
 
     @RequestMapping(value = Parameters.REQUEST_PRODUCT_IMAGE_CREATE, method = RequestMethod.GET)
     public String createImage(ModelMap modelMap) {
-        ProductImage image = new ProductImage();
-        modelMap.addAttribute(Parameters.FIELD_PRODUCT_IMAGE, image);
+        ProductImageDTO dto = new ProductImageDTO();
+        modelMap.addAttribute(Parameters.FIELD_IMAGE_DTO, dto);
         modelMap.addAttribute(Parameters.EDIT, false);
         return Parameters.TILES_PRODUCT_IMAGE_NEW;
     }
 
     @RequestMapping(value = Parameters.REQUEST_PRODUCT_IMAGE_CREATE, method = RequestMethod.POST)
-    public String saveImage(@Valid @ModelAttribute(Parameters.FIELD_PRODUCT_IMAGE) ProductImageDTO image,
+    public String saveImage(@Valid @ModelAttribute(Parameters.FIELD_PRODUCT_IMAGE) ProductImageDTO dto,
                             BindingResult bindingResult, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
             return Parameters.TILES_PRODUCT_IMAGE_NEW;
         }
         try {
-            service.insert(image);
+            service.insert(dto);
         } catch (ServiceException e) {
             e.printStackTrace();
         }
@@ -65,26 +64,26 @@ public class ProductImageController {
 
     @RequestMapping(value = Parameters.REQUEST_PRODUCT_IMAGE_EDIT, method = RequestMethod.GET)
     public String editImage(@PathVariable Long id, ModelMap modelMap) {
-        ProductImageDTO image = null;
+        ProductImageDTO dto = null;
         try {
-            image = service.getById(id);
+            dto = service.getById(id);
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        modelMap.addAttribute(Parameters.FIELD_PRODUCT_IMAGE, image);
+        modelMap.addAttribute(Parameters.FIELD_IMAGE_DTO, dto);
         modelMap.addAttribute(Parameters.EDIT, true);
         return Parameters.TILES_PRODUCT_IMAGE_NEW;
     }
 
     @RequestMapping(value = Parameters.REQUEST_PRODUCT_IMAGE_EDIT, method = RequestMethod.POST)
-    public String updateImage(@Valid @ModelAttribute(Parameters.FIELD_PRODUCT_IMAGE) ProductImageDTO image,
+    public String updateImage(@Valid @ModelAttribute(Parameters.FIELD_PRODUCT_IMAGE) ProductImageDTO dto,
                                 BindingResult bindingResult, @PathVariable Long id, ModelMap modelMap) {
         if (bindingResult.hasErrors()) {
             modelMap.addAttribute(Parameters.EDIT, true);
             return Parameters.TILES_PRODUCT_IMAGE_NEW;
         }
         try {
-            service.insert(image);
+            service.insert(dto);
         } catch (ServiceException e) {
             e.printStackTrace();
         }

@@ -17,7 +17,7 @@
             <tbody>
             <c:forEach items="${images}" var="image">
                 <tr>
-                    <td>${image.product.name}</td>
+                    <td>${image.productName}</td>
                     <td>${image.image}</td>
                     <spring:message var="editButton" code="label.button.edit"/>
                     <spring:message var="deleteButton" code="label.button.delete"/>

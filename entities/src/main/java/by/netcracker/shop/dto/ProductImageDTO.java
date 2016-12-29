@@ -1,20 +1,22 @@
 package by.netcracker.shop.dto;
 
-import by.netcracker.shop.pojo.Product;
-
 public class ProductImageDTO {
 
     private Long id;
 
-    private Product product;
+    private Long productId;
+
+    private String productName;
 
     private String image;
 
     public ProductImageDTO() {
     }
 
-    public ProductImageDTO(Product product, String image) {
-        this.product = product;
+    public ProductImageDTO(Long id, Long productId, String productName, String image) {
+        this.id = id;
+        this.productId = productId;
+        this.productName = productName;
         this.image = image;
     }
 
@@ -26,12 +28,20 @@ public class ProductImageDTO {
         this.id = id;
     }
 
-    public Product getProduct() {
-        return product;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public String getImage() {
@@ -47,26 +57,31 @@ public class ProductImageDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProductImageDTO that = (ProductImageDTO) o;
+        ProductImageDTO dto = (ProductImageDTO) o;
 
-        if (!id.equals(that.id)) return false;
-        return product.equals(that.product);
+        if (!id.equals(dto.id)) return false;
+        if (productId != null ? !productId.equals(dto.productId) : dto.productId != null) return false;
+        if (productName != null ? !productName.equals(dto.productName) : dto.productName != null) return false;
+        return image != null ? image.equals(dto.image) : dto.image == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + product.hashCode();
+        result = 31 * result + (productId != null ? productId.hashCode() : 0);
+        result = 31 * result + (productName != null ? productName.hashCode() : 0);
+        result = 31 * result + (image != null ? image.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "ProductImage{" +
+        return "ProductImageDTO{" +
                 "id=" + id +
-                ", productId=" + product +
-                ", image=" + image +
+                ", productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", image='" + image + '\'' +
                 '}';
     }
 }

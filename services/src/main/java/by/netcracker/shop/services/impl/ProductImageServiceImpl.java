@@ -1,10 +1,12 @@
 package by.netcracker.shop.services.impl;
 
 import by.netcracker.shop.constants.ServiceConstants;
+import by.netcracker.shop.dao.ProductDAO;
 import by.netcracker.shop.dao.ProductImageDAO;
 import by.netcracker.shop.dto.ProductImageDTO;
 import by.netcracker.shop.exceptions.DAOException;
 import by.netcracker.shop.exceptions.ServiceException;
+import by.netcracker.shop.pojo.Product;
 import by.netcracker.shop.pojo.ProductImage;
 import by.netcracker.shop.services.ProductImageService;
 import by.netcracker.shop.utils.ProductImageConverter;
@@ -25,6 +27,9 @@ public class ProductImageServiceImpl implements ProductImageService {
     private ProductImageDAO dao;
 
     @Autowired
+    private ProductDAO productDAO;
+
+    @Autowired
     private ProductImageConverter converter;
 
     private static Logger logger = Logger.getLogger(ProductImageServiceImpl.class);
@@ -32,13 +37,15 @@ public class ProductImageServiceImpl implements ProductImageService {
     @Override
     public void insert(ProductImageDTO imageDTO) throws ServiceException {
         ProductImage imagePOJO = null;
+        Product productPOJO;
         try {
             if (imageDTO.getId() != null) {
                 imagePOJO = dao.getById(imageDTO.getId());
             }
             if (imagePOJO == null)
                 imagePOJO = new ProductImage();
-            dao.insert(converter.toImagePOJO(imageDTO, imagePOJO));
+            productPOJO = productDAO.getById(imageDTO.getProductId());
+            dao.insert(converter.toImagePOJO(imageDTO, imagePOJO, productPOJO));
         } catch (DAOException e) {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
