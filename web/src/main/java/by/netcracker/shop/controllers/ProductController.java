@@ -105,6 +105,18 @@ public class ProductController {
         return "redirect:" + Parameters.CONTROLLER_PRODUCT + Parameters.REQUEST_PRODUCT_LIST;
     }
 
+    @RequestMapping(value = Parameters.REQUEST_PRODUCT_SHOW, method = RequestMethod.GET)
+    public String showProduct(@PathVariable Long id, ModelMap modelMap){
+        ProductDTO dto = null;
+        try {
+            dto = service.getById(id);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+        modelMap.addAttribute(Parameters.FIELD_PRODUCT_DTO, dto);
+        return Parameters.TILES_PRODUCT_DETAILS;
+    }
+
     @ModelAttribute("categories")
     public List<CategoryDTO> getCategories() {
         List<CategoryDTO> list = null;

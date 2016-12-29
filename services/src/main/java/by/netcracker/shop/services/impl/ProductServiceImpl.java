@@ -81,9 +81,7 @@ public class ProductServiceImpl implements ProductService {
             logger.error(ServiceConstants.ERROR_SERVICE, e);
             throw new ServiceException(e);
         }
-        if (imagePOJOs != null && imagePOJOs.size() != 0)
-            image = imagePOJOs.iterator().next();
-        return productConverter.toProductDTO(productPOJO, image);
+        return productConverter.toProductDTO(productPOJO, imagePOJOs);
     }
 
     @Override
@@ -129,9 +127,7 @@ public class ProductServiceImpl implements ProductService {
             productDTOs = new ArrayList<>(productPOJOs.size());
             for (Product product : productPOJOs) {
                 imagePOJOs = imageDAO.getImagesByProduct(product);
-                if (imagePOJOs != null && imagePOJOs.size() != 0)
-                    image = imagePOJOs.iterator().next();
-                productDTOs.add(productConverter.toProductDTO(product, image));
+                productDTOs.add(productConverter.toProductDTO(product, imagePOJOs));
                 image = null;
             }
         } catch (DAOException e) {
@@ -164,9 +160,7 @@ public class ProductServiceImpl implements ProductService {
             productPOJOs = dao.getByGap(offset, quantity);
             for (Product productPOJO : productPOJOs) {
                 imagePOJOs = imageDAO.getImagesByProduct(productPOJO);
-                if (imagePOJOs != null && imagePOJOs.size() != 0)
-                    image = imagePOJOs.iterator().next();
-                productDTOs.add(productConverter.toProductDTO(productPOJO, image));
+                productDTOs.add(productConverter.toProductDTO(productPOJO, imagePOJOs));
                 image = null;
             }
         } catch (DAOException e) {
