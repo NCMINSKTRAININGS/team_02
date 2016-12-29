@@ -69,4 +69,8 @@ public class Parameters {
     public static final String TILES_PRODUCT_IMAGE_NEW = "image/new";
 
     public static final String EDIT = "edit";
+    public static final String AVAILABLE = "available";
+
+    public static final int RECORDS_PER_PAGE = 3;
+
 }

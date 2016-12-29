@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -23,6 +20,10 @@ import java.util.List;
 @Controller
 @RequestMapping(Parameters.CONTROLLER_PRODUCT)
 public class ProductController {
+    int pageNumber;
+    int recordsPerPage;
+    int numberOfPages;
+    int numberOfRecords;
 
     @Autowired
     ProductService service;
@@ -32,6 +33,28 @@ public class ProductController {
 
     @Autowired
     CategoryService categoryService;
+
+    /*@RequestMapping(value = Parameters.REQUEST_PRODUCT_LIST, method = RequestMethod.GET)
+    public String listProducts(ModelMap modelMap, @RequestParam(value = "page") String page) {
+        if (page != null){
+            pageNumber = Integer.parseInt(page);
+        } else {
+            pageNumber = 1;
+        }
+        pageNumber = 1;
+        List<ProductDTO> products = null;
+        try {
+            products = service.getByGap((pageNumber - 1) * recordsPerPage, recordsPerPage);
+            numberOfRecords = service.getAll().size();
+        } catch (ServiceException e) {
+            //todo
+        }
+        numberOfPages = (int) Math.ceil(numberOfRecords * 1.0 / recordsPerPage);
+        modelMap.addAttribute("currentPage", pageNumber);
+        modelMap.addAttribute("numberOfPages", numberOfPages);
+        modelMap.addAttribute(Parameters.FIELD_PRODUCTS, products);
+        return Parameters.TILES_PRODUCT_LIST;
+    }*/
 
     @RequestMapping(value = Parameters.REQUEST_PRODUCT_LIST, method = RequestMethod.GET)
     public String listProducts(ModelMap modelMap) {
@@ -106,10 +129,15 @@ public class ProductController {
     }
 
     @RequestMapping(value = Parameters.REQUEST_PRODUCT_SHOW, method = RequestMethod.GET)
-    public String showProduct(@PathVariable Long id, ModelMap modelMap){
+    public String showProduct(@PathVariable Long id, ModelMap modelMap) {
         ProductDTO dto = null;
         try {
             dto = service.getById(id);
+            if (service.getById(id).getQuantityInStock() != 0) {
+                modelMap.addAttribute(Parameters.AVAILABLE, true);
+            } else {
+                modelMap.addAttribute(Parameters.AVAILABLE, false);
+            }
         } catch (ServiceException e) {
             e.printStackTrace();
         }

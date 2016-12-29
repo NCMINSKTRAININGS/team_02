@@ -40,7 +40,7 @@
                         <springform:input type="text" id="name" path="name" cssClass="form-control"/>
                     </td>
                     <td>
-                        <springform:errors path="name" cssStyle="line-height: 3" cssClass="label label-danger"/>
+                        <springform:errors path="name" id="e_name" cssStyle="line-height: 3" cssClass="label label-danger"/>
                     </td>
                 </tr>
                 <tr>
@@ -88,17 +88,6 @@
                                            cssClass="label label-danger"/>
                     </td>
                 </tr>
-                <%--<tr>--%>
-                    <%--<td style="line-height: 2" class="col-sm-2 control-label">--%>
-                        <%--<label for="image"><spring:message code="label.image.field.image"/></label>--%>
-                    <%--</td>--%>
-                    <%--<td class="col-sm-6">--%>
-                        <%--<springform:input type="text" id="image" path="image" cssClass="form-control"/>--%>
-                    <%--</td>--%>
-                    <%--<td>--%>
-                        <%--<springform:errors path="image" cssStyle="line-height: 3" cssClass="label label-danger"/>--%>
-                    <%--</td>--%>
-                <%--</tr>--%>
                 <tr>
                     <td colspan="3">
                         <c:choose>

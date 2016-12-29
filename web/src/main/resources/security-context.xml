@@ -9,6 +9,10 @@
     <!-- enable use-expressions -->
     <http auto-config="true" use-expressions="true">
         <intercept-url pattern="/order/list" access="hasRole('ADMIN')" />
+        <intercept-url pattern="/product/new" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/image/new" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/image/list" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/order/add-{id}-to-order" access="hasRole('CLIENT')"/>
         <intercept-url pattern="/login" access="isAnonymous()" />
         <intercept-url pattern="/registration" access="isAnonymous()" />
         <intercept-url pattern="/profile**" access="isAnonymous() == false " />

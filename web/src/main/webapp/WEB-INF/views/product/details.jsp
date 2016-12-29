@@ -19,9 +19,9 @@
                 </div>--%>
             </div>
             <c:forEach items="${dto.imageSet}" var="image">
-            <div class="item">
-                <img src="${image}" alt="slider">
-            </div>
+                <div class="item">
+                    <img src="${image}" alt="slider">
+                </div>
             </c:forEach>
         </div>
         <a class="carousel-control left" href="#myCarousel" data-slide="prev">
@@ -37,8 +37,18 @@
         <spring:message code="label.product.field.category"/>: ${dto.categoryName} <br>
         <spring:message code="label.product.field.manufacturer"/>: ${dto.manufacturerName} <br>
         <br><spring:message code="label.product.field.price"/>: ${dto.price} <br>
+            <spring:message code="label.product.field.quantity"/>: ${dto.quantityInStock}<br>
         <spring:message var="addButton" code="label.button.add"/> <br>
-        <input class="btn btn-warning btn-xs" value="${addButton}"
-               onclick="location.href='/order/add-${dto.id}-to-order'" type="button"/>
+        <c:choose>
+            <c:when test="${available}">
+                <input class="btn btn-warning btn-xs" value="${addButton}"
+                       onclick="location.href='/order/add-${dto.id}-to-order'" type="button"/>
+            </c:when>
+            <c:otherwise>
+                <input class="btn btn-warning btn-xs" value="${addButton}"
+                       onclick="location.href='/order/add-${dto.id}-to-order'" type="button" disabled="disabled"/>
+                <spring:message code="label.message"/>
+            </c:otherwise>
+        </c:choose>
     </div>
 </div>
