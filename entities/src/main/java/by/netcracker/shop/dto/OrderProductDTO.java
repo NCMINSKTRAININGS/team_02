@@ -8,7 +8,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class OrderProductDTO {
+public class OrderProductDTO implements Comparable<OrderProductDTO>{
     private Long orderId;
     @NotNull
     @Size(min=1, max=200)
@@ -260,4 +260,10 @@ public class OrderProductDTO {
                 ", productQuantityInOrder=" + productQuantityInOrder +
                 '}';
     }
+
+    @Override
+    public int compareTo(OrderProductDTO o) {
+        return  this.getProduced().compareTo(o.getProduced());
+    }
+
 }
