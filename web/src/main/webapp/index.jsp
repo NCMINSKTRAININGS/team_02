@@ -22,6 +22,7 @@
     <li><a href="<c:url value='/login' />">login</a></li>
     <li><a href="<c:url value='/registration' />">registration</a></li>
     <li><a href="<c:url value='/logout' />">logout</a></li>
+    <li><a href="<c:url value='/admin/users' />">admin/users</a></li>
     </ul>
 </body>
 </html>
