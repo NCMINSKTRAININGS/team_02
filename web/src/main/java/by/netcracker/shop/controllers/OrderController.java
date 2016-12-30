@@ -79,6 +79,26 @@ public class OrderController {
         return "403";
     }
 
+    @RequestMapping(value = "/show-order", method = RequestMethod.GET)
+    public String showOrders( ModelMap modelMap) throws ServiceException {
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal!="anonymousUser"){
+            String username = ((UserDetails)principal).getUsername();
+            UserDTO currentUser = userService.getByUsername(username);
+
+                Map<Long,List<OrderProductDTO>> map = orderProductService.separateByOrderId(orderProductService.getOrdersByUser(currentUser.getId()));
+                Map<Long,List<OrderProductDTO>> treeMap = new TreeMap<>(
+                        (Comparator<Long>) (o1, o2) -> o2.compareTo(o1));
+                treeMap.putAll(map);
+                modelMap.addAttribute("userOrder", treeMap);
+
+                modelMap.addAttribute("signedIn",currentUser);
+                return "order/details";
+            }
+        return "error/403";
+    }
+
     @RequestMapping(value = "/add-{prodId}-to-order",method = RequestMethod.GET)
     public String addToOrder(@PathVariable Long prodId,  HttpServletRequest request) throws ServiceException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -20,6 +20,9 @@
                 <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <li><a href="<c:url value='/order/list' />"><spring:message code="label.order.list"/></a></li>
                 </sec:authorize>
+                <sec:authorize access="hasRole('ROLE_CLIENT')">
+                    <li><a href="<c:url value='/order/show-order' />"><spring:message code="label.order.list"/></a></li>
+                </sec:authorize>
                 <li><a href="<c:url value='/product/list' />"><spring:message code="label.product.list"/></a></li>
                 <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <li><a href="<c:url value='/delivery/list' />"><spring:message code="label.delivery.list"/></a></li>
