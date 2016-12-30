@@ -86,4 +86,15 @@
         <put-attribute name="body" value="/WEB-INF/views/image/new.jsp" />
     </definition>
 
+    <!--Admin-->
+    <definition name="admin/users" extends="baseTemplate">
+        <put-attribute name="titleKey" value="label.admin.users"/>
+        <put-attribute name="body" value="/WEB-INF/views/admin/users.jsp" />
+    </definition>
+
+    <definition name="admin/edit-user" extends="baseTemplate">
+        <put-attribute name="titleKey" value="label.admin.edit"/>
+        <put-attribute name="body" value="/WEB-INF/views/admin/edit.jsp" />
+    </definition>
+
 </tiles-definitions>

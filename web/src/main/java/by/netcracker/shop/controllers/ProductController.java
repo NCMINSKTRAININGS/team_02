@@ -36,7 +36,6 @@ public class ProductController {
         int numberOfPages;
         int numberOfRecords;
         List<ProductDTO> products = null;
-
         if (page != null){
             try {
                 pageNumber = Integer.parseInt(page);

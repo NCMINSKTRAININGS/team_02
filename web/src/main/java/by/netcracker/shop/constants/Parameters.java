@@ -8,6 +8,7 @@ public class Parameters {
 
 //    Controllers
     public static final String CONTROLLER_USER = "";
+    public static final String CONTROLLER_ADMIN = "/admin";
     public static final String CONTROLLER_INDEX = "/";
     public static final String CONTROLLER_ORDER = "/order";
     public static final String CONTROLLER_PRODUCT = "/product";
@@ -29,6 +30,8 @@ public class Parameters {
     public static final String REQUEST_PRODUCT_IMAGE_CREATE = "/new";
     public static final String REQUEST_PRODUCT_IMAGE_EDIT = "/update-image-{id}";
     public static final String REQUEST_PRODUCT_IMAGE_DELETE = "/delete-image-{id}";
+    public static final String REQUEST_USERS = "/users";
+    public static final String REQUEST_USER_EDIT = "/update-user-{id}";
 
 //    Parameters
     public static final String PARAMETER_LOGOUT = "logout";
@@ -49,6 +52,8 @@ public class Parameters {
     public static final String FIELD_PRODUCT_IMAGES = "images";
     public static final String FIELD_PRODUCT_IMAGE = "image";
     public static final String FIELD_IMAGE_DTO = "dto";
+    public static final String FIELD_USERS = "users";
+    public static final String FIELD_USER_DTO = "dto";
 
 //    Messages
     public static final String MESSAGE_LOGIN_ERROR = "Invalid username or password!";
@@ -67,6 +72,8 @@ public class Parameters {
     public static final String TILES_PRODUCT_DETAILS = "product/details";
     public static final String TILES_PRODUCT_IMAGE_LIST = "image/list";
     public static final String TILES_PRODUCT_IMAGE_NEW = "image/new";
+    public static final String TILES_USERS = "admin/users";
+    public static final String TILES_USER_EDIT = "admin/edit-user";
 
     public static final String EDIT = "edit";
     public static final String AVAILABLE = "available";
