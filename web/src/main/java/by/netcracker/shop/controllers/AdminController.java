@@ -42,6 +42,9 @@ public class AdminController {
         } catch (ServiceException e) {
             e.printStackTrace();
         }
+        if (dto != null) {
+            dto.setPassword("**********");
+        }
         modelMap.addAttribute(Parameters.FIELD_USER_DTO, dto);
         return Parameters.TILES_USER_EDIT;
     }
@@ -49,11 +52,15 @@ public class AdminController {
     @RequestMapping(value = Parameters.REQUEST_USER_EDIT, method = RequestMethod.POST)
     public String updateUser(@Valid @ModelAttribute(Parameters.FIELD_USER_DTO) UserDTO dto,
                                 BindingResult bindingResult, @PathVariable Long id, ModelMap modelMap) {
+        UserDTO oldDTO;
         if (bindingResult.hasErrors()) {
             return Parameters.TILES_USER_EDIT;
         }
         try {
-            userService.insert(dto);
+            oldDTO = userService.getById(id);
+            oldDTO.setStatus(dto.getStatus());
+            oldDTO.setRole(dto.getRole());
+            userService.insert(oldDTO);
         } catch (ServiceException e) {
             e.printStackTrace();
         }
