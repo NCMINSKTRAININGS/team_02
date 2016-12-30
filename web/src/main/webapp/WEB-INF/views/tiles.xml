@@ -97,4 +97,9 @@
         <put-attribute name="body" value="/WEB-INF/views/admin/edit.jsp" />
     </definition>
 
+    <definition name="error/403" extends="empty">
+        <put-attribute name="titleKey" value="label.error.forbidden"/>
+        <put-attribute name="body" value="/WEB-INF/views/error/403.jsp"/>
+    </definition>
+
 </tiles-definitions>

@@ -154,4 +154,16 @@ public class OrderProductDAOImpl implements OrderProductDAO{
                 .list();
         return orderProducts;
     }
+
+    @Override
+    public Double getOrderPrice(Long id) throws DAOException {
+        List<Double> doubles;
+        Double result = 0D;
+        String sql = "SELECT pruduct_quantity*order_product.product_price FROM order_product WHERE order_id=?";
+        doubles=getSession().createSQLQuery(sql).setLong(0,id).list();
+        for (Double aDouble:doubles){
+           result+=aDouble;
+        }
+        return result;
+    }
 }

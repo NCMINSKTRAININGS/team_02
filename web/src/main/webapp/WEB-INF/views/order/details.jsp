@@ -24,8 +24,8 @@
                     <tbody>
                     <c:forEach items="${order.value}" var="ord">
                         <tr>
-                            <td>${ord.orderId}</td>
                             <td>${ord.productName}</td>
+                            <td>${ord.productDescription}</td>
                             <td>${ord.productPrice}</td>
                             <td>${ord.productQuantityInOrder}</td>
                             <c:if test="${ord.username eq signedIn.username and not ord.produced}" >

@@ -23,4 +23,6 @@ public interface OrderProductService {
     List<OrderProductDTO> getOrderByOrderId(Long orderId) throws ServiceException;
 
     Map<Long,List<OrderProductDTO>> separateByOrderId(List<OrderProductDTO> orderProductDTOs) throws ServiceException;
+
+    Double getOrderPrice (Long orderId) throws ServiceException;
 }

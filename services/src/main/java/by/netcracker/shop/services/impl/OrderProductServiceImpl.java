@@ -1,5 +1,6 @@
 package by.netcracker.shop.services.impl;
 
+import by.netcracker.shop.constants.ServiceConstants;
 import by.netcracker.shop.dao.OrderDAO;
 import by.netcracker.shop.dao.OrderProductDAO;
 import by.netcracker.shop.dao.ProductDAO;
@@ -69,7 +70,7 @@ public class OrderProductServiceImpl implements OrderProductService {
         try {
             orderProducts = orderProductDAO.getAll();
         } catch (DAOException e) {
-            //  logger.error(ServiceConstants.ERROR_SERVICE, e);
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(e);
         }
@@ -104,8 +105,9 @@ public class OrderProductServiceImpl implements OrderProductService {
             }
 
         } catch (DAOException e) {
-            e.printStackTrace();
-        }
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            throw new ServiceException(e);        }
     }
 
 
@@ -140,6 +142,18 @@ public class OrderProductServiceImpl implements OrderProductService {
             list.add(orderProductDTO);
         }
         return map;
+    }
+
+    @Override
+    public Double getOrderPrice(Long orderId) throws ServiceException {
+        Double result=0D;
+        try {
+            result = orderProductDAO.getOrderPrice(orderId);
+        } catch (DAOException e) {
+            logger.error(ServiceConstants.ERROR_SERVICE, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            throw new ServiceException(e);        }
+        return result;
     }
 
 

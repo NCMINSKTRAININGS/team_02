@@ -13,12 +13,15 @@
         <intercept-url pattern="/image/new" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/image/list" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/order/add-{id}-to-order" access="hasRole('CLIENT')"/>
+        <intercept-url pattern="/order/remove-{id}-{id}" access="hasRole('CLIENT')"/>
+        <intercept-url pattern="/order/show-order-for-{id}" access="hasAnyRole()"/>
+        <intercept-url pattern="/order/order-{id}" access="hasRole('CLIENT')"/>
         <intercept-url pattern="/login" access="isAnonymous()" />
         <intercept-url pattern="/registration" access="isAnonymous()" />
         <intercept-url pattern="/profile**" access="isAnonymous() == false " />
 
         <!-- access denied page -->
-        <access-denied-handler error-page="/403" />
+        <access-denied-handler error-page="/WEB-INF/views/error/403.jsp" />
         <form-login
                 login-page="/login"
                 default-target-url="/"
@@ -31,6 +34,7 @@
         <!-- enable csrf protection -->
         <!--<csrf disabled="true" />-->
         <csrf />
+
     </http>
 
     <global-method-security pre-post-annotations="enabled"/>
