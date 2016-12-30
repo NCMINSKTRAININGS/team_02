@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 
+@Ignore
 @ContextConfiguration("/test-services-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional(transactionManager = "transactionManager")

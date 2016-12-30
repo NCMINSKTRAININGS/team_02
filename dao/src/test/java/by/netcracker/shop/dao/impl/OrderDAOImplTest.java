@@ -75,6 +75,7 @@ public class OrderDAOImplTest {
         user = null;
     }
 
+    @Ignore
     @Test
     public void testGetOrdersByUser() throws Exception {
         List<Order> actualOrders = orderDao.getOrdersByUser(user);
@@ -89,6 +90,7 @@ public class OrderDAOImplTest {
         Assert.assertEquals(expectedGroupedOrder, actualList.get(actualList.size() - 1));
     }
 
+    @Ignore
     @Test
     public void testInsert() throws Exception {
         orderDao.insert(order);
@@ -96,6 +98,7 @@ public class OrderDAOImplTest {
         Assert.assertEquals(expectedOrders.get(expectedOrders.size() - 1), actualOrder);
     }
 
+    @Ignore
     @Test
     public void testGetById() throws Exception {
         Order actualOrder = orderDao.getById(order.getId());
