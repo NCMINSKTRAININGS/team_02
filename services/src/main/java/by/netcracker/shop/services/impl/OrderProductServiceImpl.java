@@ -146,7 +146,7 @@ public class OrderProductServiceImpl implements OrderProductService {
 
     @Override
     public Double getOrderPrice(Long orderId) throws ServiceException {
-        Double result=0D;
+        Double result;
         try {
             result = orderProductDAO.getOrderPrice(orderId);
         } catch (DAOException e) {

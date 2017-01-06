@@ -76,7 +76,7 @@ public class OrderController {
             modelMap.addAttribute("signedIn",currentUser);
             return "order/details";
             }}
-        return "403";
+        return "error/403";
     }
 
     @RequestMapping(value = "/show-order", method = RequestMethod.GET)

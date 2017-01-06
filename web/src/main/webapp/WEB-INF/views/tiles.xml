@@ -43,6 +43,11 @@
         <put-attribute name="body" value="/WEB-INF/views/delivery/new.jsp"/>
     </definition>
 
+    <definition name="payment/list" extends="baseTemplate">
+        <put-attribute name="titleKey" value="label.payment.list"/>
+        <put-attribute name="body" value="/WEB-INF/views/payment/list.jsp"/>
+    </definition>
+
     <!--Products-->
     <definition name="product/list" extends="baseTemplate">
         <put-attribute name="titleKey" value="label.product.list"/>

@@ -15,7 +15,6 @@
         <intercept-url pattern="/image/list" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/order/add-{id}-to-order" access="hasRole('CLIENT')"/>
         <intercept-url pattern="/order/remove-{id}-{id}" access="hasRole('CLIENT')"/>
-        <intercept-url pattern="/order/show-order-for-{id}" access="hasAnyRole()"/>
         <intercept-url pattern="/order/order-{id}" access="hasRole('CLIENT')"/>
         <intercept-url pattern="/login" access="isAnonymous()" />
         <intercept-url pattern="/registration" access="isAnonymous()" />
